@@ -16,7 +16,7 @@ Extract these named arguments from `$ARGUMENTS`:
 - `logo` — Lucide React icon name in lowercase (e.g. `rocket`, `zap`, `cpu`, `star`, `bolt`)
 
 Then derive:
-- **slug**: lowercase, no spaces, no special chars (e.g. `AcmeCorp` → `acmecorp`, `My Brand` → `mybrand`)
+- **slug**: lowercase with hyphens for spaces, no other special chars (e.g. `AcmeCorp` → `acmecorp`, `My Brand` → `my-brand`)
 - **pascal**: PascalCase, no spaces (e.g. `AcmeCorp` → `AcmeCorp`, `My Brand` → `MyBrand`)
 - **LogoIcon**: PascalCase of the `logo` arg (e.g. `rocket` → `Rocket`, `zap` → `Zap`)
 - **fontUrl**: the `font` arg with spaces replaced by `+` for the Google Fonts URL (e.g. `Space Grotesk` → `Space+Grotesk`)
@@ -63,7 +63,7 @@ Requirements:
 - Imports: `ReactNode` from `react`; `useState`, `useEffect` from `react`; `Link`, `useLocation` from `react-router-dom`; if animation !== `none`: `motion`, `AnimatePresence` from `motion/react`; `Menu`, `X`, `{LogoIcon}` from `lucide-react`
 - Nav links array: `[{ name: 'Home', path: '/{slug}' }, { name: 'About', path: '/{slug}/about' }, { name: 'Contact', path: '/{slug}/contact' }]`
 - Navbar: fixed top, `z-50`, transparent when at top, `bg-[#05050F]/90 backdrop-blur-xl border-b border-white/[0.06]` when scrolled (use `useEffect` + `window.scrollY` listener, same as NeuralLayout.tsx)
-- Logo mark: `<div className="w-9 h-9 rounded-xl bg-gradient-to-br from-{color}-500 to-{color}-700 flex items-center justify-center"><{LogoIcon} size={18} className="text-white" /></div>`
+- Logo mark: `<div className="w-9 h-9 rounded-xl bg-gradient-to-br from-{color}-600 to-{color}-700 flex items-center justify-center"><{LogoIcon} size={18} className="text-white" /></div>`
 - Brand text: `{name}` — split so the last word renders in `text-{color}-400` (wrap last word in `<span className="text-{color}-400">`)
 - Desktop nav: hidden on mobile, `space-x-1` flex row, active link `bg-white/10 text-white`, inactive `text-gray-400 hover:text-white hover:bg-white/5`
 - CTA button in header: gradient primary button linking to `/{slug}/contact`
