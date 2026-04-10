@@ -21,6 +21,8 @@ Then derive:
 - **LogoIcon**: PascalCase of the `logo` arg (e.g. `rocket` → `Rocket`, `zap` → `Zap`)
 - **fontUrl**: the `font` arg with spaces replaced by `+` for the Google Fonts URL (e.g. `Space Grotesk` → `Space+Grotesk`)
 
+> If any required argument (`name`, `color`, `font`, `animation`, `logo`) is missing from `$ARGUMENTS`, stop and ask the user to provide the missing value before proceeding.
+
 ---
 
 ## Step 2 — Color token reference
@@ -53,6 +55,8 @@ Based on the `animation` arg, use these motion props in **every animated wrapper
 
 If `animation` is not `none`, import: `import { motion, AnimatePresence } from 'motion/react';`
 
+> **Note on NeuralHelpers:** `SectionLabel` and `PageHeader` from NeuralHelpers internally use `motion.div` regardless of the `animation` arg. This is expected — do not attempt to replace them with plain equivalents. The `animation` arg only controls the explicit animated wrappers you write in the generated files.
+
 ---
 
 ## Step 4 — Generate File 1: Layout
@@ -67,7 +71,7 @@ Requirements:
 - Brand text: `{name}` — split so the last word renders in `text-{color}-400` (wrap last word in `<span className="text-{color}-400">`)
 - Desktop nav: hidden on mobile, `space-x-1` flex row, active link `bg-white/10 text-white`, inactive `text-gray-400 hover:text-white hover:bg-white/5`
 - CTA button in header: gradient primary button linking to `/{slug}/contact`
-- Mobile menu: hamburger toggle, `AnimatePresence` slide-in overlay (or plain div if `none`) with large nav links and a full-width CTA button
+- Mobile menu: hamburger toggle; when `animation !== 'none'`, wrap the overlay in `<AnimatePresence>` with `<motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.25 }}>` with large nav links and a full-width CTA button; when `animation === 'none'`, use a plain conditional `{mobileMenuOpen && <div>}` with no AnimatePresence.
 - `<main className="grow pt-[72px]">{children}</main>`
 - Footer: `bg-[#05050F] border-t border-white/[0.06] pt-16 pb-8` — brand col (logo + blurb + social icons), then 3 link columns titled Product / Company / Resources with 5 placeholder `<span>` links each, bottom bar with copyright `© {new Date().getFullYear()} {name}. All Rights Reserved.`
 - Outermost div: `<div className="min-h-screen flex flex-col bg-[#05050F] text-white font-sans" style={{ fontFamily: '"{font}", sans-serif' }}>`
@@ -83,15 +87,15 @@ Imports:
 - `Link` from `react-router-dom`
 - if animation !== `none`: `motion` from `motion/react`
 - Icons from `lucide-react` as needed (choose 6 relevant icons for the features grid)
-- `{ Reveal, GlowBadge, SectionLabel, GlassCard }` from `../../components/neuralforge/NeuralHelpers`
+- `{ Reveal, GlowBadge, SectionLabel, GlassCard, Placeholder }` from `../../components/neuralforge/NeuralHelpers`
 
-> If `animation` is `none`, do not import `Reveal` — replace every `<Reveal>` wrapper with a plain `<div>`.
+> If `animation` is `none`, do not import `Reveal` — replace every `<Reveal>` wrapper with a plain `<div>`. The import becomes `{ GlowBadge, SectionLabel, GlassCard, Placeholder }`.
 
 Sections:
 
 **Section 1 — Hero** (`<section className="relative min-h-screen flex items-center bg-[#05050F] overflow-hidden">`):
 - Grid background div: `className="absolute inset-0 bg-[linear-gradient(rgba(59,130,246,0.04)_1px,transparent_1px),linear-gradient(90deg,rgba(59,130,246,0.04)_1px,transparent_1px)] bg-[size:60px_60px] pointer-events-none"`
-- Radial glow: `<motion.div animate={{ opacity: [0.4, 0.8, 0.4] }} transition={{ duration: 7, repeat: Infinity }} className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[500px] bg-{color}-600/15 blur-[130px] rounded-full pointer-events-none" />` (omit if animation=`none`)
+- Radial glow: `<motion.div animate={{ opacity: [0.4, 0.8, 0.4] }} transition={{ duration: 7, repeat: Infinity, ease: 'easeInOut' }} className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[500px] bg-{color}-600/15 blur-[130px] rounded-full pointer-events-none" />` (omit entirely if animation=`none`)
 - Two-column grid `lg:grid-cols-2 gap-16 items-center`:
   - Left: `GlowBadge` tagline → `<h1>` (white first line, `{color}` gradient second line) → subtext → two CTA buttons → social proof micro-bar (4 avatar divs + "Join 10,000+ users" text)
   - Right (hidden on mobile): `GlassCard` mock dashboard with a status row, a `Placeholder` chart, and two small stat cards
@@ -104,7 +108,7 @@ Sections:
 
 **Section 3 — CTA banner** (`py-28 bg-[#05050F] relative`):
 - `SectionLabel number={3} title="Get Started"`
-- Radial glow pulse (omit if `none`)
+- Radial glow pulse: `<motion.div animate={{ scale: [1, 1.2, 1], opacity: [0.15, 0.3, 0.15] }} transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }} className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[400px] bg-{color}-600/20 blur-[130px] rounded-full pointer-events-none" />` (omit if animation=`none`)
 - Centered: `GlowBadge` → large heading → subtext → primary CTA `Link` to `/{slug}/contact`
 
 Export: `export default function {pascal}Home()`
@@ -121,6 +125,7 @@ Imports: same pattern as Home (helpers, icons, motion if needed). Also import `P
 ```tsx
 <PageHeader badge="Our Story" title="Built for you, by people like you" subtitle="[2-sentence brand origin story — make it professional and generic]" />
 ```
+> **Note:** `PageHeader` internally uses `motion.div` regardless of the `animation` arg — this is expected and does not need workarounds.
 
 **Section 2 — Story block** (`py-24 bg-[#05050F]`):
 - `SectionLabel number={1} title="Origin Story"`
@@ -147,6 +152,7 @@ Imports: same helpers + `PageHeader`. Icons: `Mail`, `MessageCircle`, `Globe`, `
 ```tsx
 <PageHeader badge="Contact" title="Let's talk" subtitle="[1-sentence friendly contact invitation]" />
 ```
+> **Note:** `PageHeader` internally uses `motion.div` regardless of the `animation` arg — this is expected and does not need workarounds.
 
 **Section 2 — Channels row** (`py-16 border-b border-white/[0.05]`):
 - `SectionLabel number={1} title="Contact Channels"`
