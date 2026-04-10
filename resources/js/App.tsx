@@ -7,6 +7,13 @@ import NeuralAbout from './pages/neuralforge/About';
 import NeuralSolutions from './pages/neuralforge/Solutions';
 import NeuralFaq from './pages/neuralforge/Faq';
 import NeuralContact from './pages/neuralforge/Contact';
+import NeuralGenerate from './pages/neuralforge/Generate';
+
+// TestProject site
+import TestProjectLayout from './components/testproject/TestProjectLayout';
+import TestProjectHome from './pages/testproject/Home';
+import TestProjectAbout from './pages/testproject/About';
+import TestProjectContact from './pages/testproject/Contact';
 
 function App() {
   return (
@@ -21,6 +28,12 @@ function App() {
         <Route path="/neuralforge/solutions" element={<NeuralLayout><NeuralSolutions /></NeuralLayout>} />
         <Route path="/neuralforge/faq" element={<NeuralLayout><NeuralFaq /></NeuralLayout>} />
         <Route path="/neuralforge/contact" element={<NeuralLayout><NeuralContact /></NeuralLayout>} />
+        <Route path="/neuralforge/generate" element={<NeuralLayout><NeuralGenerate /></NeuralLayout>} />
+
+        {/* TestProject site */}
+        <Route path="/testproject" element={<TestProjectLayout><TestProjectHome /></TestProjectLayout>} />
+        <Route path="/testproject/about" element={<TestProjectLayout><TestProjectAbout /></TestProjectLayout>} />
+        <Route path="/testproject/contact" element={<TestProjectLayout><TestProjectContact /></TestProjectLayout>} />
       </Routes>
     </Router>
   );
