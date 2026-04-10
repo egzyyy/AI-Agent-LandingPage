@@ -295,7 +295,7 @@ export default function NeuralHome() {
                 violet: { icon: 'bg-violet-500/15 text-violet-400', num: 'text-violet-500/30', border: 'border-violet-500/20' },
                 cyan: { icon: 'bg-cyan-500/15 text-cyan-400', num: 'text-cyan-500/30', border: 'border-cyan-500/20' },
               };
-              const c = colors[step.color] ?? colors['blue'];
+              const c = (colors[step.color] ?? colors['blue'])!;
               return (
                 <Reveal key={i} delay={0.15 * i} direction="up">
                   <GlassCard className={`p-8 h-full border ${c.border} relative`}>

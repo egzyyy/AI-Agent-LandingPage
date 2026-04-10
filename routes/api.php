@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\IhadirController;
 use App\Http\Controllers\Api\AssessHubController;
 use App\Http\Controllers\Api\NutritionController;
+use App\Http\Controllers\WebsiteGeneratorController;
 
 // General API status route
 Route::get('/status', function () {
@@ -18,3 +19,6 @@ Route::get('/status', function () {
 Route::get('/ihadir/status', [IhadirController::class, 'status']);
 Route::get('/assesshub/status', [AssessHubController::class, 'status']);
 Route::get('/nutrition/status', [NutritionController::class, 'status']);
+
+// AI Website Generator
+Route::post('/generate-website', [WebsiteGeneratorController::class, 'generate']);

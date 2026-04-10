@@ -119,7 +119,7 @@ export default function NeuralSolutions() {
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             {solutions.map((sol, i) => {
-              const c = colorMap[sol.color] ?? colorMap['blue'];
+              const c = (colorMap[sol.color] ?? colorMap['blue'])!;
               const isOpen = active === sol.id;
               return (
                 <Reveal key={sol.id} delay={0.07 * i} direction="up">
