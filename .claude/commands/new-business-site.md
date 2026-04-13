@@ -396,7 +396,7 @@ Right (Reveal direction="left" delay={0.15}):
 - `<h2 style={{ fontFamily }} className="text-2xl font-bold mb-6">Send a Message</h2>`
 - Form (`onSubmit={(e) => e.preventDefault()}`):
   - Full Name: `<input type="text" placeholder="Your full name" className="w-full border-2 border-neutral-200 bg-white focus:border-{color}-400 focus:ring-0 outline-none rounded-xl px-5 py-4 text-sm transition-all" />`
-  - 2-col grid: Phone (`type="tel"` placeholder "+60 12-XXX XXXX") + Service (`<select>` with options: the 6 service names from Step 3 for the industry). Start with `<option value="" disabled>Select a service</option>` before the 6 service options.
+  - 2-col grid: Phone (`type="tel"` placeholder "+60 12-XXX XXXX" with same className as Full Name input) + Service (`<select className="w-full border-2 border-neutral-200 bg-white focus:border-{color}-400 focus:ring-0 outline-none rounded-xl px-5 py-4 text-sm transition-all appearance-none">` with options: the 6 service names from Step 3 for the industry). Start with `<option value="" disabled>Select a service</option>` before the 6 service options.
   - Message: `<textarea rows={3} placeholder="How can we help you?" className="w-full border-2 border-neutral-200 bg-white focus:border-{color}-400 focus:ring-0 outline-none rounded-xl px-5 py-4 text-sm transition-all resize-none" />`
   - Submit: `<button type="button" className="w-full bg-{color}-600 hover:bg-{color}-700 text-white py-4 rounded-xl font-medium transition-all">Send Message</button>`
 
