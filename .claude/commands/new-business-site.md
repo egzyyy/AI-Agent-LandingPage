@@ -197,7 +197,7 @@ Apply `style={{ fontFamily: '"{font}", serif' }}` on heading elements (`h1`, `h2
 
 Sticky top, `z-50`. When `isScrolled` is true: `bg-white/90 backdrop-blur-md shadow-sm border-b border-neutral-100 py-3`. When false: `bg-transparent py-5`. Add `transition-all duration-300` to the nav element.
 
-- Left: `{LogoIcon}` icon in a `w-9 h-9 rounded-xl bg-{color}-600 flex items-center justify-center text-white` div, then brand name text `{name}` — last word in `text-{color}-600`
+- Left: `{LogoIcon}` icon in a `w-9 h-9 rounded-xl bg-{color}-600 flex items-center justify-center text-white` div, then brand name text `{name}` — last word in `text-{color}-600`. Hardcode the split: wrap the last word of `{name}` in `<span className="text-{color}-600">`. For a single-word name, wrap the whole name.
 - Center (desktop): nav links `['Home', 'About', 'Services', 'FAQ', 'Contact']` as `<button>` elements (no routing needed — smooth scroll targets), active link `text-{color}-600`, inactive `text-neutral-400 hover:text-{color}-500`
 - Right (desktop): primary CTA `<button>` in `bg-{color}-600 hover:bg-{color}-700 text-white px-5 py-2.5 rounded-full text-sm font-medium transition-all` with industry CTA label
 - Mobile: hamburger `<Menu>` / `<X>` toggle, `AnimatePresence` overlay with `initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.25 }}` containing large nav links stacked vertically and a full-width CTA button at bottom
@@ -226,7 +226,7 @@ Right column (Reveal direction="left" delay={0.15}):
 `max-w-7xl mx-auto px-4 sm:px-6 lg:px-8`
 
 `grid grid-cols-2 md:grid-cols-4`:
-- Each stat cell: `text-center py-8 md:py-0` with `border-l border-neutral-800` on all except the first (use `first:border-l-0` or conditional class)
+- Each stat cell: `text-center py-8 md:py-0` with `border-l border-neutral-800 first:border-l-0` on every cell
 - Large number: `text-4xl md:text-5xl font-bold text-white mb-2` (wrap in Reveal)
 - Label: `text-neutral-500 text-xs uppercase tracking-[0.15em]`
 
@@ -274,7 +274,7 @@ Centered `<h2 style={{ fontFamily }}>` heading + subtext paragraph (`text-neutra
 
 `grid grid-cols-2 lg:grid-cols-4 gap-6`:
 - Each card (Reveal with staggered delay): `group relative overflow-hidden rounded-3xl bg-neutral-100 aspect-[3/4] cursor-pointer border-2 border-transparent hover:border-{color}-400 transition-all`
-- `<Placeholder label="Photo {name}" className="absolute inset-0 !h-full !w-full !rounded-3xl !border-0" />`
+- `<Placeholder label="Photo {i + 1}" className="absolute inset-0 !h-full !w-full !rounded-3xl !border-0" />`
 - Gradient overlay: `absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent`
 - Name + role at bottom: `absolute bottom-0 left-0 w-full p-5 text-white` — `<p className="font-bold text-sm">Name</p>` + `<p className="text-xs text-neutral-300">Role</p>`
 
@@ -396,7 +396,7 @@ Right (Reveal direction="left" delay={0.15}):
 - `<h2 style={{ fontFamily }} className="text-2xl font-bold mb-6">Send a Message</h2>`
 - Form (`onSubmit={(e) => e.preventDefault()}`):
   - Full Name: `<input type="text" placeholder="Your full name" className="w-full border-2 border-neutral-200 bg-white focus:border-{color}-400 focus:ring-0 outline-none rounded-xl px-5 py-4 text-sm transition-all" />`
-  - 2-col grid: Phone (`type="tel"` placeholder "+60 12-XXX XXXX") + Service (`<select>` with options: the 6 service names from Step 3 for the industry)
+  - 2-col grid: Phone (`type="tel"` placeholder "+60 12-XXX XXXX") + Service (`<select>` with options: the 6 service names from Step 3 for the industry). Start with `<option value="" disabled>Select a service</option>` before the 6 service options.
   - Message: `<textarea rows={3} placeholder="How can we help you?" className="w-full border-2 border-neutral-200 bg-white focus:border-{color}-400 focus:ring-0 outline-none rounded-xl px-5 py-4 text-sm transition-all resize-none" />`
   - Submit: `<button type="button" className="w-full bg-{color}-600 hover:bg-{color}-700 text-white py-4 rounded-xl font-medium transition-all">Send Message</button>`
 
