@@ -5,7 +5,7 @@ import { ChevronDown, ArrowRight, Star, MapPin, Phone, Mail, Clock, Menu, X, Sci
 function Reveal({ children, className = '', delay = 0, direction = 'up' }: {
   children: React.ReactNode; className?: string; delay?: number; direction?: 'up' | 'down' | 'left' | 'right';
 }) {
-  const dirs: Record<string, object> = { up: { y: 30 }, down: { y: -30 }, left: { x: 30 }, right: { x: -30 } };
+  const dirs: Record<string, { x?: number; y?: number }> = { up: { y: 30 }, down: { y: -30 }, left: { x: 30 }, right: { x: -30 } };
   return (
     <motion.div
       initial={{ opacity: 0, ...dirs[direction] }}
@@ -34,7 +34,7 @@ function SectionLabel({ number, title }: { number: number; title: string }) {
 function Placeholder({ label, className = '', dark = false }: { label: string; className?: string; dark?: boolean }) {
   return (
     <div className={`border-2 border-dashed ${dark ? 'border-neutral-600 bg-neutral-800' : 'border-neutral-300 bg-neutral-50'} rounded-xl flex items-center justify-center p-4 ${className}`}>
-      <span className={`text-xs font-mono uppercase tracking-wider ${dark ? 'text-neutral-400' : 'text-neutral-400'}`}>{label}</span>
+      <span className="text-xs font-mono uppercase tracking-wider text-neutral-400">{label}</span>
     </div>
   );
 }
@@ -562,7 +562,7 @@ export default function BloomSalonBusinessSite() {
                       placeholder="+60 12-XXX XXXX"
                       className="w-full border-2 border-neutral-200 bg-white focus:border-rose-400 focus:ring-0 outline-none rounded-xl px-5 py-4 text-sm transition-all"
                     />
-                    <select className="w-full border-2 border-neutral-200 bg-white focus:border-rose-400 focus:ring-0 outline-none rounded-xl px-5 py-4 text-sm transition-all appearance-none">
+                    <select defaultValue="" className="w-full border-2 border-neutral-200 bg-white focus:border-rose-400 focus:ring-0 outline-none rounded-xl px-5 py-4 text-sm transition-all appearance-none">
                       <option value="" disabled>Select a service</option>
                       <option>Hair Cut</option>
                       <option>Hair Colour</option>
