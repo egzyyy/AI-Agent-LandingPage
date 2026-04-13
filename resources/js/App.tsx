@@ -15,6 +15,9 @@ import TestProjectHome from './pages/testproject/Home';
 import TestProjectAbout from './pages/testproject/About';
 import TestProjectContact from './pages/testproject/Contact';
 
+// Bloom Salon business site
+import BloomSalonBusinessSite from './pages/bloom-salon/BusinessSite';
+
 function App() {
   return (
     <Router>
@@ -34,6 +37,9 @@ function App() {
         <Route path="/testproject" element={<TestProjectLayout><TestProjectHome /></TestProjectLayout>} />
         <Route path="/testproject/about" element={<TestProjectLayout><TestProjectAbout /></TestProjectLayout>} />
         <Route path="/testproject/contact" element={<TestProjectLayout><TestProjectContact /></TestProjectLayout>} />
+
+        {/* Bloom Salon business site */}
+        <Route path="/bloom-salon" element={<BloomSalonBusinessSite />} />
       </Routes>
     </Router>
   );
