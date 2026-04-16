@@ -21,6 +21,14 @@ import BloomSalonBusinessSite from './pages/bloom-salon/BusinessSite';
 // Mira Clinic business site
 import MiraClinicBusinessSite from './pages/mira-clinic/BusinessSite';
 
+// Aura Gym standard site
+import AuraGymLayout from './components/aura-gym/AuraGymLayout';
+import AuraGymHome from './pages/aura-gym/Home';
+import AuraGymAbout from './pages/aura-gym/About';
+import AuraGymServices from './pages/aura-gym/Services';
+import AuraGymFaq from './pages/aura-gym/Faq';
+import AuraGymContact from './pages/aura-gym/Contact';
+
 function App() {
   return (
     <Router>
@@ -46,6 +54,13 @@ function App() {
 
         {/* Mira Clinic business site */}
         <Route path="/mira-clinic" element={<MiraClinicBusinessSite />} />
+
+        {/* Aura Gym standard site */}
+        <Route path="/aura-gym" element={<AuraGymLayout><AuraGymHome /></AuraGymLayout>} />
+        <Route path="/aura-gym/about" element={<AuraGymLayout><AuraGymAbout /></AuraGymLayout>} />
+        <Route path="/aura-gym/services" element={<AuraGymLayout><AuraGymServices /></AuraGymLayout>} />
+        <Route path="/aura-gym/faq" element={<AuraGymLayout><AuraGymFaq /></AuraGymLayout>} />
+        <Route path="/aura-gym/contact" element={<AuraGymLayout><AuraGymContact /></AuraGymLayout>} />
       </Routes>
     </Router>
   );
