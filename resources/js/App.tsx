@@ -21,6 +21,9 @@ import BloomSalonBusinessSite from './pages/bloom-salon/BusinessSite';
 // Mira Clinic business site
 import MiraClinicBusinessSite from './pages/mira-clinic/BusinessSite';
 
+// Ember Table business site
+import EmberTableBusinessSite from './pages/ember-table/BusinessSite';
+
 // Aura Gym standard site
 import AuraGymLayout from './components/aura-gym/AuraGymLayout';
 import AuraGymHome from './pages/aura-gym/Home';
@@ -28,6 +31,14 @@ import AuraGymAbout from './pages/aura-gym/About';
 import AuraGymServices from './pages/aura-gym/Services';
 import AuraGymFaq from './pages/aura-gym/Faq';
 import AuraGymContact from './pages/aura-gym/Contact';
+
+// Velvet & Co standard site
+import VelvetCoLayout from './components/velvet-co/VelvetCoLayout';
+import VelvetCoHome from './pages/velvet-co/Home';
+import VelvetCoAbout from './pages/velvet-co/About';
+import VelvetCoServices from './pages/velvet-co/Services';
+import VelvetCoFaq from './pages/velvet-co/Faq';
+import VelvetCoContact from './pages/velvet-co/Contact';
 
 function App() {
   return (
@@ -55,12 +66,22 @@ function App() {
         {/* Mira Clinic business site */}
         <Route path="/mira-clinic" element={<MiraClinicBusinessSite />} />
 
+        {/* Ember Table business site */}
+        <Route path="/ember-table" element={<EmberTableBusinessSite />} />
+
         {/* Aura Gym standard site */}
         <Route path="/aura-gym" element={<AuraGymLayout><AuraGymHome /></AuraGymLayout>} />
         <Route path="/aura-gym/about" element={<AuraGymLayout><AuraGymAbout /></AuraGymLayout>} />
         <Route path="/aura-gym/services" element={<AuraGymLayout><AuraGymServices /></AuraGymLayout>} />
         <Route path="/aura-gym/faq" element={<AuraGymLayout><AuraGymFaq /></AuraGymLayout>} />
         <Route path="/aura-gym/contact" element={<AuraGymLayout><AuraGymContact /></AuraGymLayout>} />
+
+        {/* Velvet & Co standard site */}
+        <Route path="/velvet-co" element={<VelvetCoLayout><VelvetCoHome /></VelvetCoLayout>} />
+        <Route path="/velvet-co/about" element={<VelvetCoLayout><VelvetCoAbout /></VelvetCoLayout>} />
+        <Route path="/velvet-co/services" element={<VelvetCoLayout><VelvetCoServices /></VelvetCoLayout>} />
+        <Route path="/velvet-co/faq" element={<VelvetCoLayout><VelvetCoFaq /></VelvetCoLayout>} />
+        <Route path="/velvet-co/contact" element={<VelvetCoLayout><VelvetCoContact /></VelvetCoLayout>} />
       </Routes>
     </Router>
   );
