@@ -92,7 +92,7 @@ export default function MiraClinicBusinessSite() {
             <span className="inline-block bg-emerald-600 text-white text-xs font-semibold uppercase tracking-widest px-4 py-1.5 rounded-full mb-6">
               🏥 Est. 2014 · Petaling Jaya
             </span>
-            <h1 className="text-6xl md:text-8xl font-bold text-white leading-none mb-6" style={font}>
+            <h1 className="text-6xl md:text-8xl font-black tracking-tighter text-white leading-none mb-6" style={font}>
               Your Health,<br />
               <em className="text-emerald-400 not-italic">Our Priority.</em>
             </h1>
@@ -139,7 +139,7 @@ export default function MiraClinicBusinessSite() {
             { value: '10', label: 'Years Open' },
           ].map((stat, i) => (
             <Reveal key={i} delay={i * 0.08} className="text-center px-8 py-4">
-              <p className="text-4xl md:text-5xl font-bold mb-2">{stat.value}</p>
+              <p className="text-4xl md:text-5xl font-black mb-2">{stat.value}</p>
               <p className="text-neutral-500 text-xs uppercase tracking-widest">{stat.label}</p>
             </Reveal>
           ))}
@@ -157,14 +157,14 @@ export default function MiraClinicBusinessSite() {
                 className="w-full h-140 object-cover rounded-3xl"
               />
               <div className="absolute -bottom-6 -right-6 bg-emerald-600 text-white p-6 rounded-2xl shadow-xl">
-                <p className="text-3xl font-bold mb-0.5">10+</p>
+                <p className="text-3xl font-black mb-0.5">10+</p>
                 <p className="text-xs text-emerald-200 uppercase tracking-wider">Years of Excellence</p>
               </div>
             </div>
           </Reveal>
           <Reveal direction="left" delay={0.15}>
             <p className="text-emerald-600 text-sm font-semibold uppercase tracking-widest mb-4">About Us</p>
-            <h2 className="text-4xl md:text-5xl font-bold mb-8 leading-tight" style={font}>
+            <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-8 leading-tight" style={font}>
               Healthcare Built<br />on Trust
             </h2>
             <p className="text-neutral-600 leading-relaxed mb-5 text-base">
@@ -185,7 +185,7 @@ export default function MiraClinicBusinessSite() {
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <Reveal className="text-center mb-16">
             <p className="text-emerald-600 text-sm font-semibold uppercase tracking-widest mb-3">What Drives Us</p>
-            <h2 className="text-4xl font-bold" style={font}>Our Core Beliefs</h2>
+            <h2 className="text-4xl font-extrabold tracking-tight" style={font}>Our Core Beliefs</h2>
           </Reveal>
           <div className="grid md:grid-cols-3 gap-8">
             {[
@@ -224,7 +224,7 @@ export default function MiraClinicBusinessSite() {
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <Reveal className="mb-16">
             <p className="text-emerald-600 text-sm font-semibold uppercase tracking-widest mb-3">The People Behind the Magic</p>
-            <h2 className="text-4xl md:text-5xl font-bold" style={font}>Meet Our Team</h2>
+            <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight" style={font}>Meet Our Team</h2>
           </Reveal>
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-5">
             {[
@@ -259,7 +259,7 @@ export default function MiraClinicBusinessSite() {
             <div className="w-full lg:w-5/12 lg:sticky lg:top-24">
               <Reveal direction="right">
                 <p className="text-emerald-600 text-sm font-semibold uppercase tracking-widest mb-3">What We Offer</p>
-                <h2 className="text-4xl md:text-5xl font-bold mb-6" style={font}>Services &amp; Pricing</h2>
+                <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-6" style={font}>Services &amp; Pricing</h2>
                 <p className="text-neutral-500 mb-8 leading-relaxed text-sm">
                   Transparent pricing, no hidden fees. Every service is delivered by a certified medical professional using the latest standards of care.
                 </p>
@@ -304,7 +304,7 @@ export default function MiraClinicBusinessSite() {
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <Reveal className="text-center mb-16">
             <p className="text-emerald-600 text-sm font-semibold uppercase tracking-widest mb-3">Patient Stories</p>
-            <h2 className="text-4xl font-bold" style={font}>What Our Patients Say</h2>
+            <h2 className="text-4xl font-extrabold tracking-tight" style={font}>What Our Patients Say</h2>
           </Reveal>
           <div className="grid md:grid-cols-3 gap-6">
             {[
@@ -356,7 +356,7 @@ export default function MiraClinicBusinessSite() {
         <div className="max-w-3xl mx-auto px-6 lg:px-8">
           <Reveal className="text-center mb-12">
             <p className="text-emerald-600 text-sm font-semibold uppercase tracking-widest mb-3">Got Questions?</p>
-            <h2 className="text-4xl font-bold" style={font}>Frequently Asked</h2>
+            <h2 className="text-4xl font-extrabold tracking-tight" style={font}>Frequently Asked</h2>
           </Reveal>
           <div className="bg-white rounded-3xl border border-neutral-100 shadow-sm overflow-hidden">
             {faqItems.map((item, i) => (
@@ -398,7 +398,7 @@ export default function MiraClinicBusinessSite() {
         <div className="max-w-7xl mx-auto px-6 lg:px-8 grid lg:grid-cols-2 gap-16">
           <Reveal direction="right">
             <p className="text-emerald-600 text-sm font-semibold uppercase tracking-widest mb-3">Visit Us</p>
-            <h2 className="text-4xl md:text-5xl font-bold mb-10" style={font}>Get in Touch</h2>
+            <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-10" style={font}>Get in Touch</h2>
             <div className="space-y-7">
               {[
                 { icon: <MapPin size={18} />, label: 'Address', value: '12, Jalan SS 2/72, SS 2, 47300 Petaling Jaya, Selangor' },
@@ -497,7 +497,7 @@ export default function MiraClinicBusinessSite() {
         <div className="absolute inset-0 bg-black/65" />
         <div className="relative max-w-3xl mx-auto px-6 text-center text-white">
           <Reveal>
-            <h2 className="text-4xl md:text-5xl font-bold mb-5" style={font}>
+            <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-5" style={font}>
               Your Health Starts Here
             </h2>
             <p className="text-white/70 text-lg mb-10">

@@ -90,7 +90,7 @@ export default function BloomSalonBusinessSite() {
             <span className="inline-block bg-rose-600 text-white text-xs font-semibold uppercase tracking-widest px-4 py-1.5 rounded-full mb-6">
               Est. 2016 · Bangsar, KL
             </span>
-            <h1 className="text-6xl md:text-8xl font-bold text-white leading-none mb-6" style={font}>
+            <h1 className="text-6xl md:text-8xl font-black tracking-tighter text-white leading-none mb-6" style={font}>
               Beauty &amp; Care,<br />
               <em className="text-rose-400 not-italic">Redefined.</em>
             </h1>
@@ -141,7 +141,7 @@ export default function BloomSalonBusinessSite() {
             { value: '12', label: 'Expert Stylists' },
           ].map((stat, i) => (
             <Reveal key={i} delay={i * 0.08} className="text-center px-8 py-4">
-              <p className="text-4xl md:text-5xl font-bold mb-2">{stat.value}</p>
+              <p className="text-4xl md:text-5xl font-black mb-2">{stat.value}</p>
               <p className="text-neutral-500 text-xs uppercase tracking-widest">{stat.label}</p>
             </Reveal>
           ))}
@@ -159,14 +159,14 @@ export default function BloomSalonBusinessSite() {
                 className="w-full h-140 object-cover rounded-3xl"
               />
               <div className="absolute -bottom-6 -right-6 bg-rose-600 text-white p-6 rounded-2xl shadow-xl">
-                <p className="text-3xl font-bold mb-0.5">8+</p>
+                <p className="text-3xl font-black mb-0.5">8+</p>
                 <p className="text-xs text-rose-200 uppercase tracking-wider">Years of Excellence</p>
               </div>
             </div>
           </Reveal>
           <Reveal direction="left" delay={0.15}>
             <p className="text-rose-600 text-sm font-semibold uppercase tracking-widest mb-4">Our Story</p>
-            <h2 className="text-4xl md:text-5xl font-bold mb-8 leading-tight" style={font}>
+            <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-8 leading-tight" style={font}>
               Where Beauty<br />Meets Craft
             </h2>
             <p className="text-neutral-600 leading-relaxed mb-5 text-base">
@@ -187,7 +187,7 @@ export default function BloomSalonBusinessSite() {
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <Reveal className="text-center mb-16">
             <p className="text-rose-600 text-sm font-semibold uppercase tracking-widest mb-3">What Drives Us</p>
-            <h2 className="text-4xl font-bold" style={font}>Our Core Beliefs</h2>
+            <h2 className="text-4xl font-extrabold tracking-tight" style={font}>Our Core Beliefs</h2>
           </Reveal>
           <div className="grid md:grid-cols-3 gap-8">
             {[
@@ -226,7 +226,7 @@ export default function BloomSalonBusinessSite() {
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <Reveal className="mb-16">
             <p className="text-rose-600 text-sm font-semibold uppercase tracking-widest mb-3">The People Behind the Magic</p>
-            <h2 className="text-4xl md:text-5xl font-bold" style={font}>Meet Our Stylists</h2>
+            <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight" style={font}>Meet Our Stylists</h2>
           </Reveal>
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-5">
             {[
@@ -261,7 +261,7 @@ export default function BloomSalonBusinessSite() {
             <div className="w-full lg:w-5/12 lg:sticky lg:top-24">
               <Reveal direction="right">
                 <p className="text-rose-600 text-sm font-semibold uppercase tracking-widest mb-3">What We Offer</p>
-                <h2 className="text-4xl md:text-5xl font-bold mb-6" style={font}>Services &amp; Pricing</h2>
+                <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-6" style={font}>Services &amp; Pricing</h2>
                 <p className="text-neutral-500 mb-8 leading-relaxed text-sm">
                   Transparent pricing, no hidden fees. Every treatment is performed by a certified specialist using premium products.
                 </p>
@@ -306,7 +306,7 @@ export default function BloomSalonBusinessSite() {
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <Reveal className="text-center mb-16">
             <p className="text-rose-600 text-sm font-semibold uppercase tracking-widest mb-3">Client Stories</p>
-            <h2 className="text-4xl font-bold" style={font}>What Our Clients Say</h2>
+            <h2 className="text-4xl font-extrabold tracking-tight" style={font}>What Our Clients Say</h2>
           </Reveal>
           <div className="grid md:grid-cols-3 gap-6">
             {[
@@ -358,7 +358,7 @@ export default function BloomSalonBusinessSite() {
         <div className="max-w-3xl mx-auto px-6 lg:px-8">
           <Reveal className="text-center mb-12">
             <p className="text-rose-600 text-sm font-semibold uppercase tracking-widest mb-3">Got Questions?</p>
-            <h2 className="text-4xl font-bold" style={font}>Frequently Asked</h2>
+            <h2 className="text-4xl font-extrabold tracking-tight" style={font}>Frequently Asked</h2>
           </Reveal>
           <div className="bg-white rounded-3xl border border-neutral-100 shadow-sm overflow-hidden">
             {faqItems.map((item, i) => (
@@ -400,7 +400,7 @@ export default function BloomSalonBusinessSite() {
         <div className="max-w-7xl mx-auto px-6 lg:px-8 grid lg:grid-cols-2 gap-16">
           <Reveal direction="right">
             <p className="text-rose-600 text-sm font-semibold uppercase tracking-widest mb-3">Visit Us</p>
-            <h2 className="text-4xl md:text-5xl font-bold mb-10" style={font}>Get in Touch</h2>
+            <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-10" style={font}>Get in Touch</h2>
             <div className="space-y-7">
               {[
                 { icon: <MapPin size={18} />, label: 'Address', value: '28, Jalan Telawi 3, Bangsar, 59100 Kuala Lumpur' },
@@ -499,7 +499,7 @@ export default function BloomSalonBusinessSite() {
         <div className="absolute inset-0 bg-black/65" />
         <div className="relative max-w-3xl mx-auto px-6 text-center text-white">
           <Reveal>
-            <h2 className="text-4xl md:text-5xl font-bold mb-5" style={font}>
+            <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-5" style={font}>
               Book Your Appointment Today
             </h2>
             <p className="text-white/70 text-lg mb-10">

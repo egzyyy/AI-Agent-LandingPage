@@ -348,7 +348,7 @@ Full-screen section with a real background photo from the Step 3.5 table. Conten
       <span className="inline-block bg-{color}-600 text-white text-xs font-semibold uppercase tracking-widest px-4 py-1.5 rounded-full mb-6">
         {/* badge text from Step 3 */}
       </span>
-      <h1 className="text-6xl md:text-8xl font-bold text-white leading-none mb-6" style={font}>
+      <h1 className="text-6xl md:text-8xl font-black text-white leading-none tracking-tighter mb-6" style={font}>
         {/* Line 1 black, line 2 in text-{color}-400 italic <em> */}
       </h1>
       <p className="text-white/70 text-lg max-w-xl mb-10 leading-relaxed">
@@ -393,7 +393,7 @@ Black bar, 4 stats, divided columns.
   <div className="max-w-7xl mx-auto px-6 lg:px-8 grid grid-cols-2 md:grid-cols-4 divide-x divide-neutral-800">
     {[/* 4 stats from Step 3: { value, label } */].map((stat, i) => (
       <Reveal key={i} delay={i * 0.08} className="text-center px-8 py-4">
-        <p className="text-4xl md:text-5xl font-bold mb-2">{stat.value}</p>
+        <p className="text-4xl md:text-5xl font-black mb-2">{stat.value}</p>
         <p className="text-neutral-500 text-xs uppercase tracking-widest">{stat.label}</p>
       </Reveal>
     ))}
@@ -432,7 +432,7 @@ No section label. Two-column layout: real photo left with floating accent badge,
       <p className="text-{color}-600 text-sm font-semibold uppercase tracking-widest mb-4">
         {/* eyebrow from Step 3 */}
       </p>
-      <h2 className="text-4xl md:text-5xl font-bold mb-8 leading-tight" style={font}>
+      <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-8 leading-tight" style={font}>
         {/* heading from Step 3, can span 2 lines with <br /> */}
       </h2>
       {/* 3 paragraphs from Step 3 about section, each: */}
@@ -456,7 +456,7 @@ Light grey bg, centered heading, 3 cards — no section label.
   <div className="max-w-7xl mx-auto px-6 lg:px-8">
     <Reveal className="text-center mb-16">
       <p className="text-{color}-600 text-sm font-semibold uppercase tracking-widest mb-3">What Drives Us</p>
-      <h2 className="text-4xl font-bold" style={font}>Our Core Beliefs</h2>
+      <h2 className="text-4xl font-extrabold tracking-tight" style={font}>Our Core Beliefs</h2>
     </Reveal>
     <div className="grid md:grid-cols-3 gap-8">
       {[/* 3 items: { label, heading, text } from Step 3 Mission/Vision/Values */].map((item, i) => (
@@ -488,7 +488,7 @@ White bg, eyebrow + heading, 4 photo cards with gradient overlay — no section 
       <p className="text-{color}-600 text-sm font-semibold uppercase tracking-widest mb-3">
         The People Behind the Magic
       </p>
-      <h2 className="text-4xl md:text-5xl font-bold" style={font}>Meet Our Team</h2>
+      <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight" style={font}>Meet Our Team</h2>
     </Reveal>
     <div className="grid grid-cols-2 lg:grid-cols-4 gap-5">
       {[/* 4 members from Step 3: { name, role, photo } — use Step 3.5 team photo IDs */].map((member, i) => (
@@ -527,7 +527,7 @@ Light grey bg, sticky left column with photo, right column with price list — n
       <div className="w-full lg:w-5/12 lg:sticky lg:top-24">
         <Reveal direction="right">
           <p className="text-{color}-600 text-sm font-semibold uppercase tracking-widest mb-3">What We Offer</p>
-          <h2 className="text-4xl md:text-5xl font-bold mb-6" style={font}>Services &amp; Pricing</h2>
+          <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-6" style={font}>Services &amp; Pricing</h2>
           <p className="text-neutral-500 mb-8 leading-relaxed text-sm">
             Transparent pricing, no hidden fees. Every treatment is performed by a certified specialist using premium products.
           </p>
@@ -575,7 +575,7 @@ White bg, centered heading, 3-card grid with star ratings and real avatar photos
   <div className="max-w-7xl mx-auto px-6 lg:px-8">
     <Reveal className="text-center mb-16">
       <p className="text-{color}-600 text-sm font-semibold uppercase tracking-widest mb-3">Client Stories</p>
-      <h2 className="text-4xl font-bold" style={font}>What Our Clients Say</h2>
+      <h2 className="text-4xl font-extrabold tracking-tight" style={font}>What Our Clients Say</h2>
     </Reveal>
     <div className="grid md:grid-cols-3 gap-6">
       {[/* 3 testimonials from Step 3: { quote, name, role, photo } — use Step 3.5 testimonial photo IDs */].map((t, i) => (
@@ -615,7 +615,7 @@ Light grey bg, centered heading, accordion in white card — no section label.
   <div className="max-w-3xl mx-auto px-6 lg:px-8">
     <Reveal className="text-center mb-12">
       <p className="text-{color}-600 text-sm font-semibold uppercase tracking-widest mb-3">Got Questions?</p>
-      <h2 className="text-4xl font-bold" style={font}>Frequently Asked</h2>
+      <h2 className="text-4xl font-extrabold tracking-tight" style={font}>Frequently Asked</h2>
     </Reveal>
     <div className="bg-white rounded-3xl border border-neutral-100 shadow-sm overflow-hidden">
       {faqItems.map((item, i) => (
@@ -666,7 +666,7 @@ White bg, two-column: contact details left, booking form right — no section la
     {/* Left — details */}
     <Reveal direction="right">
       <p className="text-{color}-600 text-sm font-semibold uppercase tracking-widest mb-3">Visit Us</p>
-      <h2 className="text-4xl md:text-5xl font-bold mb-10" style={font}>Get in Touch</h2>
+      <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-10" style={font}>Get in Touch</h2>
       <div className="space-y-7">
         {[
           { icon: <MapPin size={18} />, label: 'Address', value: '/* invent KL/PJ street address */' },
@@ -757,7 +757,7 @@ Real full-width background image with dark overlay, centered text — no section
   <div className="absolute inset-0 bg-black/65" />
   <div className="relative max-w-3xl mx-auto px-6 text-center text-white">
     <Reveal>
-      <h2 className="text-4xl md:text-5xl font-bold mb-5" style={font}>
+      <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-5" style={font}>
         {/* CTA headline from Step 3 */}
       </h2>
       <p className="text-white/70 text-lg mb-10">
