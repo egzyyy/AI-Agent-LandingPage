@@ -82,7 +82,7 @@ export default function MiraClinicBusinessSite() {
       {/* ── Hero ── */}
       <section className="relative min-h-screen flex items-end pb-20 overflow-hidden">
         <img
-          src="https://images.unsplash.com/photo-1519494026892-476e4b18e9e8?auto=format&fit=crop&w=1800&q=80"
+          src="https://images.unsplash.com/photo-1586773860418-d37222d8fce3?auto=format&fit=crop&w=1800&q=80"
           alt="Mira Clinic interior"
           className="absolute inset-0 w-full h-full object-cover"
         />
@@ -152,7 +152,7 @@ export default function MiraClinicBusinessSite() {
           <Reveal direction="right">
             <div className="relative">
               <img
-                src="https://images.unsplash.com/photo-1551076805-e1869033e561?auto=format&fit=crop&w=900&q=80"
+                src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&w=900&q=80"
                 alt="Mira Clinic"
                 className="w-full h-140 object-cover rounded-3xl"
               />
@@ -264,7 +264,7 @@ export default function MiraClinicBusinessSite() {
                   Transparent pricing, no hidden fees. Every service is delivered by a certified medical professional using the latest standards of care.
                 </p>
                 <img
-                  src="https://images.unsplash.com/photo-1631217868264-e5b90bb7e133?auto=format&fit=crop&w=800&q=80"
+                  src="https://images.unsplash.com/photo-1530497610245-94d3c16cda28?auto=format&fit=crop&w=800&q=80"
                   alt="Mira Clinic services"
                   className="w-full h-72 object-cover rounded-2xl"
                 />
@@ -490,7 +490,7 @@ export default function MiraClinicBusinessSite() {
       {/* ── CTA Banner ── */}
       <section className="relative py-28 overflow-hidden">
         <img
-          src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?auto=format&fit=crop&w=1800&q=80"
+          src="https://images.unsplash.com/photo-1523712999610-f77fbcfc3843?auto=format&fit=crop&w=1800&q=80"
           alt="Mira Clinic"
           className="absolute inset-0 w-full h-full object-cover"
         />

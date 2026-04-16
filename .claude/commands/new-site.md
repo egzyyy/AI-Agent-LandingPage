@@ -154,7 +154,7 @@ URL pattern: `https://images.unsplash.com/{photo-id}?auto=format&fit=crop&w={W}&
 | Industry | Hero (w=1800) | About (w=900) | Services (w=800) | CTA Banner (w=1800) |
 |---|---|---|---|---|
 | salon | photo-1560066984-138dadb4c035 | photo-1522337360788-8b13dee7a37e | photo-1595163516014-3a9a4abb0b25 | photo-1562322140-8baeececf3df |
-| clinic | photo-1519494026892-476e4b18e9e8 | photo-1551076805-e1869033e561 | photo-1631217868264-e5b90bb7e133 | photo-1576091160399-112ba8d25d1f |
+| clinic | photo-1586773860418-d37222d8fce3 | photo-1559839734-2b71ea197ec2 | photo-1530497610245-94d3c16cda28 | photo-1523712999610-f77fbcfc3843 |
 | restaurant | photo-1414235077428-338989a2e8c0 | photo-1517248135467-4c7edcad34c4 | photo-1504674900247-0877df9cc836 | photo-1552566626-52f8b828a9b6 |
 | boutique | photo-1445205170230-053b83016050 | photo-1483985988355-763728e1935b | photo-1558618666-fcd25c85cd64 | photo-1567401893414-76b7b1e5a7a5 |
 | gym | photo-1534438327431-f9acd87e5e11 | photo-1571019613454-1cb2f99b2d8b | photo-1581009146145-b5ef050c2e1e | photo-1526506118085-60ce8714f8c5 |
