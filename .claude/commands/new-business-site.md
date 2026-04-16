@@ -9,25 +9,27 @@ Follow every step below in order. Do not skip steps. Do not ask for confirmation
 ## Step 1 — Parse arguments
 
 Extract these named arguments from `$ARGUMENTS`:
-- `name` — brand name (e.g. `Mira Clinic`, `Sofea Beauty`)
-- `color` — Tailwind accent color (e.g. `emerald`, `rose`, `amber`, `sky`, `violet`)
-- `font` — Google Font for headings (e.g. `Playfair Display`, `Lora`, `Outfit`, `DM Sans`)
-- `industry` — one of: `salon` | `clinic` | `restaurant` | `boutique` | `gym` | `cafe`
-- `logo` — Lucide React icon name in lowercase (e.g. `heart-pulse`, `scissors`, `utensils`, `dumbbell`, `coffee`)
+- `name` — brand name (e.g. `Mira Clinic`, `Sofea Beauty`) — **required**
+- `industry` — one of: `salon` | `clinic` | `restaurant` | `boutique` | `gym` | `cafe` — **required**
+- `color` — Tailwind accent color (e.g. `emerald`, `rose`, `amber`, `sky`, `violet`) — **optional, auto-derived from industry in Step 2.5**
+- `font` — Google Font for headings (e.g. `Playfair Display`, `Lora`, `Outfit`, `DM Sans`) — **optional, auto-derived from industry in Step 2.5**
+- `logo` — Lucide React icon name in lowercase (e.g. `heart-pulse`, `scissors`, `utensils`) — **optional, auto-derived from industry in Step 2.5**
 
 Then derive:
 - **slug**: kebab-case of `name`, all lowercase, spaces → hyphens, no special chars (e.g. `Mira Clinic` → `mira-clinic`, `SofeaBeauty` → `sofeabeauty`)
 - **pascal**: PascalCase of `name`, no spaces (e.g. `Mira Clinic` → `MiraClinic`)
-- **LogoIcon**: PascalCase of the `logo` arg (e.g. `heart-pulse` → `HeartPulse`, `scissors` → `Scissors`)
-- **fontUrl**: `font` arg with spaces replaced by `+` (e.g. `Playfair Display` → `Playfair+Display`)
+- **LogoIcon**: PascalCase of the `logo` value (e.g. `heart-pulse` → `HeartPulse`, `scissors` → `Scissors`)
+- **fontUrl**: `font` value with spaces replaced by `+` (e.g. `Playfair Display` → `Playfair+Display`)
 
-> If any required argument is missing from `$ARGUMENTS`, stop and ask the user to provide it before proceeding.
+> If `name` or `industry` is missing, stop and ask. For `color`, `font`, and `logo` proceed to Step 2.5 to derive them from industry.
 
 ---
 
 ## Step 2 — Color token reference
 
 `{color}` is the accent replacing black on interactive/decorative elements. White and neutral backgrounds stay unchanged.
+
+> Resolve `{color}`, `{font}`, and `{logo}` using Step 2.5 before writing any code.
 
 | Purpose | Token |
 |---|---|
@@ -42,6 +44,24 @@ Then derive:
 | Card hover border | `hover:border-{color}-200` |
 
 The dark footer (`bg-black`) and stats bar (`bg-black`) stay black regardless of `{color}`.
+
+---
+
+## Step 2.5 — Auto-derive color, font, and logo from industry
+
+If `color`, `font`, or `logo` were not supplied by the user, derive them now from `industry`:
+
+| Industry | color | font | fontStack | logo |
+|---|---|---|---|---|
+| salon | rose | Playfair Display | serif | scissors |
+| clinic | sky | DM Sans | sans-serif | heart-pulse |
+| restaurant | amber | Playfair Display | serif | utensils |
+| boutique | violet | Lora | serif | shopping-bag |
+| gym | orange | Outfit | sans-serif | dumbbell |
+| cafe | amber | DM Sans | sans-serif | coffee |
+
+> `fontStack` is the CSS generic family appended in the heading font constant. The `font` constant in every file must be: `const font = { fontFamily: '"{font}", {fontStack}' };`
+> For `fontUrl` replace spaces with `+` (e.g. `DM Sans` → `DM+Sans`).
 
 ---
 

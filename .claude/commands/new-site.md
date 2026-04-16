@@ -11,19 +11,19 @@ Follow every step below in order. Do not skip steps. Do not ask for confirmation
 ## Step 1 — Parse arguments
 
 Extract these named arguments from `$ARGUMENTS`:
-- `name` — brand name (e.g. `Mira Clinic`, `Sofea Beauty`)
-- `color` — Tailwind accent color (e.g. `emerald`, `rose`, `amber`, `sky`, `violet`)
-- `font` — Google Font for headings (e.g. `Playfair Display`, `Lora`, `Outfit`, `DM Sans`)
-- `industry` — one of: `salon` | `clinic` | `restaurant` | `boutique` | `gym` | `cafe`
-- `logo` — Lucide React icon name in lowercase (e.g. `heart-pulse`, `scissors`, `utensils`, `dumbbell`, `coffee`)
+- `name` — brand name (e.g. `Mira Clinic`, `Sofea Beauty`) — **required**
+- `industry` — one of: `salon` | `clinic` | `restaurant` | `boutique` | `gym` | `cafe` — **required**
+- `color` — Tailwind accent color (e.g. `emerald`, `rose`, `amber`, `sky`, `violet`) — **optional, auto-derived in Step 2.5**
+- `font` — Google Font for headings (e.g. `Playfair Display`, `Lora`, `Outfit`, `DM Sans`) — **optional, auto-derived in Step 2.5**
+- `logo` — Lucide React icon name in lowercase (e.g. `heart-pulse`, `scissors`, `utensils`) — **optional, auto-derived in Step 2.5**
 
 Derive:
 - **slug**: kebab-case of `name` (e.g. `Mira Clinic` → `mira-clinic`)
 - **pascal**: PascalCase of `name` (e.g. `Mira Clinic` → `MiraClinic`)
-- **LogoIcon**: PascalCase of `logo` (e.g. `heart-pulse` → `HeartPulse`)
-- **fontUrl**: `font` with spaces → `+` (e.g. `Playfair Display` → `Playfair+Display`)
+- **LogoIcon**: PascalCase of `logo` value (e.g. `heart-pulse` → `HeartPulse`)
+- **fontUrl**: `font` value with spaces → `+` (e.g. `DM Sans` → `DM+Sans`)
 
-> If any required argument is missing, stop and ask before proceeding.
+> If `name` or `industry` is missing, stop and ask. For `color`, `font`, `logo` — proceed to Step 2.5.
 
 ---
 
@@ -43,6 +43,24 @@ Derive:
 | Floating badge on image | `bg-{color}-600 text-white` |
 
 Footer and stats bar stay `bg-black` regardless of color.
+
+---
+
+## Step 2.5 — Auto-derive color, font, and logo from industry
+
+If `color`, `font`, or `logo` were not supplied by the user, derive them now from `industry`:
+
+| Industry | color | font | fontStack | logo |
+|---|---|---|---|---|
+| salon | rose | Playfair Display | serif | scissors |
+| clinic | sky | DM Sans | sans-serif | heart-pulse |
+| restaurant | amber | Playfair Display | serif | utensils |
+| boutique | violet | Lora | serif | shopping-bag |
+| gym | orange | Outfit | sans-serif | dumbbell |
+| cafe | amber | DM Sans | sans-serif | coffee |
+
+> `fontStack` is the CSS generic family appended in the heading font constant. Every file must use: `const font = { fontFamily: '"{font}", {fontStack}' };`
+> For `fontUrl` replace spaces with `+` (e.g. `DM Sans` → `DM+Sans`).
 
 ---
 
@@ -142,6 +160,38 @@ Footer and stats bar stay `bg-black` regardless of color.
 - boutique → `Find Your Signature Style` / `Our stylists are ready to help you build a wardrobe you'll love.`
 - gym → `Start Your Transformation Today` / `The hardest part is walking through the door. Let us take care of everything after that.`
 - cafe → `Come In, Stay Awhile` / `Great coffee, good company, and a seat with your name on it.`
+
+**Features / "Why Choose Us" (3 items per industry — LucideIcon / heading / description):**
+- salon → `Scissors / Certified Stylists / All specialists are industry-certified with 5+ years of hands-on experience.` | `ShoppingBag / Premium Products / We use only top-tier, cruelty-free products on every client.` | `Clock / Flexible Booking / Book online, call us, or walk in — we work around your schedule.`
+- clinic → `HeartPulse / Experienced Doctors / All doctors hold specialist qualifications and 10+ years of clinical practice.` | `Zap / Fast Results / Lab results and health reports delivered within 24 hours of your visit.` | `MessageCircle / Patient-First Care / We listen first, treat second — no rushed consultations, ever.`
+- restaurant → `Leaf / Farm to Table / Ingredients sourced fresh daily from local farms and trusted suppliers.` | `UtensilsCrossed / Award-Winning Chefs / Our kitchen is led by chefs trained across France, Italy, and Japan.` | `Wine / Curated Drinks / Hand-selected wines and craft cocktails to complement every dish.`
+- boutique → `ShoppingBag / Curated Selection / Every piece is hand-picked by our in-house stylists from 40+ designers.` | `Scissors / Tailoring Included / Complimentary alterations on all custom orders for the perfect fit.` | `Sparkles / Personal Styling / One-on-one sessions to build a wardrobe you'll love wearing every day.`
+- gym → `Dumbbell / Certified Coaches / All trainers are certified and specialise in results-focused programming.` | `BarChart2 / Progress Tracking / Weekly check-ins and body composition analysis included with membership.` | `Users / Strong Community / Group classes, member events, and a culture that keeps you accountable.`
+- cafe → `Coffee / Specialty Sourcing / Single-origin beans roasted weekly — never mass-produced or stale.` | `Cookie / Baked Daily / All pastries and bread made fresh in-house every single morning.` | `Wifi / Great WiFi / High-speed connection and power outlets for remote workers and students.`
+
+**Milestones (3 items per industry — year / description):**
+- salon → `2016 / Opened our first styling chair in Bangsar.` | `2019 / Expanded to a full beauty studio with 8 certified specialists.` | `2022 / Named KL's top-rated salon for two consecutive years.`
+- clinic → `2014 / Founded in Petaling Jaya as a single GP practice.` | `2018 / Added dental, specialist, and preventive care services.` | `2022 / Reached 1,200+ patients per month across all specialities.`
+- restaurant → `2012 / Opened our first dining room at KLCC.` | `2016 / Expanded to three locations across the Klang Valley.` | `2021 / Launched private dining, catering, and a chef's tasting menu.`
+- boutique → `2018 / Opened as a pop-up concept store in Bukit Bintang.` | `2020 / Became a permanent boutique, outgrowing the space within six months.` | `2023 / Expanded to five cities with over 2,000 curated pieces.`
+- gym → `2019 / Opened our first facility in Mont Kiara with 20 founding members.` | `2021 / Expanded to a 5,000 sqft floor with full equipment and group studios.` | `2023 / Reached 800+ active members and 20 certified trainers on staff.`
+- cafe → `2020 / Opened in Damansara with 60 seats and a focused single-origin menu.` | `2022 / Started roasting in-house, sourcing from farms across three continents.` | `2024 / Became a daily ritual for over 500 regulars in the neighbourhood.`
+
+**Process Steps / "How It Works" (3 steps per industry — title / description):**
+- salon → `Book Your Slot / Choose your service and preferred stylist online or by phone.` | `Come In & Consult / Your stylist walks through your desired look and recommends the best treatment.` | `Leave Looking Great / Sit back, relax, and walk out feeling like a new version of yourself.`
+- clinic → `Book an Appointment / Schedule online or by phone — same-day slots often available.` | `Meet Your Doctor / Arrive 10 minutes early. Your consultation starts on time with no rushing.` | `Receive Your Results / Lab results and prescriptions delivered within 24 hours, with full explanations.`
+- restaurant → `Make a Reservation / Book online or call us — walk-ins welcome based on availability.` | `Arrive and Be Seated / Our team greets you and walks you through the menu and today's specials.` | `Enjoy Your Meal / Sit back and let us take care of everything from starter to dessert.`
+- boutique → `Walk In or Book a Session / Browse the floor or schedule a personal styling appointment.` | `Discover Your Style / Our stylists curate a selection based on your taste and the occasion.` | `Leave Dressed Perfectly / Alterations, gift-wrapping, and same-day delivery all available.`
+- gym → `Start Your Free Trial / 3 days free — no credit card, no commitment, no pressure.` | `Meet Your Coach / We assess your goals and design a personalised training programme together.` | `Train and Track Progress / Weekly check-ins and body composition milestones keep you on target.`
+- cafe → `Walk In Anytime / We're open daily — no reservation needed, just follow the aroma.` | `Order at the Counter / Our baristas guide you through today's beans, blends, and brew methods.` | `Find Your Spot / Take a seat, connect to WiFi, and stay as long as you like.`
+
+**Extra FAQ items 4–6 per industry (appended after the base 3 from above):**
+- salon → `Can I request a specific stylist? / Yes — all bookings can specify a preferred stylist. We'll do our best to accommodate.` | `Do you cater for bridal parties? / Yes — group bridal packages for up to 10 guests. Contact us for a quote.` | `What products do you use? / We use Kerastase, Olaplex, and a range of cruelty-free professional products.`
+- clinic → `Do you offer home visits? / For mobility-limited patients we can arrange home consultations — call us to enquire.` | `Are paediatric services available? / Yes — our doctors are experienced with patients of all ages, including children.` | `What should I bring to my first visit? / A valid ID, your current medication list, and your insurance card if applicable.`
+- restaurant → `Is the menu halal? / Yes — our kitchen follows halal preparation and all meat suppliers are halal-certified.` | `Can we bring our own cake? / Yes — cakes and decorations are welcome. We can also arrange florals and setup.` | `Do you cater large events? / Yes, from 20 to 300 guests. Contact us for a custom catering quote.`
+- boutique → `Do you offer gift cards? / Yes — gift cards in any denomination are available in-store and online.` | `Is there a loyalty programme? / Yes — members earn points on every purchase, redeemable on future visits.` | `Do you ship internationally? / Yes — we ship to Singapore, Indonesia, and Thailand. Duties may apply.`
+- gym → `Are there lockers and showers? / Yes — full locker rooms with showers, towels, and secure storage are provided.` | `Can I bring a guest? / Members get 1 free guest pass per month. Additional day passes are RM 30.` | `Do you offer online classes? / Yes — members access a library of 100+ recorded workout sessions.`
+- cafe → `Do you have a loyalty programme? / Every 10 drinks earns you one free. No app needed — just a stamp card.` | `Do you accept reservations? / We operate on a walk-in basis. Groups of 8+ can call ahead to reserve.` | `Do you have vegan options? / Yes — oat milk, almond milk, and vegan pastry options are available daily.`
 
 ---
 
@@ -423,6 +473,13 @@ export default function {pascal}Home() {
       {/* bg-black, grid cols-2 md:cols-4 divide-x divide-neutral-800 */}
       {/* Values: font-black text-4xl md:text-5xl */}
 
+      {/* ── Why Choose Us ── */}
+      {/* py-24 bg-white */}
+      {/* Eyebrow (text-{color}-600) + h2 "Why Choose {name}" (font-extrabold tracking-tight) + short lead paragraph, centered */}
+      {/* 3 feature cards in grid md:grid-cols-3 gap-6 */}
+      {/* Each card: rounded-3xl border border-neutral-100 hover:border-{color}-200 hover:shadow-md p-8, icon in w-12 h-12 rounded-2xl bg-{color}-50 text-{color}-600, bold heading mb-2, neutral-500 description */}
+      {/* Use Features data from Step 3 for this industry — import the correct Lucide icons listed there */}
+
       {/* ── Services preview (3 cards) ── */}
       {/* bg-neutral-50, show first 3 services as cards, "View All Services" Link to /{slug}/services */}
       <section className="py-24 bg-neutral-50">
@@ -486,11 +543,18 @@ export default function {pascal}About() {
       {/* py-24, 2-col: real about image left (h-140 rounded-3xl) + floating accent badge, text right */}
       {/* 3 paragraphs from Step 3 about paragraphs */}
 
+      {/* ── Milestones ── */}
+      {/* py-20 bg-neutral-50 */}
+      {/* Eyebrow + h2 "Our Journey" (font-extrabold tracking-tight), centered header */}
+      {/* 3 milestone cards in grid md:grid-cols-3 gap-6 */}
+      {/* Each card: rounded-3xl border border-neutral-100 p-8. Year as text-5xl font-black text-{color}-600 mb-2. Description as text-neutral-500 text-sm leading-relaxed. */}
+      {/* Use Milestones data from Step 3 for this industry */}
+
       {/* ── Mission / Vision / Values ── */}
-      {/* bg-neutral-50 py-20, 3 white cards, same pattern as new-business-site */}
+      {/* bg-white py-20, 3 cards, same pattern as new-business-site */}
 
       {/* ── Team ── */}
-      {/* py-24, 4 portrait cards with real photos, aspect-3/4, gradient overlay */}
+      {/* py-24 bg-neutral-50, 4 portrait cards with real photos, aspect-3/4, gradient overlay */}
     </>
   );
 }
@@ -523,6 +587,14 @@ export default function {pascal}Services() {
         </div>
       </section>
 
+      {/* ── How It Works ── */}
+      {/* py-20 bg-neutral-50 */}
+      {/* Eyebrow + h2 "How It Works" (font-extrabold tracking-tight) + short lead text, centered */}
+      {/* 3 step cards in grid md:grid-cols-3 gap-6 */}
+      {/* Each card: rounded-3xl border border-neutral-100 bg-white p-8. Step number as text-5xl font-black text-{color}-600 opacity-20 mb-4 (decorative). Bold step title mb-2. neutral-500 description. */}
+      {/* Actually render step numbers as "01" "02" "03" in a span */}
+      {/* Use Process Steps data from Step 3 for this industry */}
+
       {/* ── Full Price List ── */}
       {/* bg-white py-24 */}
       {/* Same sticky-left + price-card-right layout as new-business-site Services section */}
@@ -550,7 +622,7 @@ Imports: `useState`; `motion, AnimatePresence`; `ChevronDown`; Reveal helper.
 export default function {pascal}Faq() {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
 
-  const faqItems: { q: string; a: string }[] = [/* 3 items from Step 3 */];
+  const faqItems: { q: string; a: string }[] = [/* 6 items from Step 3: the 3 base FAQ items PLUS the 3 extra FAQ items for this industry */];
 
   return (
     <>
@@ -565,8 +637,12 @@ export default function {pascal}Faq() {
       </section>
 
       {/* ── FAQ Accordion ── */}
-      {/* py-24, max-w-3xl mx-auto, white card with accordion */}
+      {/* py-24, max-w-3xl mx-auto, white card with accordion — all 6 items */}
       {/* Same accordion pattern as new-business-site FAQ section */}
+
+      {/* ── Still Have Questions? ── */}
+      {/* py-16 bg-neutral-50 */}
+      {/* Centered: eyebrow, h2 "Still Have Questions?", short line "Our team is happy to help.", Link button to /{slug}/contact "Get in Touch" ArrowRight */}
     </>
   );
 }
@@ -596,8 +672,14 @@ export default function {pascal}Contact() {
         </div>
       </section>
 
+      {/* ── At a Glance ── */}
+      {/* py-16 bg-neutral-50 */}
+      {/* 3 feature mini-cards in grid md:grid-cols-3 gap-6, same features data from Step 3 */}
+      {/* Each card: flex items-start gap-4, icon in w-10 h-10 rounded-xl bg-{color}-50 text-{color}-600, bold heading text-sm + description text-neutral-500 text-xs leading-relaxed */}
+      {/* This reassures first-time visitors before they see the form */}
+
       {/* ── Contact Info + Form ── */}
-      {/* py-24, 2-col grid lg:grid-cols-2 gap-16 */}
+      {/* py-24 bg-white, 2-col grid lg:grid-cols-2 gap-16 */}
       {/* Left: contact details (Address, Phone, Email, Hours) + Follow Us social buttons */}
       {/* Right: bg-neutral-50 rounded-3xl form (Full Name, Phone/Service grid, Message, Submit) */}
       {/* Same pattern as new-business-site Contact section */}

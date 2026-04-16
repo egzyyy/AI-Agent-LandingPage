@@ -1,117 +1,119 @@
+import { useRef, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { motion } from 'motion/react';
-import { ShoppingBag, ArrowRight } from 'lucide-react';
-
-function Reveal({ children, className = '', delay = 0, direction = 'up' }: {
-  children: React.ReactNode; className?: string; delay?: number; direction?: 'up' | 'down' | 'left' | 'right';
-}) {
-  const dirs: Record<string, { x?: number; y?: number }> = {
-    up: { y: 40 }, down: { y: -40 }, left: { x: 40 }, right: { x: -40 },
-  };
-  return (
-    <motion.div
-      initial={{ opacity: 0, ...dirs[direction] }}
-      whileInView={{ opacity: 1, x: 0, y: 0 }}
-      viewport={{ once: true, margin: '-60px' }}
-      transition={{ duration: 0.6, delay, ease: 'easeOut' }}
-      className={className}
-    >
-      {children}
-    </motion.div>
-  );
-}
+import { ChevronRight } from 'lucide-react';
 
 const font = { fontFamily: '"Lora", serif' };
 
+function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [visible, setVisible] = useState(false);
+  useEffect(() => {
+    const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) { setVisible(true); obs.disconnect(); } }, { threshold: 0.15 });
+    if (ref.current) obs.observe(ref.current);
+    return () => obs.disconnect();
+  }, []);
+  return (
+    <div ref={ref} style={{ transitionDelay: `${delay}ms` }}
+      className={`transition-all duration-700 ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
+      {children}
+    </div>
+  );
+}
+
 const services = [
-  { name: 'Ready-to-Wear', desc: 'In-stock curated pieces', price: 'from RM 150' },
-  { name: 'Custom Order', desc: 'Made-to-measure design', price: 'from RM 400' },
-  { name: 'Alteration', desc: 'Tailoring & hemming', price: 'from RM 30' },
-  { name: 'Accessories', desc: 'Bags, jewellery & more', price: 'from RM 50' },
-  { name: 'Seasonal Collection', desc: 'New season arrivals', price: 'from RM 200' },
-  { name: 'Gift Wrapping', desc: 'Luxury gift packaging', price: 'RM 15' },
+  { name: 'Ready-to-Wear',       price: 'from RM 150', desc: 'In-stock curated pieces', detail: 'Browse our ever-changing selection of ready-to-wear clothing from 40+ Asian designers. New arrivals weekly.' },
+  { name: 'Custom Order',        price: 'from RM 400', desc: 'Made-to-measure design',  detail: 'Work one-on-one with our designers to create a piece made exactly for you, in your fabric and your fit.' },
+  { name: 'Alteration',          price: 'from RM 30',  desc: 'Tailoring & hemming',     detail: 'Our in-house seamstress handles everything from simple hems to structural alterations. Turnaround in 5–7 days.' },
+  { name: 'Accessories',         price: 'from RM 50',  desc: 'Bags, jewellery & more',  detail: 'Complete any look with our curated selection of handbags, statement jewellery, scarves, and accessories.' },
+  { name: 'Seasonal Collection', price: 'from RM 200', desc: 'New season arrivals',     detail: 'Be the first to access our exclusive seasonal drops. Limited quantities per design.' },
+  { name: 'Gift Wrapping',       price: 'RM 15',       desc: 'Luxury gift packaging',   detail: 'Beautifully packaged in our signature box with ribbon and a personalised card for any occasion.' },
+];
+
+const steps = [
+  { num: '01', title: 'Walk In or Book', desc: 'Visit us in-store anytime, or book a private styling session online for a more focused experience.' },
+  { num: '02', title: 'Discover Your Style', desc: 'Our stylists guide you through our curation, understanding your taste, lifestyle, and occasion needs.' },
+  { num: '03', title: 'Leave Dressed Perfectly', desc: 'Walk away with pieces you love — ready-to-wear or placed on custom order — with alterations arranged.' },
 ];
 
 export default function VelvetCoServices() {
   return (
-    <>
-      {/* ── Page Header ── */}
-      <section className="py-20 bg-neutral-50 border-b border-neutral-100">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+    <div style={font}>
+      {/* Page header */}
+      <section className="bg-neutral-50 border-b border-neutral-100 py-14">
+        <div className="max-w-6xl mx-auto px-6">
           <Reveal>
-            <p className="text-violet-600 text-sm font-semibold uppercase tracking-widest mb-3">What We Offer</p>
-            <h1 className="text-5xl md:text-6xl font-black tracking-tight" style={font}>Services &amp; Pricing</h1>
-            <p className="text-neutral-500 mt-4 max-w-lg text-sm leading-relaxed">
-              Transparent pricing, no hidden fees. Every piece is hand-selected or crafted by a specialist.
-            </p>
+            <p className="text-xs font-semibold uppercase tracking-widest text-violet-600 mb-2">What We Offer</p>
+            <h1 className="text-4xl md:text-5xl font-bold text-neutral-900">Services &amp; Pricing</h1>
           </Reveal>
         </div>
       </section>
 
-      {/* ── Full Price List ── */}
-      <section className="py-24 bg-white">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="grid lg:grid-cols-2 gap-16 items-start">
-            <Reveal direction="right">
-              <p className="text-violet-600 text-sm font-semibold uppercase tracking-widest mb-3">Complete Collection</p>
-              <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-6" style={font}>
-                Everything We Offer
-              </h2>
-              <p className="text-neutral-500 mb-8 leading-relaxed text-sm">
-                From everyday essentials to special occasion wear — our curated selection has something for every wardrobe and every woman.
-              </p>
-              <img
-                src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=800&q=80"
-                alt="Velvet & Co services"
-                className="w-full h-72 object-cover rounded-3xl"
-              />
-            </Reveal>
-            <Reveal direction="left" delay={0.1}>
-              <div className="bg-neutral-50 rounded-3xl p-8 border border-neutral-100 divide-y divide-neutral-100">
-                {services.map((service, i) => (
-                  <div key={i} className="flex items-center justify-between py-5 first:pt-0 last:pb-0">
-                    <div className="flex items-center gap-4">
-                      <div className="w-10 h-10 rounded-xl bg-violet-50 flex items-center justify-center shrink-0">
-                        <ShoppingBag size={16} className="text-violet-600" />
-                      </div>
-                      <div>
-                        <p className="font-semibold text-sm text-black">{service.name}</p>
-                        <p className="text-neutral-400 text-xs mt-0.5">{service.desc}</p>
-                      </div>
-                    </div>
-                    <span className="font-bold text-black text-sm whitespace-nowrap">{service.price}</span>
-                  </div>
-                ))}
-              </div>
-            </Reveal>
+      {/* How It Works */}
+      <section className="py-20 bg-white">
+        <div className="max-w-6xl mx-auto px-6">
+          <Reveal>
+            <p className="text-xs font-semibold uppercase tracking-widest text-violet-600 mb-2">How It Works</p>
+            <h2 className="text-3xl md:text-4xl font-bold text-neutral-900 mb-12">Your Experience at Velvet &amp; Co</h2>
+          </Reveal>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {steps.map((step, i) => (
+              <Reveal key={i} delay={i * 100}>
+                <div className="p-6 border border-neutral-100 rounded-xl hover:border-violet-200 transition-colors">
+                  <p className="text-4xl font-bold text-violet-100 mb-3 leading-none">{step.num}</p>
+                  <h3 className="text-lg font-semibold text-neutral-900 mb-2">{step.title}</h3>
+                  <p className="text-sm text-neutral-500 leading-relaxed">{step.desc}</p>
+                </div>
+              </Reveal>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* ── CTA Banner ── */}
-      <section className="relative py-32 overflow-hidden">
+      {/* Services image strip */}
+      <section className="py-4 bg-neutral-50 overflow-hidden">
         <img
-          src="https://images.unsplash.com/photo-1567401893414-76b7b1e5a7a5?auto=format&fit=crop&w=1800&q=80"
-          alt="Velvet & Co"
-          className="absolute inset-0 w-full h-full object-cover"
+          src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=1600&q=80"
+          alt="Velvet & Co collection"
+          className="w-full h-56 object-cover"
         />
-        <div className="absolute inset-0 bg-black/65" />
-        <div className="relative max-w-3xl mx-auto px-6 text-center text-white">
+      </section>
+
+      {/* Full price list */}
+      <section className="py-20 bg-white">
+        <div className="max-w-6xl mx-auto px-6">
           <Reveal>
-            <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-5" style={font}>
-              Find Your Signature Style
-            </h2>
-            <p className="text-white/70 mb-8 text-lg leading-relaxed">
-              Our stylists are ready to help you build a wardrobe you'll love.
-            </p>
-            <Link to="/velvet-co/contact">
-              <button className="bg-violet-600 hover:bg-violet-700 text-white px-10 py-4 rounded-full font-semibold text-sm transition-all inline-flex items-center gap-2">
-                Shop Now <ArrowRight size={16} />
-              </button>
+            <p className="text-xs font-semibold uppercase tracking-widest text-violet-600 mb-2">Full Price List</p>
+            <h2 className="text-3xl font-bold text-neutral-900 mb-10">Everything We Offer</h2>
+          </Reveal>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {services.map((s, i) => (
+              <Reveal key={i} delay={i * 80}>
+                <div className="p-6 bg-neutral-50 rounded-xl border border-neutral-100 hover:border-violet-200 transition-colors">
+                  <div className="flex items-start justify-between mb-2">
+                    <h3 className="font-semibold text-neutral-900">{s.name}</h3>
+                    <span className="text-sm font-semibold text-violet-600 ml-4 shrink-0">{s.price}</span>
+                  </div>
+                  <p className="text-xs text-violet-600 uppercase tracking-wide font-medium mb-2">{s.desc}</p>
+                  <p className="text-sm text-neutral-500 leading-relaxed">{s.detail}</p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CTA */}
+      <section className="py-20 bg-violet-600">
+        <div className="max-w-3xl mx-auto px-6 text-center text-white">
+          <Reveal>
+            <h2 className="text-3xl font-bold mb-4">Find Your Signature Style</h2>
+            <p className="text-violet-100 mb-8">Our stylists are ready to help you build a wardrobe you'll love wearing every day.</p>
+            <Link to="/velvet-co/contact" className="inline-flex items-center gap-2 px-7 py-3 bg-white text-violet-600 font-semibold rounded-md hover:bg-violet-50 transition-colors">
+              Shop Now <ChevronRight size={16} />
             </Link>
           </Reveal>
         </div>
       </section>
-    </>
+    </div>
   );
 }

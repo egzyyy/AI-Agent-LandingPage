@@ -1,149 +1,216 @@
-import { motion } from 'motion/react';
-import { MapPin, Phone, Mail, Clock, ArrowRight } from 'lucide-react';
-
-function Reveal({ children, className = '', delay = 0, direction = 'up' }: {
-  children: React.ReactNode; className?: string; delay?: number; direction?: 'up' | 'down' | 'left' | 'right';
-}) {
-  const dirs: Record<string, { x?: number; y?: number }> = {
-    up: { y: 40 }, down: { y: -40 }, left: { x: 40 }, right: { x: -40 },
-  };
-  return (
-    <motion.div
-      initial={{ opacity: 0, ...dirs[direction] }}
-      whileInView={{ opacity: 1, x: 0, y: 0 }}
-      viewport={{ once: true, margin: '-60px' }}
-      transition={{ duration: 0.6, delay, ease: 'easeOut' }}
-      className={className}
-    >
-      {children}
-    </motion.div>
-  );
-}
-
-function InstagramIcon({ size = 16 }: { size?: number }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
-      <circle cx="12" cy="12" r="4" />
-      <circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" />
-    </svg>
-  );
-}
-
-function FacebookIcon({ size = 16 }: { size?: number }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
-    </svg>
-  );
-}
+import { useRef, useEffect, useState } from 'react';
+import { MapPin, Phone, Mail, Clock, ShoppingBag, Scissors, Sparkles } from 'lucide-react';
 
 const font = { fontFamily: '"Lora", serif' };
 
-const services = ['Ready-to-Wear', 'Custom Order', 'Alteration', 'Accessories', 'Seasonal Collection', 'Gift Wrapping'];
+function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [visible, setVisible] = useState(false);
+  useEffect(() => {
+    const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) { setVisible(true); obs.disconnect(); } }, { threshold: 0.15 });
+    if (ref.current) obs.observe(ref.current);
+    return () => obs.disconnect();
+  }, []);
+  return (
+    <div ref={ref} style={{ transitionDelay: `${delay}ms` }}
+      className={`transition-all duration-700 ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
+      {children}
+    </div>
+  );
+}
+
+const glance = [
+  { Icon: ShoppingBag, heading: 'Curated Selection',  desc: '2,000+ pieces from 40+ independent Asian designers.' },
+  { Icon: Scissors,    heading: 'In-House Tailoring', desc: 'Alterations and custom orders handled on-site.' },
+  { Icon: Sparkles,    heading: 'Personal Styling',   desc: 'Book a one-on-one session with our style team.' },
+];
 
 export default function VelvetCoContact() {
+  const [submitted, setSubmitted] = useState(false);
+  const [form, setForm] = useState({ name: '', email: '', phone: '', service: '', message: '' });
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) =>
+    setForm(prev => ({ ...prev, [e.target.name]: e.target.value }));
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setSubmitted(true);
+  };
+
   return (
-    <>
-      {/* ── Page Header ── */}
-      <section className="py-20 bg-neutral-50 border-b border-neutral-100">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+    <div style={font}>
+      {/* Page header */}
+      <section className="bg-neutral-50 border-b border-neutral-100 py-14">
+        <div className="max-w-6xl mx-auto px-6">
           <Reveal>
-            <p className="text-violet-600 text-sm font-semibold uppercase tracking-widest mb-3">Visit Us</p>
-            <h1 className="text-5xl md:text-6xl font-black tracking-tight" style={font}>Get in Touch</h1>
+            <p className="text-xs font-semibold uppercase tracking-widest text-violet-600 mb-2">Get in Touch</p>
+            <h1 className="text-4xl md:text-5xl font-bold text-neutral-900">Visit Us</h1>
           </Reveal>
         </div>
       </section>
 
-      {/* ── Contact Info + Form ── */}
-      <section className="py-24 bg-white">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="grid lg:grid-cols-2 gap-16">
-            <Reveal direction="right">
-              <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-10" style={font}>We'd Love to Meet You</h2>
-              <div className="space-y-7">
-                {[
-                  { icon: <MapPin size={18} />, label: 'Address', value: 'G-12, Lot 10, Jalan Bukit Bintang, 55100 Kuala Lumpur' },
-                  { icon: <Phone size={18} />, label: 'Phone', value: '+60 3-2145 6677' },
-                  { icon: <Mail size={18} />, label: 'Email', value: 'hello@velvet-co.com.my' },
-                  { icon: <Clock size={18} />, label: 'Hours', value: 'Mon–Fri 10am–9pm · Sat 10am–10pm · Sun 11am–8pm' },
-                ].map((item, i) => (
-                  <div key={i} className="flex items-start gap-4">
-                    <div className="w-11 h-11 rounded-2xl bg-violet-50 flex items-center justify-center shrink-0 text-violet-600">
-                      {item.icon}
-                    </div>
-                    <div>
-                      <p className="text-xs text-neutral-400 uppercase tracking-widest font-semibold mb-1">{item.label}</p>
-                      <p className="text-sm font-medium text-black leading-relaxed">{item.value}</p>
-                    </div>
+      {/* At a Glance */}
+      <section className="py-14 bg-white border-b border-neutral-100">
+        <div className="max-w-6xl mx-auto px-6">
+          <Reveal>
+            <p className="text-xs font-semibold uppercase tracking-widest text-violet-600 mb-6">At a Glance</p>
+          </Reveal>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {glance.map((item, i) => (
+              <Reveal key={i} delay={i * 80}>
+                <div className="flex items-start gap-4 p-5 bg-neutral-50 rounded-xl border border-neutral-100 hover:border-violet-200 transition-colors">
+                  <div className="w-10 h-10 bg-violet-50 text-violet-600 rounded-lg flex items-center justify-center shrink-0">
+                    <item.Icon size={18} />
                   </div>
-                ))}
-              </div>
-              <div className="mt-10 pt-10 border-t border-neutral-100">
-                <p className="text-xs text-neutral-400 uppercase tracking-widest font-semibold mb-4">Follow Us</p>
-                <div className="flex gap-3">
-                  <button className="w-10 h-10 rounded-full border border-neutral-200 hover:border-violet-400 flex items-center justify-center transition-all text-neutral-400 hover:text-violet-600">
-                    <InstagramIcon size={16} />
-                  </button>
-                  <button className="w-10 h-10 rounded-full border border-neutral-200 hover:border-violet-400 flex items-center justify-center transition-all text-neutral-400 hover:text-violet-600">
-                    <FacebookIcon size={16} />
-                  </button>
+                  <div>
+                    <p className="font-semibold text-neutral-800 text-sm mb-1">{item.heading}</p>
+                    <p className="text-xs text-neutral-500 leading-relaxed">{item.desc}</p>
+                  </div>
                 </div>
-              </div>
-            </Reveal>
-
-            <Reveal direction="left" delay={0.1}>
-              <div className="bg-neutral-50 rounded-3xl p-8 md:p-10 border border-neutral-100">
-                <h3 className="text-2xl font-bold mb-6" style={font}>Book a Styling Session</h3>
-                <form onSubmit={(e) => e.preventDefault()} className="space-y-4">
-                  <div>
-                    <label className="block text-xs font-semibold text-neutral-600 uppercase tracking-widest mb-2">Full Name</label>
-                    <input
-                      type="text"
-                      placeholder="Your name"
-                      className="w-full px-4 py-3 rounded-xl border border-neutral-200 focus:border-violet-400 focus:outline-none text-sm bg-white transition-colors"
-                    />
-                  </div>
-                  <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-xs font-semibold text-neutral-600 uppercase tracking-widest mb-2">Phone</label>
-                      <input
-                        type="tel"
-                        placeholder="+60 1X-XXX XXXX"
-                        className="w-full px-4 py-3 rounded-xl border border-neutral-200 focus:border-violet-400 focus:outline-none text-sm bg-white transition-colors"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-xs font-semibold text-neutral-600 uppercase tracking-widest mb-2">Service</label>
-                      <select
-                        defaultValue=""
-                        className="w-full px-4 py-3 rounded-xl border border-neutral-200 focus:border-violet-400 focus:outline-none text-sm bg-white transition-colors text-neutral-600"
-                      >
-                        <option value="" disabled>Select service</option>
-                        {services.map(s => <option key={s} value={s}>{s}</option>)}
-                      </select>
-                    </div>
-                  </div>
-                  <div>
-                    <label className="block text-xs font-semibold text-neutral-600 uppercase tracking-widest mb-2">Message</label>
-                    <textarea
-                      rows={4}
-                      placeholder="Tell us your style preferences or any special requests..."
-                      className="w-full px-4 py-3 rounded-xl border border-neutral-200 focus:border-violet-400 focus:outline-none text-sm bg-white transition-colors resize-none"
-                    />
-                  </div>
-                  <button
-                    type="submit"
-                    className="w-full bg-violet-600 hover:bg-violet-700 text-white py-4 rounded-xl font-semibold text-sm transition-all inline-flex items-center justify-center gap-2"
-                  >
-                    Send Message <ArrowRight size={16} />
-                  </button>
-                </form>
-              </div>
-            </Reveal>
+              </Reveal>
+            ))}
           </div>
         </div>
       </section>
-    </>
+
+      {/* Contact info + form */}
+      <section className="py-20 bg-white">
+        <div className="max-w-6xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-14">
+          {/* Info */}
+          <div>
+            <Reveal>
+              <h2 className="text-2xl font-bold text-neutral-900 mb-8">Find Us</h2>
+            </Reveal>
+            <div className="space-y-6">
+              <Reveal delay={60}>
+                <div className="flex items-start gap-4">
+                  <div className="w-10 h-10 bg-violet-50 rounded-lg flex items-center justify-center shrink-0">
+                    <MapPin size={18} className="text-violet-500" />
+                  </div>
+                  <div>
+                    <p className="font-semibold text-neutral-800 text-sm mb-1">Our Address</p>
+                    <p className="text-neutral-500 text-sm">G-12, Lot 10, Jalan Bukit Bintang,<br />55100 Kuala Lumpur</p>
+                  </div>
+                </div>
+              </Reveal>
+              <Reveal delay={120}>
+                <div className="flex items-start gap-4">
+                  <div className="w-10 h-10 bg-violet-50 rounded-lg flex items-center justify-center shrink-0">
+                    <Phone size={18} className="text-violet-500" />
+                  </div>
+                  <div>
+                    <p className="font-semibold text-neutral-800 text-sm mb-1">Phone</p>
+                    <p className="text-neutral-500 text-sm">+60 3-2145 6677</p>
+                  </div>
+                </div>
+              </Reveal>
+              <Reveal delay={180}>
+                <div className="flex items-start gap-4">
+                  <div className="w-10 h-10 bg-violet-50 rounded-lg flex items-center justify-center shrink-0">
+                    <Mail size={18} className="text-violet-500" />
+                  </div>
+                  <div>
+                    <p className="font-semibold text-neutral-800 text-sm mb-1">Email</p>
+                    <p className="text-neutral-500 text-sm">hello@velvetco.my</p>
+                  </div>
+                </div>
+              </Reveal>
+              <Reveal delay={240}>
+                <div className="flex items-start gap-4">
+                  <div className="w-10 h-10 bg-violet-50 rounded-lg flex items-center justify-center shrink-0">
+                    <Clock size={18} className="text-violet-500" />
+                  </div>
+                  <div>
+                    <p className="font-semibold text-neutral-800 text-sm mb-1">Opening Hours</p>
+                    <div className="text-neutral-500 text-sm space-y-0.5">
+                      <p>Mon – Fri: 10am – 9pm</p>
+                      <p>Saturday: 10am – 10pm</p>
+                      <p>Sunday: 11am – 8pm</p>
+                    </div>
+                  </div>
+                </div>
+              </Reveal>
+            </div>
+          </div>
+
+          {/* Form */}
+          <Reveal delay={100}>
+            <div className="bg-neutral-50 rounded-2xl p-8 border border-neutral-100">
+              {submitted ? (
+                <div className="text-center py-12">
+                  <div className="w-14 h-14 bg-violet-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <ShoppingBag size={24} className="text-violet-600" />
+                  </div>
+                  <h3 className="text-xl font-semibold text-neutral-800 mb-2">Message Sent!</h3>
+                  <p className="text-neutral-500 text-sm">We'll get back to you within one business day.</p>
+                </div>
+              ) : (
+                <>
+                  <h2 className="text-xl font-bold text-neutral-900 mb-6">Send Us a Message</h2>
+                  <form onSubmit={handleSubmit} className="space-y-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      <div>
+                        <label className="block text-xs font-medium text-neutral-600 mb-1.5">Full Name</label>
+                        <input
+                          type="text" name="name" required value={form.name} onChange={handleChange}
+                          className="w-full px-4 py-2.5 rounded-lg border border-neutral-200 text-sm focus:outline-none focus:border-violet-400 bg-white transition-colors"
+                          placeholder="Your name"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-xs font-medium text-neutral-600 mb-1.5">Email</label>
+                        <input
+                          type="email" name="email" required value={form.email} onChange={handleChange}
+                          className="w-full px-4 py-2.5 rounded-lg border border-neutral-200 text-sm focus:outline-none focus:border-violet-400 bg-white transition-colors"
+                          placeholder="you@email.com"
+                        />
+                      </div>
+                    </div>
+                    <div>
+                      <label className="block text-xs font-medium text-neutral-600 mb-1.5">Phone (optional)</label>
+                      <input
+                        type="tel" name="phone" value={form.phone} onChange={handleChange}
+                        className="w-full px-4 py-2.5 rounded-lg border border-neutral-200 text-sm focus:outline-none focus:border-violet-400 bg-white transition-colors"
+                        placeholder="+60 1X-XXX XXXX"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-medium text-neutral-600 mb-1.5">I'm interested in</label>
+                      <select
+                        name="service" value={form.service} onChange={handleChange}
+                        className="w-full px-4 py-2.5 rounded-lg border border-neutral-200 text-sm focus:outline-none focus:border-violet-400 bg-white transition-colors"
+                      >
+                        <option value="">Select a service</option>
+                        <option>Ready-to-Wear</option>
+                        <option>Custom Order</option>
+                        <option>Alteration</option>
+                        <option>Accessories</option>
+                        <option>Seasonal Collection</option>
+                        <option>Personal Styling</option>
+                        <option>Gift Wrapping</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label className="block text-xs font-medium text-neutral-600 mb-1.5">Message</label>
+                      <textarea
+                        name="message" rows={4} value={form.message} onChange={handleChange}
+                        className="w-full px-4 py-2.5 rounded-lg border border-neutral-200 text-sm focus:outline-none focus:border-violet-400 bg-white transition-colors resize-none"
+                        placeholder="Tell us how we can help…"
+                      />
+                    </div>
+                    <button
+                      type="submit"
+                      className="w-full py-3 bg-violet-600 hover:bg-violet-700 text-white font-medium rounded-lg text-sm transition-colors"
+                    >
+                      Send Message
+                    </button>
+                  </form>
+                </>
+              )}
+            </div>
+          </Reveal>
+        </div>
+      </section>
+    </div>
   );
 }
