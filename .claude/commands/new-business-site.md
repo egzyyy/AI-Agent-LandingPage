@@ -56,7 +56,7 @@ If `color`, `font`, or `logo` were not supplied by the user, derive them now fro
 | salon | rose | Playfair Display | serif | scissors |
 | clinic | sky | DM Sans | sans-serif | heart-pulse |
 | restaurant | amber | Playfair Display | serif | utensils |
-| boutique | violet | Lora | serif | shopping-bag |
+| boutique | violet | Playfair Display | serif | shopping-bag |
 | gym | orange | Outfit | sans-serif | dumbbell |
 | cafe | amber | DM Sans | sans-serif | coffee |
 

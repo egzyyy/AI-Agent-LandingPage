@@ -2,7 +2,7 @@ import { useRef, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ChevronDown, ChevronRight, MessageCircle } from 'lucide-react';
 
-const font = { fontFamily: '"Lora", serif' };
+const font = { fontFamily: '"Playfair Display", serif' };
 
 function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
   const ref = useRef<HTMLDivElement>(null);

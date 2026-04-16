@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { ShoppingBag, Menu, X, Instagram, Facebook, Mail, Phone, MapPin } from 'lucide-react';
 
-const font = { fontFamily: '"Lora", serif' };
+const font = { fontFamily: '"Playfair Display", serif' };
 
 const navLinks = [
   { label: 'Home',     to: '/velvet-co' },
