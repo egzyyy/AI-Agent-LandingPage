@@ -18,6 +18,9 @@ import TestProjectContact from './pages/testproject/Contact';
 // Bloom Salon business site
 import BloomSalonBusinessSite from './pages/bloom-salon/BusinessSite';
 
+// Mira Clinic business site
+import MiraClinicBusinessSite from './pages/mira-clinic/BusinessSite';
+
 function App() {
   return (
     <Router>
@@ -40,6 +43,9 @@ function App() {
 
         {/* Bloom Salon business site */}
         <Route path="/bloom-salon" element={<BloomSalonBusinessSite />} />
+
+        {/* Mira Clinic business site */}
+        <Route path="/mira-clinic" element={<MiraClinicBusinessSite />} />
       </Routes>
     </Router>
   );
