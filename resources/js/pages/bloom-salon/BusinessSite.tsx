@@ -65,7 +65,7 @@ export default function BloomSalonBusinessSite() {
             <div className="w-8 h-8 rounded-lg bg-rose-600 flex items-center justify-center">
               <Scissors size={15} className="text-white" />
             </div>
-            <span className={`font-bold text-base tracking-tight transition-colors ${scrolled ? 'text-black' : 'text-white'}`}>
+            <span className="font-bold text-base tracking-tight text-black">
               Bloom <span className="text-rose-400">Salon</span>
             </span>
           </div>
@@ -77,57 +77,56 @@ export default function BloomSalonBusinessSite() {
         </div>
       </header>
 
-      {/* ── Hero ── */}
-      <section className="relative min-h-screen flex items-end pb-20 overflow-hidden">
-        <img
-          src="https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&w=1800&q=80"
-          alt="Bloom Salon interior"
-          className="absolute inset-0 w-full h-full object-cover"
-        />
-        <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/30 to-black/10" />
-        <div className="relative max-w-7xl mx-auto px-6 lg:px-8 w-full">
-          <Reveal>
-            <span className="inline-block bg-rose-600 text-white text-xs font-semibold uppercase tracking-widest px-4 py-1.5 rounded-full mb-6">
-              Est. 2016 · Bangsar, KL
-            </span>
-            <h1 className="text-6xl md:text-8xl font-black tracking-tighter text-white leading-none mb-6" style={font}>
-              Beauty &amp; Care,<br />
-              <em className="text-rose-400 not-italic">Redefined.</em>
-            </h1>
-            <p className="text-white/70 text-lg max-w-xl mb-10 leading-relaxed">
-              Experience premium hair and beauty treatments in a relaxing environment. From haircuts to facials, we take care of everything for you.
-            </p>
-            <div className="flex flex-wrap gap-4">
-              <a href="#contact">
-                <button className="bg-rose-600 hover:bg-rose-700 text-white px-8 py-4 rounded-full font-medium transition-all flex items-center gap-2 text-sm">
-                  Book Appointment <ArrowRight size={16} />
-                </button>
-              </a>
-              <a href="#services">
-                <button className="bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/30 text-white px-8 py-4 rounded-full font-medium transition-all text-sm">
-                  View Services
-                </button>
-              </a>
-            </div>
-          </Reveal>
-        </div>
-
-        {/* Social proof pill */}
-        <div className="absolute bottom-8 right-8 hidden md:block">
-        <div className="bg-white rounded-2xl shadow-lg px-5 py-4 flex items-center gap-3">
-          <div className="flex -space-x-2">
-            {['photo-1494790108377-be9c29b29330', 'photo-1438761681033-6461ffad8d80', 'photo-1534528741775-53994a69daeb'].map((id, i) => (
-              <img key={i} src={`https://images.unsplash.com/${id}?auto=format&fit=crop&w=40&h=40&q=80`}
-                className="w-8 h-8 rounded-full border-2 border-white object-cover" alt="client" />
-            ))}
-          </div>
-          <div>
-            <div className="flex gap-0.5 mb-0.5">
-              {[...Array(5)].map((_, i) => <Star key={i} size={11} className="fill-amber-400 text-amber-400" />)}
-            </div>
-            <p className="text-xs font-semibold text-black">500+ happy clients</p>
+      {/* ── Hero B — Split ── */}
+      <section className="min-h-screen grid lg:grid-cols-2">
+        {/* Left — white text panel */}
+        <div className="bg-white flex items-center px-10 lg:px-16 py-24 order-2 lg:order-1">
+          <div className="max-w-lg w-full">
+            <Reveal>
+              <span className="inline-block bg-rose-600 text-white text-xs font-semibold uppercase tracking-widest px-4 py-1.5 rounded-full mb-6">
+                ✂️ Est. 2016 · Bangsar, KL
+              </span>
+              <h1 className="text-5xl md:text-6xl font-black tracking-tight text-black leading-tight mb-6" style={font}>
+                Beauty &amp; Care,<br /><span className="text-rose-600">Redefined.</span>
+              </h1>
+              <p className="text-neutral-500 text-lg mb-10 leading-relaxed">
+                Experience premium hair and beauty treatments in a relaxing environment. From haircuts to facials, we take care of everything for you.
+              </p>
+              <div className="flex flex-wrap gap-4 mb-10">
+                <a href="#contact">
+                  <button className="bg-rose-600 hover:bg-rose-700 text-white px-8 py-4 rounded-full font-medium transition-all flex items-center gap-2 text-sm">
+                    Book Appointment <ArrowRight size={16} />
+                  </button>
+                </a>
+                <a href="#services">
+                  <button className="bg-white border-2 border-neutral-200 hover:border-rose-300 text-black px-8 py-4 rounded-full font-medium transition-all text-sm">
+                    View Services
+                  </button>
+                </a>
+              </div>
+              <div className="inline-flex items-center gap-3 bg-neutral-50 border border-neutral-100 rounded-2xl px-5 py-3">
+                <div className="flex -space-x-2">
+                  {['photo-1438761681033-6461ffad8d80', 'photo-1534528741775-53994a69daeb', 'photo-1494790108377-be9c29b29330'].map((p, i) => (
+                    <img key={i} src={`https://images.unsplash.com/${p}?auto=format&fit=crop&w=40&h=40&q=80`} alt="" className="w-8 h-8 rounded-full border-2 border-white object-cover" />
+                  ))}
+                </div>
+                <div>
+                  <div className="flex gap-0.5 mb-0.5">
+                    {[...Array(5)].map((_, i) => <Star key={i} size={11} className="fill-amber-400 text-amber-400" />)}
+                  </div>
+                  <p className="text-xs font-semibold text-black">500+ Happy Clients</p>
+                </div>
+              </div>
+            </Reveal>
           </div>
         </div>
+        {/* Right — full-height image */}
+        <div className="relative min-h-[50vh] lg:min-h-screen order-1 lg:order-2">
+          <img
+            src="https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&w=1800&q=80"
+            alt="Bloom Salon interior"
+            className="absolute inset-0 w-full h-full object-cover"
+          />
         </div>
       </section>
 
@@ -254,49 +253,46 @@ export default function BloomSalonBusinessSite() {
         </div>
       </section>
 
-      {/* ── Services ── */}
+      {/* ── Services B — 3-column card grid ── */}
       <section id="services" className="py-24 lg:py-32 bg-neutral-50">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="flex flex-col lg:flex-row gap-16 items-start">
-            <div className="w-full lg:w-5/12 lg:sticky lg:top-24">
-              <Reveal direction="right">
-                <p className="text-rose-600 text-sm font-semibold uppercase tracking-widest mb-3">What We Offer</p>
-                <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-6" style={font}>Services &amp; Pricing</h2>
-                <p className="text-neutral-500 mb-8 leading-relaxed text-sm">
-                  Transparent pricing, no hidden fees. Every treatment is performed by a certified specialist using premium products.
-                </p>
-                <img
-                  src="https://images.unsplash.com/photo-1595163516014-3a9a4abb0b25?auto=format&fit=crop&w=800&q=80"
-                  alt="Hair styling services"
-                  className="w-full h-72 object-cover rounded-2xl"
-                />
-              </Reveal>
-            </div>
-            <div className="w-full lg:w-7/12">
-              <Reveal direction="left" delay={0.1}>
-                <div className="bg-white rounded-3xl p-8 border border-neutral-100 shadow-sm">
-                  {[
-                    { name: 'Hair Cut', desc: 'Wash, cut & blow dry', price: 'RM 60' },
-                    { name: 'Hair Colour', desc: 'Full colour + treatment', price: 'RM 150' },
-                    { name: 'Facial Treatment', desc: '60-minute deep cleanse', price: 'RM 120' },
-                    { name: 'Manicure', desc: 'Classic manicure + polish', price: 'RM 50' },
-                    { name: 'Pedicure', desc: 'Relaxing foot treatment', price: 'RM 60' },
-                    { name: 'Bridal Makeup', desc: 'Full glam + trial session', price: 'RM 350' },
-                  ].map((service, i) => (
-                    <div key={i} className="flex items-center gap-4 py-5 border-b border-neutral-100 last:border-b-0 group cursor-pointer hover:bg-rose-50/40 -mx-4 px-4 rounded-xl transition-colors">
-                      <div className="w-10 h-10 rounded-full bg-rose-50 flex items-center justify-center shrink-0 group-hover:bg-rose-100 transition-colors">
-                        <Scissors size={14} className="text-rose-600" />
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <p className="font-semibold text-sm text-black">{service.name}</p>
-                        <p className="text-xs text-neutral-400 mt-0.5">{service.desc}</p>
-                      </div>
-                      <span className="font-bold text-black text-sm whitespace-nowrap">{service.price}</span>
-                    </div>
-                  ))}
+          <Reveal className="text-center mb-12">
+            <p className="text-rose-600 text-sm font-semibold uppercase tracking-widest mb-3">What We Offer</p>
+            <h2 className="text-4xl font-extrabold tracking-tight mb-4" style={font}>Services &amp; Pricing</h2>
+            <p className="text-neutral-500 max-w-xl mx-auto text-sm leading-relaxed">
+              Transparent pricing, no hidden fees. Every treatment is performed by a certified specialist using premium products.
+            </p>
+          </Reveal>
+          <Reveal>
+            <img
+              src="https://images.unsplash.com/photo-1595163516014-3a9a4abb0b25?auto=format&fit=crop&w=800&q=80"
+              alt="Bloom Salon services"
+              className="w-full h-56 object-cover rounded-2xl mb-16"
+            />
+          </Reveal>
+          <div className="grid md:grid-cols-3 gap-6">
+            {[
+              { name: 'Hair Cut', desc: 'Wash, cut & blow dry', price: 'RM 60' },
+              { name: 'Hair Colour', desc: 'Full colour + treatment', price: 'RM 150' },
+              { name: 'Facial Treatment', desc: '60-min deep cleanse', price: 'RM 120' },
+              { name: 'Manicure', desc: 'Classic manicure + polish', price: 'RM 50' },
+              { name: 'Pedicure', desc: 'Relaxing foot treatment', price: 'RM 60' },
+              { name: 'Bridal Makeup', desc: 'Full glam + trial session', price: 'RM 350' },
+            ].map((s, i) => (
+              <Reveal key={i} delay={i * 0.08}>
+                <div className="bg-white rounded-3xl p-8 border border-neutral-100 hover:border-rose-200 hover:shadow-lg transition-all flex flex-col">
+                  <div className="w-12 h-12 rounded-2xl bg-rose-50 text-rose-600 flex items-center justify-center mb-5">
+                    <Scissors size={20} />
+                  </div>
+                  <h3 className="font-bold text-base mb-2" style={font}>{s.name}</h3>
+                  <p className="text-neutral-500 text-sm mb-5 flex-1">{s.desc}</p>
+                  <p className="text-rose-600 font-extrabold text-2xl mb-5">{s.price}</p>
+                  <button className="w-full bg-rose-600 hover:bg-rose-700 text-white py-3 rounded-xl text-sm font-semibold transition-all">
+                    Book Appointment
+                  </button>
                 </div>
               </Reveal>
-            </div>
+            ))}
           </div>
         </div>
       </section>

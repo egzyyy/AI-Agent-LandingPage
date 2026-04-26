@@ -22,3 +22,6 @@ Route::get('/nutrition/status', [NutritionController::class, 'status']);
 
 // AI Website Generator
 Route::post('/generate-website', [WebsiteGeneratorController::class, 'generate']);
+
+// AI Image Generator (Gemini Imagen 3)
+Route::post('/generate-image', [\App\Http\Controllers\ImageGeneratorController::class, 'generate']);

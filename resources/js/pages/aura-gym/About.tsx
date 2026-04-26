@@ -99,22 +99,23 @@ export default function AuraGymAbout() {
         </div>
       </section>
 
-      {/* ── Mission / Vision / Values ── */}
-      <section className="py-20 bg-neutral-50">
+      {/* ── Mission / Vision / Values — Variant B: Dark Strip ── */}
+      <section className="py-20 bg-neutral-900">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <Reveal className="mb-12">
-            <p className="text-amber-600 text-sm font-semibold uppercase tracking-widest mb-3">What Drives Us</p>
-            <h2 className="text-4xl font-extrabold tracking-tight" style={font}>Our Core Beliefs</h2>
+          <Reveal className="text-center mb-12">
+            <p className="text-amber-400 text-sm font-semibold uppercase tracking-widest mb-3">What Drives Us</p>
+            <h2 className="text-4xl font-extrabold tracking-tight text-white" style={font}>Our Core Beliefs</h2>
           </Reveal>
           <div className="grid md:grid-cols-3 gap-6">
             {mvv.map((item, i) => (
               <Reveal key={i} delay={i * 0.1}>
-                <div className="bg-white rounded-3xl p-10 border border-neutral-100 hover:border-amber-200 transition-all hover:shadow-lg">
-                  <span className="inline-block text-xs font-bold text-amber-600 uppercase tracking-widest mb-4 bg-amber-50 px-3 py-1 rounded-full">
+                <div className="bg-white/4 border border-white/10 rounded-3xl p-8 relative overflow-hidden group hover:bg-white/7 transition-all">
+                  <div className="absolute top-0 left-0 right-0 h-1 bg-amber-500 rounded-t-3xl" />
+                  <span className="inline-block text-xs font-bold text-amber-400 uppercase tracking-widest mb-5 bg-amber-500/10 px-3 py-1 rounded-full border border-amber-500/20">
                     {item.label}
                   </span>
-                  <h3 className="text-xl font-bold mb-4 mt-2" style={font}>{item.heading}</h3>
-                  <p className="text-neutral-500 text-sm leading-relaxed">{item.text}</p>
+                  <h3 className="text-xl font-bold mb-3 text-white" style={font}>{item.heading}</h3>
+                  <p className="text-white/50 text-sm leading-relaxed">{item.text}</p>
                 </div>
               </Reveal>
             ))}

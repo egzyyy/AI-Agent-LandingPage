@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import type { ReactNode } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
-import { Menu, X, MapPin, Phone, Mail, Dumbbell } from 'lucide-react';
+import { Menu, X, MapPin, Phone, Mail, HeartPulse } from 'lucide-react';
 
 function InstagramIcon({ size = 16 }: { size?: number }) {
   return (
@@ -22,9 +22,9 @@ function FacebookIcon({ size = 16 }: { size?: number }) {
   );
 }
 
-const font = { fontFamily: '"Outfit", sans-serif' };
+const font = { fontFamily: '"DM Sans", sans-serif' };
 
-export default function AuraGymLayout({ children }: { children: ReactNode }) {
+export default function SereneClinicLayout({ children }: { children: ReactNode }) {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const location = useLocation();
@@ -36,11 +36,11 @@ export default function AuraGymLayout({ children }: { children: ReactNode }) {
   }, []);
 
   const navLinks = [
-    { label: 'Home', path: '/aura-gym' },
-    { label: 'About', path: '/aura-gym/about' },
-    { label: 'Services', path: '/aura-gym/services' },
-    { label: 'FAQ', path: '/aura-gym/faq' },
-    { label: 'Contact', path: '/aura-gym/contact' },
+    { label: 'Home', path: '/serene-clinic' },
+    { label: 'About', path: '/serene-clinic/about' },
+    { label: 'Services', path: '/serene-clinic/services' },
+    { label: 'FAQ', path: '/serene-clinic/faq' },
+    { label: 'Contact', path: '/serene-clinic/contact' },
   ];
 
   return (
@@ -50,50 +50,41 @@ export default function AuraGymLayout({ children }: { children: ReactNode }) {
       <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-white border-b border-neutral-100 ${scrolled ? 'shadow-sm' : ''}`}>
         <div className="max-w-7xl mx-auto px-6 lg:px-8 py-4 flex items-center justify-between">
 
-          {/* Logo */}
-          <Link to="/aura-gym" className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-lg bg-amber-600 flex items-center justify-center">
-              <Dumbbell size={15} className="text-white" />
+          <Link to="/serene-clinic" className="flex items-center gap-2.5">
+            <div className="w-8 h-8 rounded-lg bg-sky-600 flex items-center justify-center">
+              <HeartPulse size={15} className="text-white" />
             </div>
-            <span className="font-bold text-base tracking-tight" style={font}>
-              Aura <span className="text-amber-600">Gym</span>
+            <span className="font-bold text-base tracking-tight">
+              Serene <span className="text-sky-600">Clinic</span>
             </span>
           </Link>
 
-          {/* Desktop nav */}
           <nav className="hidden md:flex items-center gap-1">
             {navLinks.map(link => (
-              <Link
-                key={link.path}
-                to={link.path}
+              <Link key={link.path} to={link.path}
                 className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
                   location.pathname === link.path
-                    ? 'text-amber-600 bg-amber-50'
-                    : 'text-neutral-500 hover:text-amber-600 hover:bg-neutral-50'
-                }`}
-              >
+                    ? 'text-sky-600 bg-sky-50'
+                    : 'text-neutral-500 hover:text-sky-600 hover:bg-neutral-50'
+                }`}>
                 {link.label}
               </Link>
             ))}
           </nav>
 
-          {/* CTA + hamburger */}
           <div className="flex items-center gap-3">
-            <Link to="/aura-gym/contact" className="hidden md:block">
-              <button className="bg-amber-600 hover:bg-amber-700 text-white px-5 py-2.5 rounded-full text-sm font-semibold transition-all">
-                Start Free Trial
+            <Link to="/serene-clinic/contact" className="hidden md:block">
+              <button className="bg-sky-600 hover:bg-sky-700 text-white px-5 py-2.5 rounded-full text-sm font-semibold transition-all">
+                Book Consultation
               </button>
             </Link>
-            <button
-              onClick={() => setMobileOpen(!mobileOpen)}
-              className="md:hidden p-2 rounded-lg hover:bg-neutral-100 transition-colors"
-            >
+            <button onClick={() => setMobileOpen(!mobileOpen)}
+              className="md:hidden p-2 rounded-lg hover:bg-neutral-100 transition-colors">
               {mobileOpen ? <X size={20} /> : <Menu size={20} />}
             </button>
           </div>
         </div>
 
-        {/* Mobile menu */}
         <AnimatePresence>
           {mobileOpen && (
             <motion.div
@@ -105,22 +96,18 @@ export default function AuraGymLayout({ children }: { children: ReactNode }) {
             >
               <div className="px-6 py-4 flex flex-col gap-1">
                 {navLinks.map(link => (
-                  <Link
-                    key={link.path}
-                    to={link.path}
-                    onClick={() => setMobileOpen(false)}
+                  <Link key={link.path} to={link.path} onClick={() => setMobileOpen(false)}
                     className={`px-4 py-3 rounded-xl text-sm font-medium transition-colors ${
                       location.pathname === link.path
-                        ? 'text-amber-600 bg-amber-50'
-                        : 'text-neutral-600 hover:text-amber-600 hover:bg-neutral-50'
-                    }`}
-                  >
+                        ? 'text-sky-600 bg-sky-50'
+                        : 'text-neutral-600 hover:text-sky-600 hover:bg-neutral-50'
+                    }`}>
                     {link.label}
                   </Link>
                 ))}
-                <Link to="/aura-gym/contact" onClick={() => setMobileOpen(false)}>
-                  <button className="w-full mt-2 bg-amber-600 hover:bg-amber-700 text-white py-3 rounded-xl text-sm font-semibold transition-all">
-                    Start Free Trial
+                <Link to="/serene-clinic/contact" onClick={() => setMobileOpen(false)}>
+                  <button className="w-full mt-2 bg-sky-600 hover:bg-sky-700 text-white py-3 rounded-xl text-sm font-semibold transition-all">
+                    Book Consultation
                   </button>
                 </Link>
               </div>
@@ -129,7 +116,6 @@ export default function AuraGymLayout({ children }: { children: ReactNode }) {
         </AnimatePresence>
       </header>
 
-      {/* Page content — padded for fixed navbar */}
       <main className="pt-18">{children}</main>
 
       {/* ── Footer ── */}
@@ -138,13 +124,13 @@ export default function AuraGymLayout({ children }: { children: ReactNode }) {
           <div className="grid grid-cols-1 md:grid-cols-4 gap-12 pb-12 border-b border-neutral-800">
             <div className="md:col-span-2">
               <div className="flex items-center gap-2.5 mb-4">
-                <div className="w-8 h-8 rounded-lg bg-amber-600 flex items-center justify-center">
-                  <Dumbbell size={14} className="text-white" />
+                <div className="w-8 h-8 rounded-lg bg-sky-600 flex items-center justify-center">
+                  <HeartPulse size={14} className="text-white" />
                 </div>
-                <span className="text-white font-bold" style={font}>Aura Gym</span>
+                <span className="text-white font-bold">Serene Clinic</span>
               </div>
               <p className="text-sm leading-relaxed max-w-xs mb-6">
-                Mont Kiara's most results-driven fitness community. State-of-the-art equipment, expert coaches, and a culture built on progress.
+                Petaling Jaya's trusted medical centre — compassionate, evidence-based healthcare for every stage of life.
               </p>
               <div className="flex gap-3">
                 <button className="w-9 h-9 rounded-full bg-neutral-800 hover:bg-neutral-700 flex items-center justify-center transition-all text-neutral-400 hover:text-white">
@@ -158,31 +144,31 @@ export default function AuraGymLayout({ children }: { children: ReactNode }) {
             <div>
               <p className="text-white text-xs font-semibold uppercase tracking-widest mb-5">Hours</p>
               <ul className="space-y-2 text-sm">
-                <li className="flex justify-between"><span>Mon – Fri</span><span className="text-neutral-300">6am – 10pm</span></li>
-                <li className="flex justify-between"><span>Saturday</span><span className="text-neutral-300">7am – 9pm</span></li>
-                <li className="flex justify-between"><span>Sunday</span><span className="text-neutral-300">8am – 6pm</span></li>
+                <li className="flex justify-between"><span>Mon – Fri</span><span className="text-neutral-300">8am – 6pm</span></li>
+                <li className="flex justify-between"><span>Saturday</span><span className="text-neutral-300">8am – 1pm</span></li>
+                <li className="flex justify-between"><span>Sunday</span><span className="text-neutral-300">Closed</span></li>
               </ul>
             </div>
             <div>
               <p className="text-white text-xs font-semibold uppercase tracking-widest mb-5">Contact</p>
               <ul className="space-y-3 text-sm">
                 <li className="flex items-start gap-2">
-                  <MapPin size={13} className="text-amber-500 mt-0.5 shrink-0" />
-                  <span>23, Jalan Kiara 5, Mont Kiara, 50480 Kuala Lumpur</span>
+                  <MapPin size={13} className="text-sky-500 mt-0.5 shrink-0" />
+                  <span>15, Jalan SS 2/72, Petaling Jaya, 47300 Selangor</span>
                 </li>
                 <li className="flex items-center gap-2">
-                  <Phone size={13} className="text-amber-500 shrink-0" />
-                  <span>+60 3-6211 4488</span>
+                  <Phone size={13} className="text-sky-500 shrink-0" />
+                  <span>+60 3-7890 1234</span>
                 </li>
                 <li className="flex items-center gap-2">
-                  <Mail size={13} className="text-amber-500 shrink-0" />
-                  <span>hello@aura-gym.com.my</span>
+                  <Mail size={13} className="text-sky-500 shrink-0" />
+                  <span>hello@serene-clinic.com.my</span>
                 </li>
               </ul>
             </div>
           </div>
           <div className="pt-8 flex flex-col md:flex-row justify-between items-center gap-3 text-xs">
-            <p>© {new Date().getFullYear()} Aura Gym. All Rights Reserved.</p>
+            <p>© {new Date().getFullYear()} Serene Clinic. All Rights Reserved.</p>
             <div className="flex gap-5">
               <button className="hover:text-white transition-colors">Privacy Policy</button>
               <button className="hover:text-white transition-colors">Terms of Service</button>

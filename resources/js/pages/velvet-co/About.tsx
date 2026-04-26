@@ -8,7 +8,7 @@ function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: nu
   const ref = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(false);
   useEffect(() => {
-    const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) { setVisible(true); obs.disconnect(); } }, { threshold: 0.15 });
+    const obs = new IntersectionObserver(([e]) => { if (e?.isIntersecting) { setVisible(true); obs.disconnect(); } }, { threshold: 0.15 });
     if (ref.current) obs.observe(ref.current);
     return () => obs.disconnect();
   }, []);
@@ -35,7 +35,7 @@ const milestones = [
 
 export default function VelvetCoAbout() {
   return (
-    <div style={font}>
+    <>
       {/* Page header */}
       <section className="bg-neutral-50 border-b border-neutral-100 py-14">
         <div className="max-w-6xl mx-auto px-6">
@@ -46,38 +46,48 @@ export default function VelvetCoAbout() {
         </div>
       </section>
 
-      {/* Story */}
+      {/* Story — About C: Text left + 2×2 stat cards right, image strip below */}
       <section className="py-20 bg-white">
-        <div className="max-w-6xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-14 items-center">
+        <div className="max-w-6xl mx-auto px-6">
+          <div className="grid md:grid-cols-2 gap-14 items-start mb-12">
+            <div>
+              <Reveal>
+                <p className="text-xs font-semibold uppercase tracking-widest text-violet-600 mb-3">Our Story</p>
+                <h2 className="text-4xl md:text-5xl font-bold text-neutral-900 mb-6" style={font}>Fashion With Purpose</h2>
+                <p className="text-neutral-600 leading-relaxed mb-4">
+                  Velvet &amp; Co opened in 2018 as a curated concept store in Bukit Bintang, founded by Sofia Yusof with a mission to make well-crafted fashion accessible to every woman.
+                </p>
+                <p className="text-neutral-600 leading-relaxed mb-6">
+                  We believe getting dressed should feel joyful — not overwhelming. Our stylists are here to help you find pieces that truly feel like you.
+                </p>
+                <Link to="/velvet-co/contact" className="inline-flex items-center gap-2 px-5 py-2.5 bg-violet-600 hover:bg-violet-700 text-white text-sm font-medium rounded-full transition-colors">
+                  Book a Styling Session <ChevronRight size={15} />
+                </Link>
+              </Reveal>
+            </div>
+            <div className="grid grid-cols-2 gap-4">
+              {[
+                { val: '2,000+', label: 'Pieces' },
+                { val: '40+',    label: 'Designers' },
+                { val: '5',      label: 'Cities' },
+                { val: '8',      label: 'Years Open' },
+              ].map((s, i) => (
+                <Reveal key={i} delay={i * 80}>
+                  <div className={`rounded-2xl p-6 ${i === 0 ? 'bg-violet-600 text-white' : 'bg-neutral-50 border border-neutral-100'}`}>
+                    <p className={`text-3xl font-black mb-1 ${i === 0 ? 'text-white' : 'text-violet-600'}`}>{s.val}</p>
+                    <p className={`text-xs font-semibold uppercase tracking-wider ${i === 0 ? 'text-violet-100' : 'text-neutral-500'}`}>{s.label}</p>
+                  </div>
+                </Reveal>
+              ))}
+            </div>
+          </div>
           <Reveal>
             <img
-              src="https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=900&q=80"
+              src="https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=1200&q=80"
               alt="Velvet & Co store"
-              className="rounded-2xl w-full aspect-3/4 object-cover shadow-md"
+              className="w-full h-48 object-cover rounded-2xl"
             />
           </Reveal>
-          <div className="space-y-6">
-            <Reveal delay={100}>
-              <p className="text-neutral-600 leading-relaxed">
-                Velvet &amp; Co opened in 2018 as a curated concept store in Bukit Bintang, founded by Sofia Yusof with a mission to make well-crafted fashion accessible to every woman. What started as a pop-up grew into a permanent boutique within six months.
-              </p>
-            </Reveal>
-            <Reveal delay={160}>
-              <p className="text-neutral-600 leading-relaxed">
-                Today, we carry over 2,000 pieces from 40+ independent designers across Asia, alongside our own custom-order label. We've expanded to five cities, always keeping craftsmanship and personal style at the centre.
-              </p>
-            </Reveal>
-            <Reveal delay={220}>
-              <p className="text-neutral-600 leading-relaxed">
-                We believe getting dressed should feel joyful — not overwhelming. Our stylists are here to help you find pieces that truly feel like you.
-              </p>
-            </Reveal>
-            <Reveal delay={280}>
-              <Link to="/velvet-co/contact" className="inline-flex items-center gap-2 px-5 py-2.5 bg-violet-600 hover:bg-violet-700 text-white text-sm font-medium rounded-md transition-colors mt-2">
-                Book a Styling Session <ChevronRight size={15} />
-              </Link>
-            </Reveal>
-          </div>
         </div>
       </section>
 
@@ -102,25 +112,46 @@ export default function VelvetCoAbout() {
         </div>
       </section>
 
-      {/* Mission / Vision / Values */}
-      <section className="py-20 bg-white">
+      {/* Mission / Vision / Values — Variant E: Featured Mission + Stacked V+V */}
+      <section className="py-20 bg-neutral-50">
         <div className="max-w-6xl mx-auto px-6">
           <Reveal>
-            <h2 className="text-3xl font-bold text-neutral-900 mb-10">What We Stand For</h2>
+            <div className="mb-12">
+              <p className="text-xs font-semibold uppercase tracking-widest text-violet-600 mb-3">What Drives Us</p>
+              <h2 className="text-3xl font-bold text-neutral-900" style={font}>Our Core Beliefs</h2>
+            </div>
           </Reveal>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {[
-              { label: 'Mission', text: 'Help every customer discover their signature style.' },
-              { label: 'Vision',  text: 'Fashion that is personal, sustainable, and joyful.' },
-              { label: 'Values',  text: 'Craftsmanship · Inclusivity · Originality' },
-            ].map((item, i) => (
-              <Reveal key={i} delay={i * 100}>
-                <div className="p-6 bg-neutral-50 rounded-xl border border-neutral-100 hover:border-violet-200 transition-colors">
-                  <p className="text-xs font-bold uppercase tracking-widest text-violet-600 mb-3">{item.label}</p>
-                  <p className="text-neutral-700 leading-relaxed">{item.text}</p>
+          <div className="grid lg:grid-cols-2 gap-6">
+            {/* Left — featured mission card */}
+            <Reveal>
+              <div className="bg-violet-600 rounded-3xl p-10 flex flex-col justify-between text-white min-h-80">
+                <span className="inline-block text-xs font-bold text-violet-200 uppercase tracking-widest mb-6 bg-white/10 px-3 py-1 rounded-full self-start">Mission</span>
+                <div>
+                  <h3 className="text-3xl font-bold mb-4 leading-tight" style={font}>Discover Your Signature Style</h3>
+                  <p className="text-violet-100 text-sm leading-relaxed">Help every customer discover their signature style — through curated fashion that is personal, sustainable, and joyful.</p>
                 </div>
-              </Reveal>
-            ))}
+              </div>
+            </Reveal>
+            {/* Right — Vision + Values stacked */}
+            <div className="flex flex-col gap-6">
+              {[
+                { label: 'Vision',  heading: 'Fashion for Everyone', text: 'Fashion that is personal, sustainable, and joyful — for women at every stage of life.' },
+                { label: 'Values',  heading: 'Craftsmanship · Inclusivity · Originality', text: 'Three words that guide every piece we carry, every fitting session, and every interaction with our clients.' },
+              ].map((item, i) => (
+                <Reveal key={i} delay={i * 100}>
+                  <div className="bg-white rounded-3xl p-8 border border-neutral-100 hover:border-violet-200 hover:shadow-md transition-all flex items-start gap-5 flex-1">
+                    <div className="w-10 h-10 rounded-xl bg-violet-50 text-violet-600 flex items-center justify-center shrink-0 text-lg font-black">
+                      {i === 0 ? '👁' : '✦'}
+                    </div>
+                    <div>
+                      <span className="inline-block text-xs font-bold text-violet-600 uppercase tracking-widest mb-2 bg-violet-50 px-2 py-0.5 rounded-full">{item.label}</span>
+                      <h3 className="text-lg font-bold mb-2 text-black" style={font}>{item.heading}</h3>
+                      <p className="text-neutral-500 text-sm leading-relaxed">{item.text}</p>
+                    </div>
+                  </div>
+                </Reveal>
+              ))}
+            </div>
           </div>
         </div>
       </section>
@@ -164,6 +195,6 @@ export default function VelvetCoAbout() {
           </Reveal>
         </div>
       </section>
-    </div>
+    </>
   );
 }

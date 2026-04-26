@@ -16,6 +16,7 @@ Extract these named arguments from `$ARGUMENTS`:
 - `color` — Tailwind accent color (e.g. `emerald`, `rose`, `amber`, `sky`, `violet`) — **optional, auto-derived in Step 2.5**
 - `font` — Google Font for headings (e.g. `Playfair Display`, `Lora`, `Outfit`, `DM Sans`) — **optional, auto-derived in Step 2.5**
 - `logo` — Lucide React icon name in lowercase (e.g. `heart-pulse`, `scissors`, `utensils`) — **optional, auto-derived in Step 2.5**
+- `variant` — layout style for Hero / About / Services sections: `A` | `B` | `C` — **optional, auto-derived from industry in Step 2.8**
 
 Derive:
 - **slug**: kebab-case of `name` (e.g. `Mira Clinic` → `mira-clinic`)
@@ -61,6 +62,366 @@ If `color`, `font`, or `logo` were not supplied by the user, derive them now fro
 
 > `fontStack` is the CSS generic family appended in the heading font constant. Every file must use: `const font = { fontFamily: '"{font}", {fontStack}' };`
 > For `fontUrl` replace spaces with `+` (e.g. `DM Sans` → `DM+Sans`).
+
+---
+
+## Step 2.8 — Section Variants
+
+If `variant` was **not** supplied, auto-derive all six section variants from `industry`:
+
+| Industry | heroVariant | aboutVariant | servicesVariant | faqVariant | contactVariant | mvvVariant |
+|---|---|---|---|---|---|---|
+| salon | B | A | B | A | A | D |
+| clinic | B | A | A | A | A | A |
+| restaurant | A | B | B | A | A | C |
+| boutique | C | C | C | B | B | E |
+| gym | A | A | B | C | C | B |
+| cafe | A | B | B | A | B | D |
+
+If `variant` **is** supplied (A, B, or C), use it for **all six sections**.
+
+---
+
+### MVV Variant Reference
+
+Use `mvvVariant` for the Mission / Vision / Values section inside the About page.
+
+**MVV A — White pill cards** · neutral-100 border, pill badge, heading, description. Hover lifts shadow:
+```tsx
+<section className="py-20 bg-white">
+  <div className="max-w-7xl mx-auto px-6 lg:px-8">
+    <Reveal className="text-center mb-16">
+      <p className="text-{color}-600 text-sm font-semibold uppercase tracking-widest mb-3">What Drives Us</p>
+      <h2 className="text-4xl font-extrabold tracking-tight" style={font}>Our Core Beliefs</h2>
+    </Reveal>
+    <div className="grid md:grid-cols-3 gap-8">
+      {mvv.map((item, i) => (
+        <Reveal key={i} delay={i * 0.1}>
+          <div className="bg-white rounded-3xl p-10 border border-neutral-100 hover:border-{color}-200 transition-all hover:shadow-lg">
+            <span className="inline-block text-xs font-bold text-{color}-600 uppercase tracking-widest mb-4 bg-{color}-50 px-3 py-1 rounded-full">{item.label}</span>
+            <h3 className="text-xl font-bold mb-4 mt-2" style={font}>{item.heading}</h3>
+            <p className="text-neutral-500 text-sm leading-relaxed">{item.text}</p>
+          </div>
+        </Reveal>
+      ))}
+    </div>
+  </div>
+</section>
+```
+
+**MVV B — Dark strip with accent top border** · neutral-900 bg, white text, rose line on card top:
+```tsx
+<section className="py-20 bg-neutral-900">
+  <div className="max-w-7xl mx-auto px-6 lg:px-8">
+    <Reveal className="text-center mb-16">
+      <p className="text-{color}-400 text-sm font-semibold uppercase tracking-widest mb-3">What Drives Us</p>
+      <h2 className="text-4xl font-extrabold tracking-tight text-white" style={font}>Our Core Beliefs</h2>
+    </Reveal>
+    <div className="grid md:grid-cols-3 gap-6">
+      {mvv.map((item, i) => (
+        <Reveal key={i} delay={i * 0.1}>
+          <div className="bg-white/[0.04] border border-white/10 rounded-3xl p-8 relative overflow-hidden hover:bg-white/[0.07] transition-all">
+            <div className="absolute top-0 left-0 right-0 h-1 bg-{color}-500 rounded-t-3xl" />
+            <span className="inline-block text-xs font-bold text-{color}-400 uppercase tracking-widest mb-5 bg-{color}-500/10 px-3 py-1 rounded-full border border-{color}-500/20">{item.label}</span>
+            <h3 className="text-xl font-bold mb-3 text-white" style={font}>{item.heading}</h3>
+            <p className="text-white/50 text-sm leading-relaxed">{item.text}</p>
+          </div>
+        </Reveal>
+      ))}
+    </div>
+  </div>
+</section>
+```
+
+**MVV C — Large numbered rows** · stacked horizontal rows, giant faded number left, content right:
+```tsx
+<section className="py-20 bg-neutral-50">
+  <div className="max-w-7xl mx-auto px-6 lg:px-8">
+    <Reveal className="mb-12">
+      <p className="text-{color}-600 text-sm font-semibold uppercase tracking-widest mb-3">What Drives Us</p>
+      <h2 className="text-4xl font-extrabold tracking-tight" style={font}>Our Core Beliefs</h2>
+    </Reveal>
+    <div className="space-y-5">
+      {mvv.map((item, i) => (
+        <Reveal key={i} delay={i * 0.1}>
+          <div className="group bg-white rounded-2xl border border-neutral-100 hover:border-{color}-200 hover:shadow-md transition-all p-8 flex items-start gap-8">
+            <span className="text-6xl font-black text-{color}-100 group-hover:text-{color}-200 transition-colors leading-none shrink-0 select-none">
+              {String(i + 1).padStart(2, '0')}
+            </span>
+            <div className="flex-1 pt-1">
+              <span className="inline-block text-xs font-bold text-{color}-600 uppercase tracking-widest mb-3 bg-{color}-50 px-3 py-1 rounded-full">{item.label}</span>
+              <h3 className="text-xl font-bold mb-2" style={font}>{item.heading}</h3>
+              <p className="text-neutral-500 text-sm leading-relaxed max-w-2xl">{item.text}</p>
+            </div>
+          </div>
+        </Reveal>
+      ))}
+    </div>
+  </div>
+</section>
+```
+
+**MVV D — Icon cards, hover fills accent color** · 3-col centered, icon top, whole card turns accent on hover:
+```tsx
+<section className="py-20 bg-white">
+  <div className="max-w-7xl mx-auto px-6 lg:px-8">
+    <Reveal className="text-center mb-16">
+      <p className="text-{color}-600 text-sm font-semibold uppercase tracking-widest mb-3">What Drives Us</p>
+      <h2 className="text-4xl font-extrabold tracking-tight" style={font}>Our Core Beliefs</h2>
+    </Reveal>
+    <div className="grid md:grid-cols-3 gap-6">
+      {mvv.map((item, i) => (
+        <Reveal key={i} delay={i * 0.1}>
+          <div className="group text-center rounded-3xl p-10 border border-neutral-100 hover:bg-{color}-600 hover:border-{color}-600 transition-all duration-300">
+            <div className="w-14 h-14 rounded-2xl bg-{color}-50 group-hover:bg-white/20 text-{color}-600 group-hover:text-white flex items-center justify-center mx-auto mb-6 transition-all">
+              {item.icon} {/* Target / Eye / Heart from lucide-react */}
+            </div>
+            <span className="inline-block text-xs font-bold text-{color}-600 group-hover:text-{color}-200 uppercase tracking-widest mb-3 transition-colors">{item.label}</span>
+            <h3 className="text-xl font-bold mb-3 group-hover:text-white transition-colors" style={font}>{item.heading}</h3>
+            <p className="text-neutral-500 group-hover:text-white/70 text-sm leading-relaxed transition-colors">{item.text}</p>
+          </div>
+        </Reveal>
+      ))}
+    </div>
+  </div>
+</section>
+```
+Note: import `Target, Eye, Heart` from `lucide-react`. Assign `icon: <Target size={22} />` to Mission, `icon: <Eye size={22} />` to Vision, `icon: <Heart size={22} />` to Values in the mvv data array.
+
+**MVV E — Featured mission card + stacked vision/values** · mission fills large accent card left, V+V stack right:
+```tsx
+<section className="py-20 bg-neutral-50">
+  <div className="max-w-7xl mx-auto px-6 lg:px-8">
+    <Reveal className="mb-12">
+      <p className="text-{color}-600 text-sm font-semibold uppercase tracking-widest mb-3">What Drives Us</p>
+      <h2 className="text-4xl font-extrabold tracking-tight" style={font}>Our Core Beliefs</h2>
+    </Reveal>
+    <div className="grid lg:grid-cols-2 gap-6">
+      <Reveal direction="right">
+        <div className="bg-{color}-600 rounded-3xl p-10 flex flex-col justify-between text-white min-h-[320px]">
+          <span className="inline-block text-xs font-bold text-{color}-200 uppercase tracking-widest mb-6 bg-white/10 px-3 py-1 rounded-full self-start">{mvv[0].label}</span>
+          <div>
+            <h3 className="text-3xl font-black mb-4 leading-tight" style={font}>{mvv[0].heading}</h3>
+            <p className="text-{color}-100 text-sm leading-relaxed">{mvv[0].text}</p>
+          </div>
+        </div>
+      </Reveal>
+      <div className="flex flex-col gap-6">
+        {mvv.slice(1).map((item, i) => (
+          <Reveal key={i} direction="left" delay={i * 0.1}>
+            <div className="bg-white rounded-3xl p-8 border border-neutral-100 hover:border-{color}-200 hover:shadow-md transition-all flex items-start gap-5 flex-1">
+              <div className="w-10 h-10 rounded-xl bg-{color}-50 text-{color}-600 flex items-center justify-center shrink-0">{item.icon}</div>
+              <div>
+                <span className="inline-block text-xs font-bold text-{color}-600 uppercase tracking-widest mb-2 bg-{color}-50 px-2 py-0.5 rounded-full">{item.label}</span>
+                <h3 className="text-lg font-bold mb-2" style={font}>{item.heading}</h3>
+                <p className="text-neutral-500 text-sm leading-relaxed">{item.text}</p>
+              </div>
+            </div>
+          </Reveal>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+```
+
+If `variant` **is** supplied (A, B, or C), use it for **all six sections**.
+
+---
+
+### Hero Variants
+
+**Hero A — Cinematic** · full-screen image, dark gradient overlay, text anchored bottom-left:
+```tsx
+<section className="relative min-h-[calc(100vh-72px)] flex items-end pb-20 overflow-hidden">
+  <img src="/images/{slug}/hero.jpg" className="absolute inset-0 w-full h-full object-cover" />
+  <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/30 to-black/10" />
+  <div className="relative max-w-7xl mx-auto px-6 lg:px-8 w-full">
+    <Reveal>
+      <span className="inline-block bg-{color}-600 text-white text-xs font-semibold uppercase tracking-widest px-4 py-1.5 rounded-full mb-6">{badge}</span>
+      <h1 className="text-6xl md:text-8xl font-black tracking-tighter text-white leading-none mb-6" style={font}>
+        {line1}<br /><em className="text-{color}-400 not-italic">{line2}</em>
+      </h1>
+      <p className="text-white/70 text-lg max-w-xl mb-10 leading-relaxed">{subtext}</p>
+      <div className="flex flex-wrap gap-4">
+        {/* Primary CTA: Link to /{slug}/contact — bg-{color}-600 hover:bg-{color}-700 rounded-full px-8 py-4 */}
+        {/* Secondary: Link to /{slug}/services — bg-white/10 backdrop-blur-sm border border-white/30 text-white rounded-full px-8 py-4 */}
+      </div>
+    </Reveal>
+  </div>
+  {/* Social proof pill: absolute bottom-8 right-8 hidden md:block — bg-white rounded-2xl shadow-lg */}
+</section>
+```
+
+**Hero B — Split** · white left panel with all text, full-height image fills right half (no overlay):
+```tsx
+<section className="min-h-[calc(100vh-72px)] grid lg:grid-cols-2">
+  <div className="bg-white flex items-center px-10 lg:px-16 py-24 lg:py-0 order-2 lg:order-1">
+    <div className="max-w-lg w-full">
+      <span className="inline-block bg-{color}-600 text-white text-xs font-semibold uppercase tracking-widest px-4 py-1.5 rounded-full mb-6">{badge}</span>
+      <h1 className="text-5xl md:text-6xl font-black tracking-tight text-black leading-tight mb-6" style={font}>
+        {line1}<br /><span className="text-{color}-600">{line2}</span>
+      </h1>
+      <p className="text-neutral-500 text-lg mb-10 leading-relaxed">{subtext}</p>
+      <div className="flex flex-wrap gap-4 mb-10">
+        {/* Primary CTA: Link to /{slug}/contact — bg-{color}-600 rounded-full px-8 py-4 */}
+        {/* Secondary: Link to /{slug}/services — border-2 border-neutral-200 text-black rounded-full px-8 py-4 */}
+      </div>
+      {/* Social proof pill inline: bg-neutral-50 border border-neutral-100 rounded-2xl px-5 py-3 */}
+    </div>
+  </div>
+  <div className="relative min-h-[50vh] lg:min-h-full order-1 lg:order-2">
+    <img src="/images/{slug}/hero.jpg" className="absolute inset-0 w-full h-full object-cover" />
+  </div>
+</section>
+```
+
+**Hero C — Centered Frost** · blurred image background, white/80 overlay, all content centered:
+```tsx
+<section className="relative min-h-[calc(100vh-72px)] flex items-center justify-center overflow-hidden">
+  <img src="/images/{slug}/hero.jpg" className="absolute inset-0 w-full h-full object-cover scale-110 blur-sm" />
+  <div className="absolute inset-0 bg-white/80 backdrop-blur-md" />
+  <div className="relative text-center max-w-4xl mx-auto px-6">
+    <Reveal>
+      <span className="inline-block border-2 border-{color}-200 text-{color}-600 text-xs font-semibold uppercase tracking-widest px-4 py-1.5 rounded-full mb-6">{badge}</span>
+      <h1 className="text-6xl md:text-8xl font-black tracking-tighter text-black leading-none mb-6" style={font}>
+        {line1}<br /><span className="text-{color}-600">{line2}</span>
+      </h1>
+      <p className="text-neutral-500 text-lg max-w-2xl mx-auto mb-10 leading-relaxed">{subtext}</p>
+      <div className="flex flex-wrap justify-center gap-4">
+        {/* Primary CTA: Link to /{slug}/contact — bg-{color}-600 rounded-full px-8 py-4 */}
+        {/* Secondary: Link to /{slug}/services — border-2 border-neutral-200 text-black rounded-full px-8 py-4 */}
+      </div>
+    </Reveal>
+  </div>
+</section>
+```
+
+---
+
+### About Variants
+
+**About A — Image left, text right** · 2-column grid, floating accent stat badge bottom-right of image:
+```tsx
+<section className="py-24 lg:py-32">
+  <div className="max-w-7xl mx-auto px-6 lg:px-8 grid lg:grid-cols-2 gap-16 items-center">
+    <Reveal direction="right">
+      <div className="relative">
+        <img src="/images/{slug}/about.jpg" className="w-full h-140 object-cover rounded-3xl" />
+        <div className="absolute -bottom-6 -right-6 bg-{color}-600 text-white p-6 rounded-2xl shadow-xl">
+          <p className="text-3xl font-black mb-0.5">{stat1.value}</p>
+          <p className="text-xs text-{color}-200 uppercase tracking-wider">{stat1.label}</p>
+        </div>
+      </div>
+    </Reveal>
+    <Reveal direction="left" delay={0.15}>
+      {/* eyebrow, h2, 3 paragraphs */}
+    </Reveal>
+  </div>
+</section>
+```
+
+**About B — Full-width banner image, then 3-column text below** · image spans full width, heading occupies left column, paragraphs fill right 2 columns:
+```tsx
+<section className="py-24">
+  <div className="max-w-7xl mx-auto px-6 lg:px-8">
+    <Reveal>
+      <img src="/images/{slug}/about.jpg" className="w-full h-80 md:h-[480px] object-cover rounded-3xl mb-16" />
+    </Reveal>
+    <div className="grid md:grid-cols-3 gap-12">
+      <Reveal>
+        <p className="text-{color}-600 text-sm font-semibold uppercase tracking-widest mb-3">{eyebrow}</p>
+        <h2 className="text-4xl font-extrabold tracking-tight" style={font}>{heading}</h2>
+      </Reveal>
+      <Reveal delay={0.1} className="md:col-span-2 space-y-5">
+        <p className="text-neutral-600 leading-relaxed">{p1}</p>
+        <p className="text-neutral-600 leading-relaxed">{p2}</p>
+        <p className="text-neutral-600 leading-relaxed">{p3}</p>
+      </Reveal>
+    </div>
+  </div>
+</section>
+```
+
+**About C — Text left + 2×2 stat cards right, then full-width image strip** · use all 4 Stats from Step 3 for the cards; first card uses accent bg:
+```tsx
+<section>
+  <div className="py-24 max-w-7xl mx-auto px-6 lg:px-8">
+    <div className="grid lg:grid-cols-2 gap-16 items-start mb-16">
+      <Reveal>
+        <p className="text-{color}-600 text-sm font-semibold uppercase tracking-widest mb-3">{eyebrow}</p>
+        <h2 className="text-5xl font-extrabold tracking-tight mb-8" style={font}>{heading}</h2>
+        <p className="text-neutral-600 leading-relaxed mb-5">{p1}</p>
+        <p className="text-neutral-600 leading-relaxed">{p2}</p>
+      </Reveal>
+      <Reveal delay={0.15}>
+        <div className="grid grid-cols-2 gap-4">
+          {/* Card 0: bg-{color}-600 text-white rounded-2xl p-6 */}
+          {/* Cards 1-3: bg-neutral-50 border border-neutral-100 rounded-2xl p-6 */}
+          {/* Each: text-3xl font-black value + text-xs uppercase tracking-widest label */}
+        </div>
+      </Reveal>
+    </div>
+    <Reveal>
+      <img src="/images/{slug}/about.jpg" className="w-full h-64 object-cover rounded-3xl" />
+    </Reveal>
+  </div>
+  <div className="bg-neutral-50 py-10">
+    <p className="max-w-3xl mx-auto px-6 text-center text-neutral-600 leading-relaxed">{p3}</p>
+  </div>
+</section>
+```
+
+---
+
+### Services Variants
+
+**Services A — Sticky sidebar + scrollable price list** · left sticky column with image; right column white card, each service as icon+name+desc+price row:
+```
+lg:flex gap-16 | Left 5/12: sticky top-24 — eyebrow, h2, desc, /images/{slug}/services.jpg rounded-2xl
+Right 7/12: bg-white rounded-3xl p-8 border — each service: flex row [icon circle | name+desc | price]
+```
+
+**Services B — 3-column card grid** · thin image strip above grid; each of the 6 services as a full card with icon, name, description, price, and CTA button:
+```tsx
+{/* image strip: w-full h-56 object-cover rounded-2xl mb-16 */}
+<div className="grid md:grid-cols-3 gap-6">
+  {services.map((s, i) => (
+    <div className="bg-white rounded-3xl p-8 border border-neutral-100 hover:border-{color}-200 hover:shadow-lg transition-all flex flex-col">
+      <div className="w-12 h-12 rounded-2xl bg-{color}-50 text-{color}-600 flex items-center justify-center mb-5">
+        <{LogoIcon} size={20} />
+      </div>
+      <h3 className="font-bold text-base mb-2" style={font}>{s.name}</h3>
+      <p className="text-neutral-500 text-sm mb-5 flex-1">{s.desc}</p>
+      <p className="text-{color}-600 font-extrabold text-2xl mb-5">{s.price}</p>
+      <Link to="/{slug}/contact">
+        <button className="w-full bg-{color}-600 hover:bg-{color}-700 text-white py-3 rounded-xl text-sm font-semibold transition-all">
+          {ctaLabel}
+        </button>
+      </Link>
+    </div>
+  ))}
+</div>
+```
+
+**Services C — Full-width numbered rows** · thin image strip above; services listed as numbered rows inside a centered white card, accent left-border on hover:
+```tsx
+{/* image strip: w-full h-56 object-cover rounded-2xl mb-16 */}
+<div className="max-w-3xl mx-auto bg-white rounded-3xl border border-neutral-100 p-6 divide-y divide-neutral-100">
+  {services.map((s, i) => (
+    <div className="group flex items-center gap-6 py-6 hover:bg-neutral-50 border-l-4 border-transparent hover:border-l-{color}-600 transition-all -mx-2 px-2 rounded-r-xl">
+      <span className="text-4xl font-black text-neutral-100 group-hover:text-{color}-200 w-12 shrink-0 transition-colors select-none">
+        {String(i + 1).padStart(2, '0')}
+      </span>
+      <div className="flex-1 min-w-0">
+        <p className="font-bold text-sm text-black group-hover:text-{color}-700 transition-colors">{s.name}</p>
+        <p className="text-xs text-neutral-400 mt-0.5">{s.desc}</p>
+      </div>
+      <span className="font-extrabold text-lg text-black whitespace-nowrap">{s.price}</span>
+    </div>
+  ))}
+</div>
+```
 
 ---
 
@@ -195,29 +556,45 @@ If `color`, `font`, or `logo` were not supplied by the user, derive them now fro
 
 ---
 
-## Step 3.5 — Photo reference (Unsplash CDN)
+## Step 3.5 — Generate images with Gemini
 
-URL pattern: `https://images.unsplash.com/{photo-id}?auto=format&fit=crop&w={W}&h={H}&q=80`
+Before writing any TSX code, generate 4 images using the `mcp__gemini-mcp__generate_image` tool. Save each image to `public/images/{slug}/` and reference them in TSX as local paths (e.g. `/images/{slug}/hero.jpg`).
 
-**Section photos per industry:**
+**Call the tool 4 times — one per section:**
 
-| Industry | Hero (w=1800) | About (w=900) | Services (w=800) | CTA Banner (w=1800) |
+| Section | File | aspectRatio | imageSize |
+|---|---|---|---|
+| hero | `public/images/{slug}/hero.jpg` | `16:9` | `4K` |
+| about | `public/images/{slug}/about.jpg` | `4:3` | `4K` |
+| services | `public/images/{slug}/services.jpg` | `4:3` | `4K` |
+| cta | `public/images/{slug}/cta.jpg` | `16:9` | `4K` |
+
+**Industry prompts:**
+
+| Industry | hero | about | services | cta |
 |---|---|---|---|---|
-| salon | photo-1560066984-138dadb4c035 | photo-1522337360788-8b13dee7a37e | photo-1595163516014-3a9a4abb0b25 | photo-1562322140-8baeececf3df |
-| clinic | photo-1586773860418-d37222d8fce3 | photo-1559839734-2b71ea197ec2 | photo-1530497610245-94d3c16cda28 | photo-1523712999610-f77fbcfc3843 |
-| restaurant | photo-1414235077428-338989a2e8c0 | photo-1517248135467-4c7edcad34c4 | photo-1504674900247-0877df9cc836 | photo-1552566626-52f8b828a9b6 |
-| boutique | photo-1445205170230-053b83016050 | photo-1483985988355-763728e1935b | photo-1558618666-fcd25c85cd64 | photo-1567401893414-76b7b1e5a7a5 |
-| gym | photo-1534438327431-f9acd87e5e11 | photo-1571019613454-1cb2f99b2d8b | photo-1581009146145-b5ef050c2e1e | photo-1526506118085-60ce8714f8c5 |
-| cafe | photo-1495474472287-4d71bcdd2085 | photo-1559305616-3f99cd43e353 | photo-1509042239860-f550ce710b93 | photo-1554118811-1e0d58224f24 |
+| salon | `Elegant hair salon interior, modern styling chairs, warm lighting, professional beauty setting, photo-realistic` | `Close-up of a hairstylist working on a client, warm salon atmosphere, natural light, editorial style` | `Luxury salon products and tools laid out on a white marble surface, top-down view, clean aesthetic` | `Beautiful woman with flawless hair leaving a salon, smiling, natural light, lifestyle photography` |
+| clinic | `Modern private medical clinic reception, clean white interior, professional healthcare environment, photo-realistic` | `Friendly doctor consulting with a patient in a bright clinic room, trust and warmth, editorial style` | `Medical equipment and health screening tools neatly arranged, clinical white background, professional` | `Happy patient shaking hands with doctor, bright clinic corridor, positive healthcare outcome` |
+| restaurant | `Upscale restaurant dining room at night, warm amber lighting, elegant table settings, fine dining atmosphere` | `Executive chef plating an artistic dish in a professional kitchen, motion and focus, editorial style` | `Beautifully plated gourmet meal on dark slate, garnished with microgreens, top-down food photography` | `Full restaurant with happy diners, warm candlelight ambiance, sophisticated interior, lifestyle photography` |
+| boutique | `Luxury fashion boutique interior, curated clothing racks, soft natural light, minimalist elegant design` | `Fashion stylist helping a client try on an outfit in a bright fitting room, joyful moment, editorial` | `Flatlay of curated clothing and accessories on white background, styled with minimal props, editorial` | `Confident woman in a stylish outfit walking out of a boutique, sunny street, lifestyle photography` |
+| gym | `Modern gym interior, rows of equipment, bright industrial lighting, motivational atmosphere, photo-realistic` | `Personal trainer coaching a client with weights, gym floor, focus and energy, editorial photography` | `Fitness equipment close-up — dumbbells, kettlebells, resistance bands — clean gym background` | `Athlete completing a workout, triumphant expression, gym environment, high contrast lighting` |
+| cafe | `Cosy specialty coffee shop interior, exposed brick walls, warm lighting, latte art being made at the bar` | `Barista carefully pouring latte art into a cup, close-up, steam rising, warm cafe tones` | `Flat lay of specialty coffee drinks and pastries on a wooden cafe table, morning light, editorial` | `Coffee shop window seat with a cup of coffee and a book, golden hour light, lifestyle photography` |
 
-**Team portraits (w=500, h=700):**
+**After generating all 4 images:**
+- Save each file to the correct path under `public/images/{slug}/`
+- In all TSX files, reference images as `/images/{slug}/hero.jpg`, `/images/{slug}/about.jpg`, etc.
+- Do NOT use Unsplash CDN URLs for hero/about/services/cta sections
+
+**Team portraits and testimonial avatars** still use Unsplash CDN:
+
+Team portraits (w=500, h=700):
 Member 1: photo-1531746020798-e6953c6e8e04 | Member 2: photo-1494790108377-be9c29b29330
 Member 3: photo-1438761681033-6461ffad8d80 | Member 4: photo-1534528741775-53994a69daeb
 
-**Testimonial avatars (w=80, h=80):**
+Testimonial avatars (w=80, h=80):
 Review 1: photo-1580489944761-15a19d654956 | Review 2: photo-1438761681033-6461ffad8d80 | Review 3: photo-1534528741775-53994a69daeb
 
-**Social proof pill avatars (w=40, h=40):** Review 2, Review 3, Member 2 photo IDs.
+Social proof pill avatars (w=40, h=40): Review 2, Review 3, Member 2 photo IDs.
 
 ---
 
@@ -551,7 +928,7 @@ export default function {pascal}About() {
       {/* Use Milestones data from Step 3 for this industry */}
 
       {/* ── Mission / Vision / Values ── */}
-      {/* bg-white py-20, 3 cards, same pattern as new-business-site */}
+      {/* Use mvvVariant from Step 2.8 — see MVV variant reference below */}
 
       {/* ── Team ── */}
       {/* py-24 bg-neutral-50, 4 portrait cards with real photos, aspect-3/4, gradient overlay */}
@@ -616,36 +993,115 @@ Fill in all sections completely with real content. No placeholder comments in th
 
 **Path:** `resources/js/pages/{slug}/Faq.tsx`
 
-Imports: `useState`; `motion, AnimatePresence`; `ChevronDown`; Reveal helper.
+Use `faqVariant` from Step 2.8. Imports: `useState`; `motion, AnimatePresence`; `ChevronDown, ChevronRight, MessageCircle, ArrowRight`; `Link` from `react-router-dom`; Reveal helper.
 
+The page always has a **Page Header** section (py-20 bg-neutral-50 border-b, eyebrow + h1) and a **Still Have Questions?** section (py-16 bg-neutral-50, centered CTA linking to `/{slug}/contact`). The variant only applies to the main accordion body between them.
+
+---
+
+**FAQ A — Centered accordion** · neutral-50 bg, all 6 items in a white rounded card with animated rows:
 ```tsx
-export default function {pascal}Faq() {
-  const [openFaq, setOpenFaq] = useState<number | null>(null);
-
-  const faqItems: { q: string; a: string }[] = [/* 6 items from Step 3: the 3 base FAQ items PLUS the 3 extra FAQ items for this industry */];
-
-  return (
-    <>
-      {/* ── Page Header ── */}
-      <section className="py-20 bg-neutral-50 border-b border-neutral-100">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <Reveal>
-            <p className="text-{color}-600 text-sm font-semibold uppercase tracking-widest mb-3">Got Questions?</p>
-            <h1 className="text-5xl md:text-6xl font-black tracking-tight" style={font}>Frequently Asked</h1>
-          </Reveal>
+<section className="py-24">
+  <div className="max-w-3xl mx-auto px-6 lg:px-8">
+    <div className="bg-white rounded-3xl border border-neutral-100 shadow-sm overflow-hidden">
+      {faqItems.map((item, i) => (
+        <div key={i} className="border-b border-neutral-100 last:border-b-0">
+          <button onClick={() => setOpenFaq(openFaq === i ? null : i)}
+            className="w-full text-left px-8 py-6 flex justify-between items-center group">
+            <span className="font-medium text-sm group-hover:text-{color}-600 transition-colors pr-4">{item.q}</span>
+            <motion.div animate={{ rotate: openFaq === i ? 180 : 0 }} transition={{ duration: 0.25 }}
+              className="shrink-0 text-neutral-300 group-hover:text-{color}-400 transition-colors">
+              <ChevronDown size={18} />
+            </motion.div>
+          </button>
+          <AnimatePresence>
+            {openFaq === i && (
+              <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }}
+                exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.25 }} className="overflow-hidden">
+                <p className="px-8 pb-6 text-sm text-neutral-500 leading-relaxed">{item.a}</p>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
-      </section>
+      ))}
+    </div>
+  </div>
+</section>
+```
 
-      {/* ── FAQ Accordion ── */}
-      {/* py-24, max-w-3xl mx-auto, white card with accordion — all 6 items */}
-      {/* Same accordion pattern as new-business-site FAQ section */}
+---
 
-      {/* ── Still Have Questions? ── */}
-      {/* py-16 bg-neutral-50 */}
-      {/* Centered: eyebrow, h2 "Still Have Questions?", short line "Our team is happy to help.", Link button to /{slug}/contact "Get in Touch" ArrowRight */}
-    </>
-  );
-}
+**FAQ B — Two-column split** · questions list left, selected answer revealed in right panel:
+```tsx
+<section className="py-24 bg-white">
+  <div className="max-w-7xl mx-auto px-6 lg:px-8 grid lg:grid-cols-2 gap-8 items-start">
+    <div className="space-y-2">
+      {faqItems.map((item, i) => (
+        <button key={i} onClick={() => setOpenFaq(openFaq === i ? null : i)}
+          className={`w-full text-left px-6 py-4 rounded-2xl border transition-all flex justify-between items-center gap-4 ${
+            openFaq === i ? 'border-{color}-200 bg-{color}-50 text-{color}-700' : 'border-neutral-100 bg-neutral-50 hover:border-neutral-200 text-neutral-700'
+          }`}>
+          <span className="font-medium text-sm">{item.q}</span>
+          <ChevronRight size={16} className={`shrink-0 transition-transform ${openFaq === i ? 'rotate-90' : ''}`} />
+        </button>
+      ))}
+    </div>
+    <div className="lg:sticky lg:top-28">
+      <AnimatePresence mode="wait">
+        {openFaq !== null ? (
+          <motion.div key={openFaq} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }} transition={{ duration: 0.2 }}
+            className="bg-neutral-50 rounded-3xl border border-neutral-100 p-8">
+            <div className="w-10 h-10 rounded-xl bg-{color}-50 text-{color}-600 flex items-center justify-center mb-5">
+              <MessageCircle size={18} />
+            </div>
+            <h3 className="font-bold text-base mb-3" style={font}>{faqItems[openFaq].q}</h3>
+            <p className="text-neutral-500 text-sm leading-relaxed">{faqItems[openFaq].a}</p>
+          </motion.div>
+        ) : (
+          <motion.div key="empty" initial={{ opacity: 0 }} animate={{ opacity: 1 }}
+            className="bg-neutral-50 rounded-3xl border border-dashed border-neutral-200 p-8 flex flex-col items-center justify-center text-center min-h-[200px]">
+            <p className="text-neutral-400 text-sm">Select a question to see the answer.</p>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  </div>
+</section>
+```
+
+---
+
+**FAQ C — Dark accordion** · dark bg, white text, accent border on open rows:
+```tsx
+<section className="py-24 bg-neutral-900">
+  <div className="max-w-3xl mx-auto px-6 lg:px-8">
+    <div className="space-y-3">
+      {faqItems.map((item, i) => (
+        <div key={i} className={`rounded-2xl border overflow-hidden transition-all ${
+          openFaq === i ? 'border-{color}-500/40 bg-white/5' : 'border-white/10 bg-white/[0.03]'
+        }`}>
+          <button onClick={() => setOpenFaq(openFaq === i ? null : i)}
+            className="w-full text-left px-7 py-5 flex justify-between items-center gap-4">
+            <span className={`font-medium text-sm transition-colors ${openFaq === i ? 'text-{color}-400' : 'text-white/80'}`}>{item.q}</span>
+            <motion.div animate={{ rotate: openFaq === i ? 180 : 0 }} transition={{ duration: 0.25 }}
+              className={`shrink-0 transition-colors ${openFaq === i ? 'text-{color}-400' : 'text-white/30'}`}>
+              <ChevronDown size={18} />
+            </motion.div>
+          </button>
+          <AnimatePresence>
+            {openFaq === i && (
+              <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }}
+                exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.25 }} className="overflow-hidden">
+                <p className="px-7 pb-5 text-sm text-white/50 leading-relaxed">{item.a}</p>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
 ```
 
 Fill in all sections completely. No placeholder comments in the final output.
@@ -656,36 +1112,100 @@ Fill in all sections completely. No placeholder comments in the final output.
 
 **Path:** `resources/js/pages/{slug}/Contact.tsx`
 
-Imports: Reveal helper; `MapPin, Phone, Mail, Clock, ArrowRight` from `lucide-react`; `InstagramIcon, FacebookIcon` inline SVGs from Step 4.
+Use `contactVariant` from Step 2.8. Imports: Reveal helper; `MapPin, Phone, Mail, Clock, ArrowRight` from `lucide-react`; `InstagramIcon, FacebookIcon` inline SVGs from Step 4.
 
+The page always has a **Page Header** (py-20 bg-neutral-50 border-b, eyebrow + h1 "Get in Touch") and an **At a Glance** strip (py-16 bg-neutral-50, 3 feature mini-cards using the features data from Step 3). The variant only applies to the main contact body section below those.
+
+---
+
+**Contact A — Two-column: details left, form right** · white bg, icon-list on left, booking form card on right:
 ```tsx
-export default function {pascal}Contact() {
-  return (
-    <>
-      {/* ── Page Header ── */}
-      <section className="py-20 bg-neutral-50 border-b border-neutral-100">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <Reveal>
-            <p className="text-{color}-600 text-sm font-semibold uppercase tracking-widest mb-3">Visit Us</p>
-            <h1 className="text-5xl md:text-6xl font-black tracking-tight" style={font}>Get in Touch</h1>
-          </Reveal>
+<section className="py-24 bg-white">
+  <div className="max-w-7xl mx-auto px-6 lg:px-8 grid lg:grid-cols-2 gap-16">
+    <Reveal direction="right">
+      <p className="text-{color}-600 text-sm font-semibold uppercase tracking-widest mb-3">Find Us</p>
+      <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-10" style={font}>Contact &amp; Location</h2>
+      <div className="space-y-7">
+        {/* Address, Phone, Email, Hours rows — icon in w-11 h-11 bg-{color}-50 rounded-2xl */}
+      </div>
+      <div className="mt-10 pt-10 border-t border-neutral-100">
+        <p className="text-xs text-neutral-400 uppercase tracking-widest font-semibold mb-4">Follow Us</p>
+        <div className="flex gap-3">
+          <button className="w-10 h-10 rounded-full bg-{color}-50 hover:bg-{color}-100 flex items-center justify-center text-{color}-600 transition-colors"><InstagramIcon size={16} /></button>
+          <button className="w-10 h-10 rounded-full bg-{color}-50 hover:bg-{color}-100 flex items-center justify-center text-{color}-600 transition-colors"><FacebookIcon size={16} /></button>
         </div>
-      </section>
+      </div>
+    </Reveal>
+    <Reveal direction="left" delay={0.15}>
+      <div className="bg-neutral-50 rounded-3xl p-8 md:p-10 border border-neutral-100">
+        <h3 className="text-2xl font-bold mb-6" style={font}>{/* "Book an Appointment" or equivalent CTA label for this industry */}</h3>
+        <form onSubmit={(e) => e.preventDefault()} className="space-y-4">
+          {/* Full Name, Phone + Service grid, Message, Submit button */}
+          {/* Service dropdown: 6 options from Step 3 */}
+        </form>
+      </div>
+    </Reveal>
+  </div>
+</section>
+```
 
-      {/* ── At a Glance ── */}
-      {/* py-16 bg-neutral-50 */}
-      {/* 3 feature mini-cards in grid md:grid-cols-3 gap-6, same features data from Step 3 */}
-      {/* Each card: flex items-start gap-4, icon in w-10 h-10 rounded-xl bg-{color}-50 text-{color}-600, bold heading text-sm + description text-neutral-500 text-xs leading-relaxed */}
-      {/* This reassures first-time visitors before they see the form */}
+---
 
-      {/* ── Contact Info + Form ── */}
-      {/* py-24 bg-white, 2-col grid lg:grid-cols-2 gap-16 */}
-      {/* Left: contact details (Address, Phone, Email, Hours) + Follow Us social buttons */}
-      {/* Right: bg-neutral-50 rounded-3xl form (Full Name, Phone/Service grid, Message, Submit) */}
-      {/* Same pattern as new-business-site Contact section */}
-    </>
-  );
-}
+**Contact B — Centered form + 4 info cards below** · neutral-50 bg, centered heading, full-width form card on top, 4 info cards in a row below:
+```tsx
+<section className="py-24 bg-neutral-50">
+  <div className="max-w-4xl mx-auto px-6 lg:px-8">
+    <Reveal className="text-center mb-10">
+      <p className="text-{color}-600 text-sm font-semibold uppercase tracking-widest mb-3">Find Us</p>
+      <h2 className="text-4xl font-extrabold tracking-tight" style={font}>Contact &amp; Location</h2>
+      <p className="text-neutral-500 text-sm mt-3 max-w-md mx-auto">Fill in the form and we'll get back to you within one business day.</p>
+    </Reveal>
+    <Reveal>
+      <div className="bg-white rounded-3xl p-8 md:p-10 border border-neutral-100 shadow-sm mb-8">
+        <form onSubmit={(e) => e.preventDefault()} className="space-y-4">
+          <div className="grid grid-cols-2 gap-4">
+            {/* Full Name + Phone */}
+          </div>
+          {/* Service select */}
+          {/* Message textarea */}
+          {/* Submit button */}
+        </form>
+      </div>
+    </Reveal>
+    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+      {/* Address, Phone, Email, Hours — each as a white rounded-2xl card with centered icon + label + value */}
+    </div>
+  </div>
+</section>
+```
+
+---
+
+**Contact C — Dark full-width** · dark bg, white text, 2×2 info cards left, compact form right:
+```tsx
+<section className="py-24 bg-neutral-900">
+  <div className="max-w-7xl mx-auto px-6 lg:px-8 grid lg:grid-cols-2 gap-16">
+    <Reveal direction="right">
+      <p className="text-{color}-400 text-sm font-semibold uppercase tracking-widest mb-3">Find Us</p>
+      <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight text-white mb-10" style={font}>Contact &amp; Location</h2>
+      <div className="grid grid-cols-2 gap-4">
+        {/* Address, Phone, Email, Hours — each as bg-white/5 border-white/10 rounded-2xl p-5 card with icon in bg-{color}-500/20 text-{color}-400 */}
+      </div>
+      <div className="mt-8 flex gap-3">
+        {/* Instagram + Facebook icon buttons — bg-white/5 border-white/10 hover:bg-{color}-500/20 */}
+      </div>
+    </Reveal>
+    <Reveal direction="left" delay={0.15}>
+      <div className="bg-white/[0.04] border border-white/10 rounded-3xl p-8 md:p-10">
+        <h3 className="text-2xl font-bold text-white mb-6" style={font}>{/* CTA label */}</h3>
+        <form onSubmit={(e) => e.preventDefault()} className="space-y-4">
+          {/* All inputs: border-white/10 bg-white/5 text-white placeholder-white/20 focus:border-{color}-500 */}
+          {/* Submit: bg-{color}-600 hover:bg-{color}-700 text-white */}
+        </form>
+      </div>
+    </Reveal>
+  </div>
+</section>
 ```
 
 Fill in all sections completely with real invented contact details (Malaysian address, phone, email). No placeholder comments in the final output.

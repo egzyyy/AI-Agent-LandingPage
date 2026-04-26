@@ -14,6 +14,7 @@ Extract these named arguments from `$ARGUMENTS`:
 - `color` — Tailwind accent color (e.g. `emerald`, `rose`, `amber`, `sky`, `violet`) — **optional, auto-derived from industry in Step 2.5**
 - `font` — Google Font for headings (e.g. `Playfair Display`, `Lora`, `Outfit`, `DM Sans`) — **optional, auto-derived from industry in Step 2.5**
 - `logo` — Lucide React icon name in lowercase (e.g. `heart-pulse`, `scissors`, `utensils`) — **optional, auto-derived from industry in Step 2.5**
+- `variant` — layout style for Hero / About / Services sections: `A` | `B` | `C` — **optional, auto-derived from industry in Step 2.8**
 
 Then derive:
 - **slug**: kebab-case of `name`, all lowercase, spaces → hyphens, no special chars (e.g. `Mira Clinic` → `mira-clinic`, `SofeaBeauty` → `sofeabeauty`)
@@ -62,6 +63,218 @@ If `color`, `font`, or `logo` were not supplied by the user, derive them now fro
 
 > `fontStack` is the CSS generic family appended in the heading font constant. The `font` constant in every file must be: `const font = { fontFamily: '"{font}", {fontStack}' };`
 > For `fontUrl` replace spaces with `+` (e.g. `DM Sans` → `DM+Sans`).
+
+---
+
+## Step 2.8 — Section Variants
+
+If `variant` was **not** supplied, auto-derive all five section variants from `industry`:
+
+| Industry | heroVariant | aboutVariant | servicesVariant | faqVariant | contactVariant |
+|---|---|---|---|---|---|
+| salon | B | A | B | A | A |
+| clinic | B | A | A | A | A |
+| restaurant | A | B | B | A | A |
+| boutique | C | C | C | B | B |
+| gym | A | A | B | C | C |
+| cafe | A | B | B | A | B |
+
+If `variant` **is** supplied (A, B, or C), use it for **all five sections**.
+
+---
+
+### Hero Variants
+
+**Hero A — Cinematic** · full-screen image, dark gradient overlay, text anchored bottom-left:
+```tsx
+<section className="relative min-h-screen flex items-end pb-20 overflow-hidden">
+  <img src="..." className="absolute inset-0 w-full h-full object-cover" />
+  <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/30 to-black/10" />
+  <div className="relative max-w-7xl mx-auto px-6 lg:px-8 w-full">
+    <Reveal>
+      <span className="inline-block bg-{color}-600 text-white text-xs font-semibold uppercase tracking-widest px-4 py-1.5 rounded-full mb-6">{badge}</span>
+      <h1 className="text-6xl md:text-8xl font-black tracking-tighter text-white leading-none mb-6" style={font}>
+        {line1}<br /><em className="text-{color}-400 not-italic">{line2}</em>
+      </h1>
+      <p className="text-white/70 text-lg max-w-xl mb-10 leading-relaxed">{subtext}</p>
+      <div className="flex flex-wrap gap-4">
+        {/* Primary: bg-{color}-600 hover:bg-{color}-700 text-white rounded-full px-8 py-4 */}
+        {/* Secondary: bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/30 text-white rounded-full px-8 py-4 */}
+      </div>
+    </Reveal>
+  </div>
+  {/* Social proof pill: absolute bottom-8 right-8 hidden md:block — bg-white rounded-2xl shadow-lg px-5 py-4 flex items-center gap-3 */}
+</section>
+```
+
+**Hero B — Split** · white left panel with all text, full-height image fills right half:
+```tsx
+<section className="min-h-screen grid lg:grid-cols-2">
+  <div className="bg-white flex items-center px-10 lg:px-16 py-24 lg:py-0 order-2 lg:order-1">
+    <div className="max-w-lg w-full">
+      <span className="inline-block bg-{color}-600 text-white text-xs font-semibold uppercase tracking-widest px-4 py-1.5 rounded-full mb-6">{badge}</span>
+      <h1 className="text-5xl md:text-6xl font-black tracking-tight text-black leading-tight mb-6" style={font}>
+        {line1}<br /><span className="text-{color}-600">{line2}</span>
+      </h1>
+      <p className="text-neutral-500 text-lg mb-10 leading-relaxed">{subtext}</p>
+      <div className="flex flex-wrap gap-4 mb-10">
+        {/* Primary: bg-{color}-600 hover:bg-{color}-700 text-white rounded-full px-8 py-4 */}
+        {/* Secondary: bg-white border-2 border-neutral-200 hover:border-{color}-300 text-black rounded-full px-8 py-4 */}
+      </div>
+      {/* Social proof pill: inline, bg-neutral-50 border border-neutral-100 rounded-2xl px-5 py-3 flex items-center gap-3 */}
+    </div>
+  </div>
+  <div className="relative min-h-[50vh] lg:min-h-screen order-1 lg:order-2">
+    <img src="..." className="absolute inset-0 w-full h-full object-cover" />
+  </div>
+</section>
+```
+
+**Hero C — Centered Frost** · blurred image background, white/80 frost overlay, all content centered:
+```tsx
+<section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+  <img src="..." className="absolute inset-0 w-full h-full object-cover scale-110 blur-sm" />
+  <div className="absolute inset-0 bg-white/80 backdrop-blur-md" />
+  <div className="relative text-center max-w-4xl mx-auto px-6">
+    <Reveal>
+      <span className="inline-block border-2 border-{color}-200 text-{color}-600 text-xs font-semibold uppercase tracking-widest px-4 py-1.5 rounded-full mb-6">{badge}</span>
+      <h1 className="text-6xl md:text-8xl font-black tracking-tighter text-black leading-none mb-6" style={font}>
+        {line1}<br /><span className="text-{color}-600">{line2}</span>
+      </h1>
+      <p className="text-neutral-500 text-lg max-w-2xl mx-auto mb-10 leading-relaxed">{subtext}</p>
+      <div className="flex flex-wrap justify-center gap-4">
+        {/* Primary: bg-{color}-600 hover:bg-{color}-700 text-white rounded-full px-8 py-4 */}
+        {/* Secondary: bg-white border-2 border-neutral-200 hover:border-{color}-300 text-black rounded-full px-8 py-4 */}
+      </div>
+    </Reveal>
+  </div>
+</section>
+```
+
+---
+
+### About Variants
+
+**About A — Image left, text right** · classic 2-column grid, floating accent badge on image:
+```tsx
+<section className="py-24 lg:py-32">
+  <div className="max-w-7xl mx-auto px-6 lg:px-8 grid lg:grid-cols-2 gap-16 items-center">
+    <Reveal direction="right">
+      <div className="relative">
+        <img src="/images/{slug}/about.jpg" className="w-full h-140 object-cover rounded-3xl" />
+        <div className="absolute -bottom-6 -right-6 bg-{color}-600 text-white p-6 rounded-2xl shadow-xl">
+          <p className="text-3xl font-black mb-0.5">{stat1.value}</p>
+          <p className="text-xs text-{color}-200 uppercase tracking-wider">{stat1.label}</p>
+        </div>
+      </div>
+    </Reveal>
+    <Reveal direction="left" delay={0.15}>
+      {/* eyebrow, h2, 3 paragraphs */}
+    </Reveal>
+  </div>
+</section>
+```
+
+**About B — Full-width banner image, then 3-column text below** · image spans full width at top, heading left column, paragraphs right 2 columns:
+```tsx
+<section className="py-24">
+  <div className="max-w-7xl mx-auto px-6 lg:px-8">
+    <Reveal>
+      <img src="/images/{slug}/about.jpg" className="w-full h-80 md:h-[480px] object-cover rounded-3xl mb-16" />
+    </Reveal>
+    <div className="grid md:grid-cols-3 gap-12">
+      <Reveal>
+        <p className="text-{color}-600 text-sm font-semibold uppercase tracking-widest mb-3">{eyebrow}</p>
+        <h2 className="text-4xl font-extrabold tracking-tight" style={font}>{heading}</h2>
+      </Reveal>
+      <Reveal delay={0.1} className="md:col-span-2 space-y-5">
+        <p className="text-neutral-600 leading-relaxed">{p1}</p>
+        <p className="text-neutral-600 leading-relaxed">{p2}</p>
+        <p className="text-neutral-600 leading-relaxed">{p3}</p>
+      </Reveal>
+    </div>
+  </div>
+</section>
+```
+
+**About C — Text left + 2×2 stat cards right, then full-width image strip** · good for data-heavy brands:
+```tsx
+<section>
+  <div className="py-24 max-w-7xl mx-auto px-6 lg:px-8">
+    <div className="grid lg:grid-cols-2 gap-16 items-start mb-16">
+      <Reveal>
+        <p className="text-{color}-600 text-sm font-semibold uppercase tracking-widest mb-3">{eyebrow}</p>
+        <h2 className="text-5xl font-extrabold tracking-tight mb-8" style={font}>{heading}</h2>
+        <p className="text-neutral-600 leading-relaxed mb-5">{p1}</p>
+        <p className="text-neutral-600 leading-relaxed">{p2}</p>
+      </Reveal>
+      <Reveal delay={0.15}>
+        {/* 2×2 grid using the 4 Stats items from Step 3 */}
+        <div className="grid grid-cols-2 gap-4">
+          {/* First card: bg-{color}-600 text-white rounded-2xl p-6 */}
+          {/* Other 3: bg-neutral-50 border border-neutral-100 rounded-2xl p-6 */}
+          {/* Each: text-3xl font-black value + text-xs uppercase tracking-widest label */}
+        </div>
+      </Reveal>
+    </div>
+    <Reveal>
+      <img src="/images/{slug}/about.jpg" className="w-full h-64 object-cover rounded-3xl" />
+    </Reveal>
+  </div>
+  <div className="bg-neutral-50 py-10">
+    <p className="max-w-3xl mx-auto px-6 text-center text-neutral-600 leading-relaxed">{p3}</p>
+  </div>
+</section>
+```
+
+---
+
+### Services Variants
+
+**Services A — Sticky sidebar + scrollable price list** · left column sticky with image, right column card with all 6 services as icon rows:
+```
+lg:flex gap-16 | Left 5/12: sticky top-24, eyebrow + h2 + desc + /images/{slug}/services.jpg rounded-2xl
+Right 7/12: bg-white rounded-3xl p-8 border — each service: flex row [icon circle | name+desc | price]
+```
+
+**Services B — 3-column card grid** · each of the 6 services as its own card with CTA button; image strip above grid:
+```tsx
+{/* image strip: w-full h-56 object-cover rounded-2xl mb-16 */}
+<div className="grid md:grid-cols-3 gap-6">
+  {services.map((s, i) => (
+    <div className="bg-white rounded-3xl p-8 border border-neutral-100 hover:border-{color}-200 hover:shadow-lg transition-all flex flex-col">
+      <div className="w-12 h-12 rounded-2xl bg-{color}-50 text-{color}-600 flex items-center justify-center mb-5">
+        <{LogoIcon} size={20} />
+      </div>
+      <h3 className="font-bold text-base mb-2" style={font}>{s.name}</h3>
+      <p className="text-neutral-500 text-sm mb-5 flex-1">{s.desc}</p>
+      <p className="text-{color}-600 font-extrabold text-2xl mb-5">{s.price}</p>
+      <button className="w-full bg-{color}-600 hover:bg-{color}-700 text-white py-3 rounded-xl text-sm font-semibold transition-all">
+        {ctaLabel}
+      </button>
+    </div>
+  ))}
+</div>
+```
+
+**Services C — Full-width numbered rows** · numbered list inside a white card, accent left-border on hover; image strip above:
+```tsx
+{/* image strip: w-full h-56 object-cover rounded-2xl mb-16 */}
+<div className="max-w-3xl mx-auto bg-white rounded-3xl border border-neutral-100 p-6 divide-y divide-neutral-100">
+  {services.map((s, i) => (
+    <div className="group flex items-center gap-6 py-6 hover:bg-neutral-50 hover:pl-4 border-l-4 border-transparent hover:border-l-{color}-600 transition-all rounded-r-xl -mx-2 px-2">
+      <span className="text-4xl font-black text-neutral-100 group-hover:text-{color}-200 w-12 shrink-0 transition-colors select-none">
+        {String(i + 1).padStart(2, '0')}
+      </span>
+      <div className="flex-1 min-w-0">
+        <p className="font-bold text-sm text-black group-hover:text-{color}-700 transition-colors">{s.name}</p>
+        <p className="text-xs text-neutral-400 mt-0.5">{s.desc}</p>
+      </div>
+      <span className="font-extrabold text-lg text-black whitespace-nowrap">{s.price}</span>
+    </div>
+  ))}
+</div>
+```
 
 ---
 
@@ -191,22 +404,28 @@ Use this table to populate section content. Substitute literally for the `{indus
 
 ---
 
-## Step 3.5 — Photo reference (Unsplash CDN)
+## Step 3.5 — Generate section images with Gemini
 
-All images use this URL pattern: `https://images.unsplash.com/{photo-id}?auto=format&fit=crop&w={W}&h={H}&q=80`
+Use the `mcp__gemini-mcp__generate_image` tool to generate 4 images for this site. Save each to `public/images/{slug}/{section}.jpg`. All TSX image references must use the local path `/images/{slug}/{section}.jpg` — never Unsplash URLs for these 4 images.
 
-**Section photos per industry:**
+Call the tool 4 times with these settings:
+- **hero**: `aspectRatio: "16:9"`, `imageSize: "4K"`
+- **about**: `aspectRatio: "4:3"`, `imageSize: "4K"`
+- **services**: `aspectRatio: "4:3"`, `imageSize: "4K"`
+- **cta**: `aspectRatio: "16:9"`, `imageSize: "4K"`
 
-| Industry | Hero (w=1800) | About (w=900) | Services (w=800) | CTA Banner (w=1800) |
+**Image prompts per industry:**
+
+| Industry | hero | about | services | cta |
 |---|---|---|---|---|
-| salon | photo-1560066984-138dadb4c035 | photo-1522337360788-8b13dee7a37e | photo-1595163516014-3a9a4abb0b25 | photo-1562322140-8baeececf3df |
-| clinic | photo-1586773860418-d37222d8fce3 | photo-1559839734-2b71ea197ec2 | photo-1530497610245-94d3c16cda28 | photo-1523712999610-f77fbcfc3843 |
-| restaurant | photo-1414235077428-338989a2e8c0 | photo-1517248135467-4c7edcad34c4 | photo-1504674900247-0877df9cc836 | photo-1552566626-52f8b828a9b6 |
-| boutique | photo-1445205170230-053b83016050 | photo-1483985988355-763728e1935b | photo-1558618666-fcd25c85cd64 | photo-1567401893414-76b7b1e5a7a5 |
-| gym | photo-1534438327431-f9acd87e5e11 | photo-1571019613454-1cb2f99b2d8b | photo-1581009146145-b5ef050c2e1e | photo-1526506118085-60ce8714f8c5 |
-| cafe | photo-1495474472287-4d71bcdd2085 | photo-1559305616-3f99cd43e353 | photo-1509042239860-f550ce710b93 | photo-1554118811-1e0d58224f24 |
+| salon | Elegant premium hair salon interior, beautiful woman in salon chair getting hair styled by professional stylist, rose gold accents, warm soft bokeh lighting, clean modern white aesthetic, editorial DSLR photography, 4K sharp | Professional female hair stylist applying colour treatment to client in bright modern beauty salon, natural window light, warm inviting atmosphere, editorial portrait photography, 4K sharp | Luxury hair salon styling station with professional scissors combs and hair colour products on white marble countertop, rose gold tools, clean minimal aesthetic, soft studio lighting, 4K sharp | Beautiful confident woman with perfect glossy hair smiling warmly, elegant hair salon background, rose gold bokeh lighting, editorial fashion photography, 4K sharp |
+| clinic | Modern bright medical clinic interior, friendly smiling doctor consulting with patient across clean white desk, natural light, professional healthcare atmosphere, editorial photography, 4K sharp | Experienced doctor reviewing patient records with warm reassuring smile, bright clinic room, medical certificates on wall, professional healthcare photography, 4K sharp | Clean modern medical examination room with stethoscope and medical equipment on white surface, bright clinical lighting, healthcare product photography, 4K sharp | Happy patient shaking hands with smiling doctor after successful consultation, bright clinic background, warm trustworthy atmosphere, editorial photography, 4K sharp |
+| restaurant | Upscale fine dining restaurant interior, elegant table settings with white linen candles and wine glasses, warm amber lighting, dark wood and gold accents, sophisticated ambience, editorial interior photography, 4K sharp | Modern restaurant dining room with guests enjoying a meal, warm ambient lighting, contemporary Asian fusion interior with wooden accents, editorial photography, 4K sharp | Beautifully plated gourmet fine dining dish on white ceramic plate, elegant food styling with microgreens and sauce drizzle, shallow depth of field, professional food photography, 4K sharp | Romantic fine dining table for two at night, flickering candlelight, crystal wine glasses with red wine, beautifully plated dishes, warm amber restaurant ambience, editorial DSLR photography, 4K sharp |
+| boutique | Elegant fashion boutique interior, curated clothing racks with stylish garments, soft violet accent lighting, minimalist luxury retail aesthetic, editorial interior photography, 4K sharp | Fashion stylist helping customer select an outfit in a bright modern boutique, natural light, curated clothing displays, warm styling session atmosphere, editorial photography, 4K sharp | Luxury clothing boutique display, beautifully folded designer garments and accessories on white shelves, soft lighting, clean minimal retail aesthetic, product photography, 4K sharp | Stylish confident woman holding shopping bags outside a luxury boutique, fashionable outfit, elegant retail background, editorial fashion photography, 4K sharp |
+| gym | Modern state-of-the-art gym interior, rows of premium equipment under bright lighting, open spacious floor, motivated members working out, editorial interior photography, 4K sharp | Certified personal trainer coaching a client with weights in a professional gym, encouraging atmosphere, modern fitness equipment background, editorial sports photography, 4K sharp | Premium gym equipment closeup, dumbbells and barbells neatly arranged on rack, dark athletic aesthetic, clean modern fitness centre, product photography, 4K sharp | Fit athlete completing a workout with intense focus, modern gym background, dramatic lighting, motivated determined expression, editorial sports photography, 4K sharp |
+| cafe | Cozy specialty coffee cafe interior, skilled barista crafting latte art at espresso machine, warm amber lighting, wooden accents and plants, inviting neighbourhood cafe atmosphere, editorial photography, 4K sharp | Skilled barista carefully pouring steamed milk to create latte art in white cup, wooden cafe counter, warm natural light, editorial coffee photography, 4K sharp | Beautiful flat lay of specialty coffee drinks and fresh pastries on wooden cafe table, warm styling, editorial food and drink photography, 4K sharp | Cozy cafe corner with comfortable seating, steaming coffee cup on wooden table, warm golden hour light through window, inviting relaxed atmosphere, editorial photography, 4K sharp |
 
-**Team portrait photos (w=500, h=700) — same for all industries:**
+**Team portrait photos — use Unsplash CDN (w=500, h=700):**
 
 | Slot | Photo ID |
 |---|---|
@@ -215,7 +434,7 @@ All images use this URL pattern: `https://images.unsplash.com/{photo-id}?auto=fo
 | Member 3 | photo-1438761681033-6461ffad8d80 |
 | Member 4 | photo-1534528741775-53994a69daeb |
 
-**Testimonial avatar photos (w=80, h=80) — same for all industries:**
+**Testimonial avatar photos — use Unsplash CDN (w=80, h=80):**
 
 | Slot | Photo ID |
 |---|---|
@@ -223,7 +442,7 @@ All images use this URL pattern: `https://images.unsplash.com/{photo-id}?auto=fo
 | Review 2 | photo-1438761681033-6461ffad8d80 |
 | Review 3 | photo-1534528741775-53994a69daeb |
 
-**Social proof pill avatars (w=40, h=40):** use Review 2, Review 3, and Member 2 photo IDs.
+**Social proof pill avatars (w=40, h=40):** use Review 2, Review 3, and Member 2 photo IDs via Unsplash CDN.
 
 ---
 
@@ -628,8 +847,11 @@ White bg, centered heading, 3-card grid with star ratings and real avatar photos
 
 ### FAQ
 
-Light grey bg, centered heading, accordion in white card — no section label.
+Use `faqVariant` (A, B, or C) from Step 2.8.
 
+---
+
+**FAQ A — Centered accordion** · neutral-50 bg, white card, animated accordion rows:
 ```tsx
 <section id="faq" className="py-24 bg-neutral-50">
   <div className="max-w-3xl mx-auto px-6 lg:px-8">
@@ -645,24 +867,105 @@ Light grey bg, centered heading, accordion in white card — no section label.
             className="w-full text-left px-8 py-6 flex justify-between items-center group"
           >
             <span className="font-medium text-sm group-hover:text-{color}-600 transition-colors pr-4">{item.q}</span>
-            <motion.div
-              animate={{ rotate: openFaq === i ? 180 : 0 }}
-              transition={{ duration: 0.25 }}
-              className="shrink-0 text-neutral-300 group-hover:text-{color}-400 transition-colors"
-            >
+            <motion.div animate={{ rotate: openFaq === i ? 180 : 0 }} transition={{ duration: 0.25 }}
+              className="shrink-0 text-neutral-300 group-hover:text-{color}-400 transition-colors">
               <ChevronDown size={18} />
             </motion.div>
           </button>
           <AnimatePresence>
             {openFaq === i && (
-              <motion.div
-                initial={{ height: 0, opacity: 0 }}
-                animate={{ height: 'auto', opacity: 1 }}
-                exit={{ height: 0, opacity: 0 }}
-                transition={{ duration: 0.25 }}
-                className="overflow-hidden"
-              >
+              <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }}
+                exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.25 }} className="overflow-hidden">
                 <p className="px-8 pb-6 text-sm text-neutral-500 leading-relaxed">{item.a}</p>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+```
+
+---
+
+**FAQ B — Two-column split** · questions list left, selected answer panel right; clicking a row reveals its answer in the right panel:
+```tsx
+<section id="faq" className="py-24 bg-white">
+  <div className="max-w-7xl mx-auto px-6 lg:px-8">
+    <Reveal className="mb-12">
+      <p className="text-{color}-600 text-sm font-semibold uppercase tracking-widest mb-3">Got Questions?</p>
+      <h2 className="text-4xl font-extrabold tracking-tight" style={font}>Frequently Asked</h2>
+    </Reveal>
+    <div className="grid lg:grid-cols-2 gap-8 items-start">
+      {/* Left — question list */}
+      <div className="space-y-2">
+        {faqItems.map((item, i) => (
+          <button key={i} onClick={() => setOpenFaq(openFaq === i ? null : i)}
+            className={`w-full text-left px-6 py-4 rounded-2xl border transition-all flex justify-between items-center gap-4 ${
+              openFaq === i
+                ? 'border-{color}-200 bg-{color}-50 text-{color}-700'
+                : 'border-neutral-100 bg-neutral-50 hover:border-neutral-200 text-neutral-700'
+            }`}>
+            <span className="font-medium text-sm">{item.q}</span>
+            <ChevronRight size={16} className={`shrink-0 transition-transform ${openFaq === i ? 'rotate-90' : ''}`} />
+          </button>
+        ))}
+      </div>
+      {/* Right — answer panel */}
+      <div className="lg:sticky lg:top-28">
+        <AnimatePresence mode="wait">
+          {openFaq !== null ? (
+            <motion.div key={openFaq} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }} transition={{ duration: 0.2 }}
+              className="bg-neutral-50 rounded-3xl border border-neutral-100 p-8">
+              <div className="w-10 h-10 rounded-xl bg-{color}-50 text-{color}-600 flex items-center justify-center mb-5">
+                <MessageCircle size={18} />
+              </div>
+              <h3 className="font-bold text-base mb-3" style={font}>{faqItems[openFaq].q}</h3>
+              <p className="text-neutral-500 text-sm leading-relaxed">{faqItems[openFaq].a}</p>
+            </motion.div>
+          ) : (
+            <motion.div key="empty" initial={{ opacity: 0 }} animate={{ opacity: 1 }}
+              className="bg-neutral-50 rounded-3xl border border-dashed border-neutral-200 p-8 flex flex-col items-center justify-center text-center min-h-[200px]">
+              <p className="text-neutral-400 text-sm">Select a question to see the answer.</p>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
+    </div>
+  </div>
+</section>
+```
+
+---
+
+**FAQ C — Dark accordion** · dark bg, white text, accent border on open rows — good for gym/dark-themed brands:
+```tsx
+<section id="faq" className="py-24 bg-neutral-900">
+  <div className="max-w-3xl mx-auto px-6 lg:px-8">
+    <Reveal className="text-center mb-12">
+      <p className="text-{color}-400 text-sm font-semibold uppercase tracking-widest mb-3">Got Questions?</p>
+      <h2 className="text-4xl font-extrabold tracking-tight text-white" style={font}>Frequently Asked</h2>
+    </Reveal>
+    <div className="space-y-3">
+      {faqItems.map((item, i) => (
+        <div key={i} className={`rounded-2xl border overflow-hidden transition-all ${
+          openFaq === i ? 'border-{color}-500/40 bg-white/5' : 'border-white/10 bg-white/[0.03]'
+        }`}>
+          <button onClick={() => setOpenFaq(openFaq === i ? null : i)}
+            className="w-full text-left px-7 py-5 flex justify-between items-center gap-4">
+            <span className={`font-medium text-sm transition-colors ${openFaq === i ? 'text-{color}-400' : 'text-white/80'}`}>{item.q}</span>
+            <motion.div animate={{ rotate: openFaq === i ? 180 : 0 }} transition={{ duration: 0.25 }}
+              className={`shrink-0 transition-colors ${openFaq === i ? 'text-{color}-400' : 'text-white/30'}`}>
+              <ChevronDown size={18} />
+            </motion.div>
+          </button>
+          <AnimatePresence>
+            {openFaq === i && (
+              <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }}
+                exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.25 }} className="overflow-hidden">
+                <p className="px-7 pb-5 text-sm text-white/50 leading-relaxed">{item.a}</p>
               </motion.div>
             )}
           </AnimatePresence>
@@ -677,27 +980,26 @@ Light grey bg, centered heading, accordion in white card — no section label.
 
 ### Contact
 
-White bg, two-column: contact details left, booking form right — no section label.
+Use `contactVariant` (A, B, or C) from Step 2.8.
 
+---
+
+**Contact A — Two-column: details left, form right** · white bg, info column with icons on left, booking form card on right:
 ```tsx
-<section id="contact" className="py-24 lg:py-32">
+<section id="contact" className="py-24 lg:py-32 bg-white">
   <div className="max-w-7xl mx-auto px-6 lg:px-8 grid lg:grid-cols-2 gap-16">
-
-    {/* Left — details */}
     <Reveal direction="right">
       <p className="text-{color}-600 text-sm font-semibold uppercase tracking-widest mb-3">Visit Us</p>
       <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-10" style={font}>Get in Touch</h2>
       <div className="space-y-7">
         {[
-          { icon: <MapPin size={18} />, label: 'Address', value: '/* invent KL/PJ street address */' },
+          { icon: <MapPin size={18} />, label: 'Address', value: '/* invent KL/PJ address */' },
           { icon: <Phone size={18} />, label: 'Phone', value: '+60 12-XXX XXXX' },
           { icon: <Mail size={18} />, label: 'Email', value: 'hello@{slug}.com.my' },
           { icon: <Clock size={18} />, label: 'Hours', value: 'Mon–Fri 9am–7pm · Sat 9am–6pm · Sun 10am–4pm' },
         ].map((item, i) => (
           <div key={i} className="flex gap-5 items-start">
-            <div className="w-11 h-11 rounded-2xl bg-{color}-50 flex items-center justify-center shrink-0 text-{color}-600">
-              {item.icon}
-            </div>
+            <div className="w-11 h-11 rounded-2xl bg-{color}-50 flex items-center justify-center shrink-0 text-{color}-600">{item.icon}</div>
             <div>
               <p className="text-xs text-neutral-400 uppercase tracking-widest font-semibold mb-1">{item.label}</p>
               <p className="text-sm font-medium text-black leading-relaxed">{item.value}</p>
@@ -705,58 +1007,169 @@ White bg, two-column: contact details left, booking form right — no section la
           </div>
         ))}
       </div>
-      {/* Social links */}
       <div className="mt-10 pt-10 border-t border-neutral-100">
         <p className="text-xs text-neutral-400 uppercase tracking-widest font-semibold mb-4">Follow Us</p>
         <div className="flex gap-3">
-          <button className="w-10 h-10 rounded-full bg-{color}-50 hover:bg-{color}-100 flex items-center justify-center text-{color}-600 transition-colors">
-            <InstagramIcon size={16} />
-          </button>
-          <button className="w-10 h-10 rounded-full bg-{color}-50 hover:bg-{color}-100 flex items-center justify-center text-{color}-600 transition-colors">
-            <FacebookIcon size={16} />
-          </button>
+          <button className="w-10 h-10 rounded-full bg-{color}-50 hover:bg-{color}-100 flex items-center justify-center text-{color}-600 transition-colors"><InstagramIcon size={16} /></button>
+          <button className="w-10 h-10 rounded-full bg-{color}-50 hover:bg-{color}-100 flex items-center justify-center text-{color}-600 transition-colors"><FacebookIcon size={16} /></button>
         </div>
       </div>
     </Reveal>
-
-    {/* Right — booking form */}
     <Reveal direction="left" delay={0.15}>
       <div className="bg-neutral-50 rounded-3xl p-8 md:p-10 border border-neutral-100">
         <h3 className="text-2xl font-bold mb-6" style={font}>Book an Appointment</h3>
         <form onSubmit={(e) => e.preventDefault()} className="space-y-4">
           <div>
             <label className="block text-xs font-semibold text-neutral-500 uppercase tracking-wider mb-2">Full Name</label>
-            <input type="text" placeholder="Your full name"
-              className="w-full border-2 border-neutral-200 bg-white focus:border-{color}-400 focus:ring-0 outline-none rounded-xl px-5 py-3.5 text-sm transition-all" />
+            <input type="text" placeholder="Your full name" className="w-full border-2 border-neutral-200 bg-white focus:border-{color}-400 focus:ring-0 outline-none rounded-xl px-5 py-3.5 text-sm transition-all" />
           </div>
           <div className="grid grid-cols-2 gap-4">
             <div>
               <label className="block text-xs font-semibold text-neutral-500 uppercase tracking-wider mb-2">Phone</label>
-              <input type="tel" placeholder="+60 12-XXX XXXX"
-                className="w-full border-2 border-neutral-200 bg-white focus:border-{color}-400 focus:ring-0 outline-none rounded-xl px-5 py-3.5 text-sm transition-all" />
+              <input type="tel" placeholder="+60 12-XXX XXXX" className="w-full border-2 border-neutral-200 bg-white focus:border-{color}-400 focus:ring-0 outline-none rounded-xl px-5 py-3.5 text-sm transition-all" />
             </div>
             <div>
               <label className="block text-xs font-semibold text-neutral-500 uppercase tracking-wider mb-2">Service</label>
-              <select defaultValue=""
-                className="w-full border-2 border-neutral-200 bg-white focus:border-{color}-400 focus:ring-0 outline-none rounded-xl px-5 py-3.5 text-sm transition-all appearance-none">
+              <select defaultValue="" className="w-full border-2 border-neutral-200 bg-white focus:border-{color}-400 focus:ring-0 outline-none rounded-xl px-5 py-3.5 text-sm transition-all appearance-none">
                 <option value="" disabled>Select service</option>
-                {/* 6 service name options from Step 3 */}
+                {/* 6 service names from Step 3 */}
               </select>
             </div>
           </div>
           <div>
             <label className="block text-xs font-semibold text-neutral-500 uppercase tracking-wider mb-2">Message</label>
-            <textarea rows={3} placeholder="Tell us your preferred date or any special requests..."
-              className="w-full border-2 border-neutral-200 bg-white focus:border-{color}-400 focus:ring-0 outline-none rounded-xl px-5 py-3.5 text-sm transition-all resize-none" />
+            <textarea rows={3} placeholder="Tell us your preferred date or any special requests..." className="w-full border-2 border-neutral-200 bg-white focus:border-{color}-400 focus:ring-0 outline-none rounded-xl px-5 py-3.5 text-sm transition-all resize-none" />
           </div>
-          <button type="button"
-            className="w-full bg-{color}-600 hover:bg-{color}-700 text-white py-4 rounded-xl font-semibold text-sm transition-all flex items-center justify-center gap-2">
+          <button type="button" className="w-full bg-{color}-600 hover:bg-{color}-700 text-white py-4 rounded-xl font-semibold text-sm transition-all flex items-center justify-center gap-2">
             Send Message <ArrowRight size={16} />
           </button>
         </form>
       </div>
     </Reveal>
+  </div>
+</section>
+```
 
+---
+
+**Contact B — Centered form + contact cards below** · neutral-50 bg, centered heading, full-width form card on top, 4 info cards in a row below:
+```tsx
+<section id="contact" className="py-24 bg-neutral-50">
+  <div className="max-w-4xl mx-auto px-6 lg:px-8">
+    <Reveal className="text-center mb-10">
+      <p className="text-{color}-600 text-sm font-semibold uppercase tracking-widest mb-3">Visit Us</p>
+      <h2 className="text-4xl font-extrabold tracking-tight" style={font}>Get in Touch</h2>
+      <p className="text-neutral-500 text-sm mt-3 max-w-md mx-auto">We'd love to hear from you. Fill in the form and we'll get back to you within one business day.</p>
+    </Reveal>
+    <Reveal>
+      <div className="bg-white rounded-3xl p-8 md:p-10 border border-neutral-100 shadow-sm mb-8">
+        <form onSubmit={(e) => e.preventDefault()} className="space-y-4">
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <label className="block text-xs font-semibold text-neutral-500 uppercase tracking-wider mb-2">Full Name</label>
+              <input type="text" placeholder="Your full name" className="w-full border-2 border-neutral-200 bg-neutral-50 focus:border-{color}-400 focus:ring-0 outline-none rounded-xl px-5 py-3.5 text-sm transition-all" />
+            </div>
+            <div>
+              <label className="block text-xs font-semibold text-neutral-500 uppercase tracking-wider mb-2">Phone</label>
+              <input type="tel" placeholder="+60 12-XXX XXXX" className="w-full border-2 border-neutral-200 bg-neutral-50 focus:border-{color}-400 focus:ring-0 outline-none rounded-xl px-5 py-3.5 text-sm transition-all" />
+            </div>
+          </div>
+          <div>
+            <label className="block text-xs font-semibold text-neutral-500 uppercase tracking-wider mb-2">Service</label>
+            <select defaultValue="" className="w-full border-2 border-neutral-200 bg-neutral-50 focus:border-{color}-400 focus:ring-0 outline-none rounded-xl px-5 py-3.5 text-sm transition-all appearance-none">
+              <option value="" disabled>Select a service</option>
+              {/* 6 service names from Step 3 */}
+            </select>
+          </div>
+          <div>
+            <label className="block text-xs font-semibold text-neutral-500 uppercase tracking-wider mb-2">Message</label>
+            <textarea rows={3} placeholder="Tell us your preferred date or any special requests..." className="w-full border-2 border-neutral-200 bg-neutral-50 focus:border-{color}-400 focus:ring-0 outline-none rounded-xl px-5 py-3.5 text-sm transition-all resize-none" />
+          </div>
+          <button type="button" className="w-full bg-{color}-600 hover:bg-{color}-700 text-white py-4 rounded-xl font-semibold text-sm transition-all flex items-center justify-center gap-2">
+            Send Message <ArrowRight size={16} />
+          </button>
+        </form>
+      </div>
+    </Reveal>
+    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+      {[
+        { icon: <MapPin size={18} />, label: 'Address', value: '/* invent KL/PJ address */' },
+        { icon: <Phone size={18} />, label: 'Phone', value: '+60 12-XXX XXXX' },
+        { icon: <Mail size={18} />, label: 'Email', value: 'hello@{slug}.com.my' },
+        { icon: <Clock size={18} />, label: 'Hours', value: 'Mon–Fri 9am–7pm' },
+      ].map((item, i) => (
+        <Reveal key={i} delay={i * 0.08}>
+          <div className="bg-white rounded-2xl border border-neutral-100 p-5 text-center">
+            <div className="w-10 h-10 rounded-xl bg-{color}-50 text-{color}-600 flex items-center justify-center mx-auto mb-3">{item.icon}</div>
+            <p className="text-xs text-neutral-400 uppercase tracking-wider font-semibold mb-1">{item.label}</p>
+            <p className="text-xs font-medium text-black leading-relaxed">{item.value}</p>
+          </div>
+        </Reveal>
+      ))}
+    </div>
+  </div>
+</section>
+```
+
+---
+
+**Contact C — Dark full-width** · dark bg, white text, info cards on left column, compact form on right — good for gym/dark brands:
+```tsx
+<section id="contact" className="py-24 bg-neutral-900">
+  <div className="max-w-7xl mx-auto px-6 lg:px-8 grid lg:grid-cols-2 gap-16">
+    <Reveal direction="right">
+      <p className="text-{color}-400 text-sm font-semibold uppercase tracking-widest mb-3">Visit Us</p>
+      <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight text-white mb-10" style={font}>Get in Touch</h2>
+      <div className="grid grid-cols-2 gap-4">
+        {[
+          { icon: <MapPin size={18} />, label: 'Address', value: '/* invent KL/PJ address */' },
+          { icon: <Phone size={18} />, label: 'Phone', value: '+60 12-XXX XXXX' },
+          { icon: <Mail size={18} />, label: 'Email', value: 'hello@{slug}.com.my' },
+          { icon: <Clock size={18} />, label: 'Hours', value: 'Mon–Fri 9am–7pm · Sat 9am–6pm' },
+        ].map((item, i) => (
+          <div key={i} className="bg-white/5 border border-white/10 rounded-2xl p-5">
+            <div className="w-9 h-9 rounded-xl bg-{color}-500/20 text-{color}-400 flex items-center justify-center mb-3">{item.icon}</div>
+            <p className="text-xs text-white/40 uppercase tracking-wider font-semibold mb-1">{item.label}</p>
+            <p className="text-xs font-medium text-white/80 leading-relaxed">{item.value}</p>
+          </div>
+        ))}
+      </div>
+      <div className="mt-8 flex gap-3">
+        <button className="w-10 h-10 rounded-full bg-white/5 border border-white/10 hover:bg-{color}-500/20 hover:border-{color}-500/30 flex items-center justify-center text-white/50 hover:text-{color}-400 transition-all"><InstagramIcon size={16} /></button>
+        <button className="w-10 h-10 rounded-full bg-white/5 border border-white/10 hover:bg-{color}-500/20 hover:border-{color}-500/30 flex items-center justify-center text-white/50 hover:text-{color}-400 transition-all"><FacebookIcon size={16} /></button>
+      </div>
+    </Reveal>
+    <Reveal direction="left" delay={0.15}>
+      <div className="bg-white/[0.04] border border-white/10 rounded-3xl p-8 md:p-10">
+        <h3 className="text-2xl font-bold text-white mb-6" style={font}>Book an Appointment</h3>
+        <form onSubmit={(e) => e.preventDefault()} className="space-y-4">
+          <div>
+            <label className="block text-xs font-semibold text-white/40 uppercase tracking-wider mb-2">Full Name</label>
+            <input type="text" placeholder="Your full name" className="w-full border-2 border-white/10 bg-white/5 text-white placeholder-white/20 focus:border-{color}-500 focus:ring-0 outline-none rounded-xl px-5 py-3.5 text-sm transition-all" />
+          </div>
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <label className="block text-xs font-semibold text-white/40 uppercase tracking-wider mb-2">Phone</label>
+              <input type="tel" placeholder="+60 12-XXX XXXX" className="w-full border-2 border-white/10 bg-white/5 text-white placeholder-white/20 focus:border-{color}-500 focus:ring-0 outline-none rounded-xl px-5 py-3.5 text-sm transition-all" />
+            </div>
+            <div>
+              <label className="block text-xs font-semibold text-white/40 uppercase tracking-wider mb-2">Service</label>
+              <select defaultValue="" className="w-full border-2 border-white/10 bg-white/5 text-white focus:border-{color}-500 focus:ring-0 outline-none rounded-xl px-5 py-3.5 text-sm transition-all appearance-none">
+                <option value="" disabled className="bg-neutral-900">Select service</option>
+                {/* 6 service names from Step 3 */}
+              </select>
+            </div>
+          </div>
+          <div>
+            <label className="block text-xs font-semibold text-white/40 uppercase tracking-wider mb-2">Message</label>
+            <textarea rows={3} placeholder="Tell us your preferred date or any special requests..." className="w-full border-2 border-white/10 bg-white/5 text-white placeholder-white/20 focus:border-{color}-500 focus:ring-0 outline-none rounded-xl px-5 py-3.5 text-sm transition-all resize-none" />
+          </div>
+          <button type="button" className="w-full bg-{color}-600 hover:bg-{color}-700 text-white py-4 rounded-xl font-semibold text-sm transition-all flex items-center justify-center gap-2">
+            Send Message <ArrowRight size={16} />
+          </button>
+        </form>
+      </div>
+    </Reveal>
   </div>
 </section>
 ```

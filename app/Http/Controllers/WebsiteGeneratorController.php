@@ -112,7 +112,7 @@ REQUIRED SECTIONS (in this exact order):
    - bg-neutral-50 min-h-screen flex items-center
    - Two animated background blobs: absolute rounded-full bg-neutral-200/60 blur-3xl (top-right and bottom-left)
    - Left column: small badge/tagline chip (border border-neutral-200 rounded-full px-4 py-1 text-sm text-neutral-500), large h1 (text-6xl font-bold), description paragraph, two buttons (primary: bg-black rounded-full, secondary: bg-white border-2 border-neutral-200 rounded-full)
-   - Right column (hidden on mobile): tall rounded-3xl placeholder box (bg-neutral-200 h-[500px]), floating card bottom-left (bg-white shadow-xl rounded-2xl p-4 with a star icon and social proof text like "500+ Happy Clients")
+   - Right column (hidden on mobile): tall rounded-3xl image box — use exactly `<img src="%%HERO_IMAGE%%" alt="hero" class="w-full h-[500px] object-cover rounded-3xl" />`, floating card bottom-left (bg-white shadow-xl rounded-2xl p-4 with a star icon and social proof text like "500+ Happy Clients")
    - Animate: hero left column fades in and slides up, right column fades in from right
 
 3. FEATURED SERVICES (id="services") — bg-white py-24
@@ -127,6 +127,7 @@ REQUIRED SECTIONS (in this exact order):
 
 5. ABOUT / TESTIMONIAL (id="about") — bg-neutral-50 py-24
    - Left: h2 "What Our Clients Say", description paragraph about the business, three dot indicators (first dot bg-black, others bg-neutral-200)
+   - Center/top: use exactly `<img src="%%ABOUT_IMAGE%%" alt="about" class="w-full h-64 object-cover rounded-2xl mb-8" />`
    - Right: white card (bg-white p-10 rounded-3xl shadow-lg border border-neutral-100) with: large quote SVG icon (text-neutral-200), italic testimonial quote specific to {$data['businessType']}, customer avatar circle + name + role below a border-t
 
 6. ALL SERVICES (id="about-full") — bg-white py-20

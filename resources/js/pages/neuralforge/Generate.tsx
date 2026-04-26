@@ -22,6 +22,12 @@ interface FormData {
 
 type Stage = 'form' | 'loading' | 'preview' | 'error';
 
+function buildImagePrompts(businessName: string, businessType: string) {
+  const hero = `Professional ${businessType} business, modern interior or exterior, high quality photography, bright lighting, welcoming atmosphere, for a business called "${businessName}"`;
+  const about = `${businessType} business environment, team or workspace, professional setting, warm and inviting, for "${businessName}"`;
+  return { hero, about };
+}
+
 /* ── Small UI primitives ── */
 function Label({ children }: { children: React.ReactNode }) {
   return (
@@ -126,6 +132,7 @@ export default function NeuralGenerate() {
   const [stage, setStage] = useState<Stage>('form');
   const [generatedHtml, setGeneratedHtml] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
+  const [loadingStep, setLoadingStep] = useState('');
   const iframeRef = useRef<HTMLIFrameElement>(null);
 
   const set = (key: keyof FormData) => (val: string) =>
@@ -135,10 +142,24 @@ export default function NeuralGenerate() {
     e.preventDefault();
     setStage('loading');
     setErrorMessage('');
+    setLoadingStep('Generating website with Claude…');
 
     try {
-      const { data } = await axios.post('/api/generate-website', form);
-      setGeneratedHtml(data.html);
+      const { hero: heroPrompt, about: aboutPrompt } = buildImagePrompts(form.businessName, form.businessType);
+
+      const [websiteRes, heroRes, aboutRes] = await Promise.all([
+        axios.post('/api/generate-website', form),
+        axios.post('/api/generate-image', { prompt: heroPrompt }).catch(() => null),
+        axios.post('/api/generate-image', { prompt: aboutPrompt }).catch(() => null),
+      ]);
+
+      setLoadingStep('Injecting AI images…');
+
+      let html: string = websiteRes.data.html;
+      if (heroRes?.data?.image)  html = html.replaceAll('%%HERO_IMAGE%%',  heroRes.data.image);
+      if (aboutRes?.data?.image) html = html.replaceAll('%%ABOUT_IMAGE%%', aboutRes.data.image);
+
+      setGeneratedHtml(html);
       setStage('preview');
     } catch (err: unknown) {
       const message =
@@ -340,11 +361,11 @@ export default function NeuralGenerate() {
                 }}
               >
                 <Sparkles size={20} />
-                Generate My Website with Claude
+                Generate Website + AI Images
               </button>
 
               <p className="text-center text-xs text-gray-600">
-                Generation takes 15–30 seconds · Powered by Claude Opus 4.6
+                Generation takes 20–40 seconds · Claude Opus 4.6 + Google Imagen 3
               </p>
             </motion.form>
           )}
@@ -368,11 +389,13 @@ export default function NeuralGenerate() {
                   <Sparkles size={20} className="text-blue-400" />
                 </div>
               </div>
-              <h2 className="text-2xl font-bold text-white mb-3">Claude is building your website…</h2>
-              <p className="text-gray-400 text-sm max-w-sm">
-                Generating all sections — Hero, Services, How It Works, Testimonials, and more.
-                This usually takes 15–30 seconds.
+              <h2 className="text-2xl font-bold text-white mb-3">Building your website…</h2>
+              <p className="text-gray-400 text-sm max-w-sm mb-2">
+                Generating website HTML + 2 AI images in parallel. This takes about 20–40 seconds.
               </p>
+              {loadingStep && (
+                <p className="text-xs text-blue-400 font-medium">{loadingStep}</p>
+              )}
               <div className="mt-8 flex gap-1.5">
                 {[0, 1, 2].map((i) => (
                   <motion.div

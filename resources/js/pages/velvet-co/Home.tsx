@@ -8,7 +8,7 @@ function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: nu
   const ref = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(false);
   useEffect(() => {
-    const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) { setVisible(true); obs.disconnect(); } }, { threshold: 0.15 });
+    const obs = new IntersectionObserver(([e]) => { if (e?.isIntersecting) { setVisible(true); obs.disconnect(); } }, { threshold: 0.15 });
     if (ref.current) obs.observe(ref.current);
     return () => obs.disconnect();
   }, []);
@@ -50,7 +50,7 @@ const testimonials = [
 
 export default function VelvetCoHome() {
   return (
-    <div style={font}>
+    <>
       {/* Hero */}
       <section className="relative min-h-[90vh] flex items-center overflow-hidden bg-neutral-50">
         <div className="absolute inset-0">
@@ -204,6 +204,6 @@ export default function VelvetCoHome() {
           </Reveal>
         </div>
       </section>
-    </div>
+    </>
   );
 }

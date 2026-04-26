@@ -22,6 +22,8 @@ export default function NeuralLayout({ children }: { children: ReactNode }) {
     { name: 'FAQ', path: '/neuralforge/faq' },
     { name: 'Contact', path: '/neuralforge/contact' },
     { name: 'Generate', path: '/neuralforge/generate' },
+    { name: 'Showcase', path: '/neuralforge/showcase' },
+    { name: 'Designs', path: '/neuralforge/designs' },
   ];
 
   const isActive = (path: string) => {
