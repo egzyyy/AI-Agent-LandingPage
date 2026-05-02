@@ -52,9 +52,9 @@ export function SectionLabel({ number, title }: { number: number; title: string 
 }
 
 /** Glassmorphism card container */
-export function GlassCard({ children, className = '' }: { children: React.ReactNode; className?: string }) {
+export function GlassCard({ children, className = '', onClick }: { children: React.ReactNode; className?: string; onClick?: () => void }) {
   return (
-    <div className={`bg-white/[0.03] border border-white/[0.08] backdrop-blur-sm rounded-2xl ${className}`}>
+    <div className={`bg-white/[0.03] border border-white/[0.08] backdrop-blur-sm rounded-2xl ${className}`} onClick={onClick}>
       {children}
     </div>
   );

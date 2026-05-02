@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//c/laragon/www/fullstack-landing/resources/js/pages/templateStandard/**)",
+      "Skill(claude-api)",
+      "Skill(claude-api:*)",
+      "Bash(git add:*)",
+      "Bash(git commit -m ':*)"
+    ]
+  }
+}
